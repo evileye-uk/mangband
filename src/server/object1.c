@@ -43,19 +43,6 @@
  * Rings (adjectives and colors)
  */
 
-static cptr ring_adj[MAX_ROCKS] =
-{
-	"Alexandrite", "Amethyst", "Aquamarine", "Azurite", "Beryl",
-	"Bloodstone", "Calcite", "Carnelian", "Corundum", "Diamond",
-	"Emerald", "Fluorite", "Garnet", "Granite", "Jade",
-	"Jasper", "Lapis Lazuli", "Malachite", "Marble", "Moonstone",
-	"Onyx", "Opal", "Pearl", "Quartz", "Quartzite",
-	"Rhodonite", "Ruby", "Sapphire", "Tiger Eye", "Topaz",
-	"Turquoise", "Zircon", "Platinum", "Bronze", "Gold",
-	"Obsidian", "Silver", "Tortoise Shell", "Mithril", "Jet",
-	"Engagement", "Adamantite"
-};
-
 static byte ring_col[MAX_ROCKS] =
 {
 	TERM_GREEN, TERM_VIOLET, TERM_L_BLUE, TERM_L_BLUE, TERM_L_GREEN,
@@ -74,16 +61,6 @@ static byte ring_col[MAX_ROCKS] =
  * Amulets (adjectives and colors)
  */
 
-static cptr amulet_adj[MAX_AMULETS] =
-{
-	"Amber", "Driftwood", "Coral", "Agate", "Ivory",
-	"Obsidian", "Bone", "Brass", "Bronze", "Pewter",
-	"Tortoise Shell", "Golden", "Azure", "Crystal", "Silver",
-    "Copper", "Emerald", "Ruby", "Amethyst", "Mithril",
-    "Sapphire", "Dragon Tooth", "Sea Shell", "Flint Stone",
-    "Platinum", "Glass"
-};
-
 static byte amulet_col[MAX_AMULETS] =
 {
 	TERM_YELLOW, TERM_L_UMBER, TERM_WHITE, TERM_L_WHITE, TERM_WHITE,
@@ -94,21 +71,6 @@ static byte amulet_col[MAX_AMULETS] =
     TERM_L_WHITE, TERM_WHITE
 };
 
-
-/*
- * Staffs (adjectives and colors)
- */
-
-static cptr staff_adj[MAX_WOODS] =
-{
-	"Aspen", "Balsa", "Banyan", "Birch", "Cedar",
-	"Cottonwood", "Cypress", "Dogwood", "Elm", "Eucalyptus",
-	"Hemlock", "Hickory", "Ironwood", "Locust", "Mahogany",
-	"Maple", "Mulberry", "Oak", "Pine", "Redwood",
-	"Rosewood", "Spruce", "Sycamore", "Teak", "Walnut",
-	"Mistletoe", "Hawthorn", "Bamboo", "Silver", "Runed",
-	"Golden", "Ashen"/*,"Gnarled","Ivory","Willow"*/
-};
 
 static byte staff_col[MAX_WOODS] =
 {
@@ -122,21 +84,6 @@ static byte staff_col[MAX_WOODS] =
 };
 
 
-/*
- * Wands (adjectives and colors)
- */
-
-static cptr wand_adj[MAX_METALS] =
-{
-    "Aluminium", "Cast Iron", "Chromium", "Copper", "Gold",
-	"Iron", "Magnesium", "Molybdenum", "Nickel", "Rusty",
-	"Silver", "Steel", "Tin", "Titanium", "Tungsten",
-    "Zirconium", "Zinc", "Aluminium-Plated", "Copper-Plated", "Gold-Plated",
-	"Nickel-Plated", "Silver-Plated", "Steel-Plated", "Tin-Plated", "Zinc-Plated",
-	"Mithril-Plated", "Mithril", "Runed", "Bronze", "Brass",
-	"Platinum", "Lead"/*,"Lead-Plated","Ivory","Pewter"*/
-};
-
 static byte wand_col[MAX_METALS] =
 {
 	TERM_L_BLUE, TERM_L_DARK, TERM_WHITE, TERM_L_UMBER, TERM_YELLOW,
@@ -149,27 +96,8 @@ static byte wand_col[MAX_METALS] =
 };
 
 
-/*
- * Rods (adjectives and colors).
- * Efficiency -- copied from wand arrays
- */
-
-static cptr rod_adj[MAX_METALS];
-
 static byte rod_col[MAX_METALS];
 
-
-/*
- * Mushrooms (adjectives and colors)
- */
-
-static cptr food_adj[MAX_SHROOM] =
-{
-	"Blue", "Black", "Black Spotted", "Brown", "Dark Blue",
-	"Dark Green", "Dark Red", "Yellow", "Furry", "Green",
-	"Grey", "Light Blue", "Light Green", "Violet", "Red",
-	"Slimy", "Tan", "White", "White Spotted", "Wrinkled",
-};
 
 static byte food_col[MAX_SHROOM] =
 {
@@ -177,29 +105,6 @@ static byte food_col[MAX_SHROOM] =
 	TERM_GREEN, TERM_RED, TERM_YELLOW, TERM_L_WHITE, TERM_GREEN,
 	TERM_SLATE, TERM_L_BLUE, TERM_L_GREEN, TERM_VIOLET, TERM_RED,
 	TERM_SLATE, TERM_L_UMBER, TERM_WHITE, TERM_WHITE, TERM_UMBER
-};
-
-
-/*
- * Color adjectives and colors, for potions.
- * Hack -- The first four entries are hard-coded.
- * (water, apple juice, slime mold juice, something)
- */
-
-static cptr potion_adj[MAX_COLORS] =
-{
-	"Clear", "Light Brown", "Icky Green", "xxx",
-	"Azure", "Blue", "Blue Speckled", "Black", "Brown", "Brown Speckled",
-	"Bubbling", "Chartreuse", "Cloudy", "Copper Speckled", "Crimson", "Cyan",
-	"Dark Blue", "Dark Green", "Dark Red", "Gold Speckled", "Green",
-	"Green Speckled", "Grey", "Grey Speckled", "Hazy", "Indigo",
-	"Light Blue", "Light Green", "Magenta", "Metallic Blue", "Metallic Red",
-	"Metallic Green", "Metallic Purple", "Misty", "Orange", "Orange Speckled",
-	"Pink", "Pink Speckled", "Puce", "Purple", "Purple Speckled",
-	"Red", "Red Speckled", "Silver Speckled", "Smoky", "Tangerine",
-	"Violet", "Vermilion", "White", "Yellow", "Violet Speckled",
-	"Pungent", "Clotted Red", "Viscous Pink", "Oily Yellow", "Gloopy Green",
-	"Shimmering", "Coagulated Crimson", "Yellow Speckled", "Gold"
 };
 
 static byte potion_col[MAX_COLORS] =
@@ -259,45 +164,6 @@ static byte scroll_col[MAX_TITLES];
 
 
 
-
-
-
-/*
- * Certain items have a flavor
- * This function is used only by "flavor_init()"
- */
-static bool object_has_flavor(int i)
-{
-	object_kind *k_ptr = &k_info[i];
-
-	/* Check for flavor */
-	switch (k_ptr->tval)
-	{
-		/* The standard "flavored" items */
-		case TV_AMULET:
-		case TV_RING:
-		case TV_STAFF:
-		case TV_WAND:
-		case TV_SCROLL:
-		case TV_POTION:
-		case TV_ROD:
-		{
-			return (TRUE);
-		}
-
-		/* Hack -- food SOMETIMES has a flavor */
-		case TV_FOOD:
-		{
-			if (k_ptr->sval < SV_FOOD_MIN_FOOD) return (TRUE);
-			return (FALSE);
-		}
-	}
-
-	/* Assume no flavor */
-	return (FALSE);
-}
-
-
 /* HACK! 
  * Hard-code items for EASY_KNOW flag emulation
  * (as suggested by PW)
@@ -324,59 +190,6 @@ bool easy_know_p(object_type *o_ptr)
 	} 
 	
 	/* Nope */ 
-	return (FALSE);
-}
-
-/*
- * Certain items, if aware, are known instantly
- * This function is used only by "flavor_init()"
- *
- * XXX XXX XXX Add "EASY_KNOW" flag to "k_info.txt" file
- */
-static bool object_easy_know(int i)
-{
-	object_kind *k_ptr = &k_info[i];
-
-	/* Analyze the "tval" */
-	switch (k_ptr->tval)
-	{
-		/* Spellbooks */
-		case TV_MAGIC_BOOK:
-		case TV_PRAYER_BOOK:
-		{
-			return (TRUE);
-		}
-
-		/* Simple items */
-		case TV_FLASK:
-		case TV_JUNK:
-		case TV_BOTTLE:
-		case TV_SKELETON:
-		case TV_SPIKE:
-		{
-			return (TRUE);
-		}
-
-		/* All Food, Potions, Scrolls, Rods */
-		case TV_FOOD:
-		case TV_POTION:
-		case TV_SCROLL:
-		case TV_ROD:
-		{
-			return (TRUE);
-		}
-
-		/* Some Rings, Amulets, Lites */
-		case TV_RING:
-		case TV_AMULET:
-		case TV_LITE:
-		{
-			if (k_ptr->flags3 & TR3_EASY_KNOW) return (TRUE);
-			return (FALSE);
-		}
-	}
-
-	/* Nope */
 	return (FALSE);
 }
 

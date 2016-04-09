@@ -2169,7 +2169,7 @@ int Receive_player_store_info(void)
 {
 	int	n;
 	char	ch;
-	s16b	owner_num, num_items;
+	s16b	num_items;
 
 	if ((n = Packet_scanf(&rbuf, "%c%hd%s%hd", &ch, &store_num, player_owner, &num_items)) <= 0)
 	{

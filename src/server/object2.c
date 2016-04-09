@@ -16,22 +16,6 @@
 
 
 
-
-void delete_object_ptr(object_type * o_ptr)
-{
-	/* special function to deal with inventory items being destoryed, instead of just wiping them */
-
-	int i,j;
-
-	int y = o_ptr->iy;
-	int x = o_ptr->ix;
-	int Depth = o_ptr->dun_depth;
-
-	/* Wipe the object */
-	WIPE(o_ptr, object_type);
-
-}
-
 /* 
  * Excise a dungeon object from any stacks 
  */ 
@@ -467,7 +451,7 @@ void compact_objects(int size)
 
 void wipe_o_list(int Depth)
 {
-	int i, x, y, house_depth;
+	int i;
 
 	/* Delete the existing objects */
 	for (i = 1; i < o_max; i++)
@@ -3748,7 +3732,7 @@ void drop_near(object_type *o_ptr, int chance, int Depth, int y, int x)
 		           o_name, ((o_ptr->number == 1) ? "s" : ""));
 		*/
 
-		delete_object_ptr(o_ptr);
+		WIPE(o_ptr, object_type);
 	}
 }
 

@@ -38,11 +38,6 @@
 
 #include "angband.h"
 
-#ifndef lint
-static char sourceid[] =
-    "@(#)$Id: net-win.c,v 1.1.1.1 1999/10/26 19:20:49 root Exp $";
-#endif
-
 #ifdef TERMNET
 /* support for running clients over term, but not servers please. */
 #include "termnet.h"

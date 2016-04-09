@@ -509,15 +509,11 @@ void prt_basic(void)
 void prt_lag(u32b mark, u32b num)
 {
 	int attr=0;
-	static int flipper =0;
 	static u32b last=0;
 
 	/* Default to "unknown" */
 
-
 	Term_erase(COL_LAG, ROW_LAG, 12);
-	/* Term_putstr(COL_LAG, ROW_LAG, 12, (flipper%2)?TERM_WHITE:TERM_L_DARK, "LAG: [-----]"); */
-
 	Term_putstr(COL_LAG, ROW_LAG, 12, TERM_L_DARK, "LAG:[------]"); 
 
 	if( num == 10000 ) {
@@ -529,8 +525,6 @@ void prt_lag(u32b mark, u32b num)
 		};
 		attr=TERM_VIOLET;
 	} 
-
-	// if(!(++flipper%1)) c_msg_print(format("Ticks %lu Mark %lu, Last: %lu, New: %lu, Latency %lu.", ticks,mark,last,num,(num+last)/2L));
 
 	num=last=(num+last)/2L;
 		
@@ -1038,8 +1032,8 @@ void fix_player(void)
 
 void fix_message(void)
 {
-        int j, c, i,ii, pmdone, mdone;
-        int w, h, pmw, pmh;
+        int j, c, i, pmdone;
+        int w, h;
         int x, y;
         term *oldt;
 	char from_us[30];

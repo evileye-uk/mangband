@@ -75,14 +75,14 @@ static void write_binary(char* name, char* data)
 {
 	int i,len;
 	byte b;
-	fprintf(file_handle,"%s%s = ",xml_prefix,name);
+	fprintf(file_handle,"%s%s = ", xml_prefix, name);
 	len = MAX_WID;
-	for(i=0;i<len;i++)
+	for(i=0; i<len; i++)
 	{
 		b = data[i];
-		fprintf(file_handle,"%2x",b);
+		fprintf(file_handle, "%2x", b);
 	}
-	fprintf(file_handle,"\n",name);
+	fprintf(file_handle, "\n");
 }
 
 
@@ -671,7 +671,6 @@ static bool wr_savefile_new(int Ind)
 
 	u32b              now, tmp32u;
 
-	byte		tmp8u;
 	u16b		tmp16u;
 
 
@@ -1204,7 +1203,6 @@ static bool wr_server_savefile(void)
 
         u32b              now;
 
-        byte            tmp8u;
         u16b            tmp16u;
 		u32b		tmp32u;
 

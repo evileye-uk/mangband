@@ -50,11 +50,6 @@
  *
  */
 
-#ifndef lint
-static char sourceid[] =
-    "@(#)$Id: net-ibm.c,v 1.1.1.1 1999/10/26 19:20:49 root Exp $";
-#endif
-
 /* _SOCKLIB_LIBSOURCE must be defined int this file */
 #define _SOCKLIB_LIBSOURCE
 

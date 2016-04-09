@@ -174,7 +174,7 @@ static void console_kick_player(char *name)
 static void console_rng_test()
 {
 	int i;
-	u32b outcome, value;
+	u32b outcome;
 	/* This is the expected outcome, generated on our reference platform */
 	u32b reference = 0x0D3E5371;
 	
@@ -373,7 +373,7 @@ void NewConsole(int read_fd, int arg)
 	buflen = strlen(buf);
 
 	/* Split up command and params */
-	if(params = strstr(buf," "))
+	if((params = strstr(buf," ")))
 	{
 		*params++ = '\0';
 	}

@@ -70,6 +70,7 @@ extern SDL_Rect sdl_screen_cursor_sr;
 
 inline static errr Term_char_sdl (int x, int y, byte a, unsigned char c);
 static errr Term_curs_sdl(int x, int y);
+static errr SDL_DrawCursorX(SDL_Rect *dr);
 
 /* perhaps this should be in config.h:  (not if it's distributed on its own) */
 /*#define USE_HEX_FONTS
@@ -1610,8 +1611,6 @@ errr init_sdl(int oargc, char **oargv)
 	width = 1280;
 	height = 768;
 
-//	int bpp = 0;
-
 	/*int i;*/  /* the ever-handy 'i'. This is not an icky thing. XXX */
 
 	bool scale_tiles = FALSE;
@@ -1773,10 +1772,7 @@ errr init_sdl(int oargc, char **oargv)
 
 	/* XXX possibly, these should be calculated in Term_init_sdl.c */
 
-	width = width;
-	height = height;
-	bpp = bpp; 
-		/* 0 is for current display bpp */
+	/* 0 is for current display bpp */
 
 	if (fullscreen) flags |= SDL_FULLSCREEN | SDL_HWSURFACE | SDL_DOUBLEBUF;
 

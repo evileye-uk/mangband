@@ -1216,7 +1216,6 @@ void cmd_look(void)
 
 void cmd_changepass(void) 
 {
-	int done = 0;
 	char pass1[MAX_PASS_LEN];
 	char pass2[MAX_PASS_LEN];
 	int pause = 0;
@@ -1249,7 +1248,7 @@ void cmd_changepass(void)
 void cmd_character(void)
 {
 	char ch = 0;
-	int hist = 0, done = 0;
+	int done = 0;
 
 	/* Screen is icky */
 	screen_icky = TRUE;

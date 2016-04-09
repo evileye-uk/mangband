@@ -31,11 +31,6 @@
 
 #ifdef SET_UID
 
-#ifndef lint
-static char sourceid[] =
-    "@(#)$Id: net-unix.c,v 1.5 2000/08/08 16:27:54 mangadm Exp $";
-#endif
-
 #ifdef TERMNET
 /* support for running clients over term, but not servers please. */
 #include "termnet.h"
@@ -368,7 +363,7 @@ GetPortNum(fd)
 int	fd;
 #endif /* __STDC__ */
 {
-    int			len;
+    socklen_t len;
 #ifdef UNIX_SOCKETS
     struct sockaddr_un	addr;
     int port;
@@ -436,7 +431,7 @@ int	fd;
 #ifdef UNIX_SOCKETS
     return "localhost";
 #else
-    int			len;
+    socklen_t len;
     struct sockaddr_in	addr;
 
     len = sizeof(struct sockaddr_in);
@@ -493,7 +488,7 @@ int	namelen;
 #ifdef UNIX_SOCKETS
     strcpy(name, "localhost");
 #else
-    int			len;
+    socklen_t len;
     struct sockaddr_in	addr;
     struct hostent	*hp;
 
@@ -1062,7 +1057,8 @@ GetSocketError(fd)
 int	fd;
 #endif /* __STDC__ */
 {
-    int	error, size;
+    int	error;
+		socklen_t size;
 
     size = sizeof(error);
     if (getsockopt(fd, SOL_SOCKET, SO_ERROR,
@@ -1714,7 +1710,7 @@ int	port;
     addr_in.sin_family          = AF_INET;
     addr_in.sin_port            = htons(port);
     /**/addr_in.sin_addr.s_addr 	= inet_addr(host);
-    if (addr_in.sin_addr.s_addr == (unsigned long)-1)
+    if (addr_in.sin_addr.s_addr == INADDR_BROADCAST)
     {
 #ifdef SERVER 
 	printf("DgramConnect called with hostname %s.\n", host);
@@ -1883,7 +1879,7 @@ int	size;
 #endif /* __STDC__ */
 {
     int		retval;
-    int		addrlen = sizeof(sl_dgram_lastaddr);
+    socklen_t		addrlen = sizeof(sl_dgram_lastaddr);
 
     (void) memset((char *)&sl_dgram_lastaddr, 0, addrlen);
     cmw_priv_assert_netaccess();
