@@ -923,7 +923,6 @@ void place_wall(int Depth, int y1, int y2, int x1, int x2, int wall_type)
 
 void place_double_wall(int Depth, int y1, int y2, int x1, int x2)
 {
-	plog("place double wall");
 	place_wall(Depth, y1, y2, x1, x2, FEAT_WALL_OUTER);
 	place_wall(Depth, y1 + 2, y2 - 2, x1 + 2, x2 - 2, FEAT_WALL_INNER);
 }
@@ -957,8 +956,6 @@ void place_double_room(int Depth, bool light, int y1, int y2, int x1, int x2)
 void place_cross_room(int Depth, bool light, int y1a, int y2a, int x1a, int x2a, int y1b, int y2b, int x1b, int x2b)
 {
 	int	y, x;
-
-	plog("place cross room");
 
 	cave_type *c_ptr;
 
