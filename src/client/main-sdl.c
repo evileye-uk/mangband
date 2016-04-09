@@ -1000,7 +1000,7 @@ void RedrawChar(int x, int y)
 {
 	Uint8 a, c;
 
-	a = Term->scr->a[y][x];	c = Term->scr->c[y][x];
+	a = Term->scr->a[y][x];	c = Term->scr->c[y][x];
 	
 	//Term_wipe_sdl(x, y, 1);
 	Term_char_sdl(x, y, a, c);
