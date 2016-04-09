@@ -1732,7 +1732,7 @@ int process_pending_commands(int ind)
 		{
 			/* Hack -- if we tried to do something while resting, wake us up.
 			 */
-			if (p_ptr->resting) disturb(player, 0, 0);
+			if (p_ptr->resting) disturb(player, 0);
 
 			/* If we didn't have enough energy to execute this
 			 * command, in order to ensure that our important
@@ -3360,7 +3360,7 @@ static int Receive_walk(int ind)
 	/* Disturb if running or resting */
 	if (p_ptr->running || p_ptr->resting)
 	{
-		disturb(player, 0, 0);
+		disturb(player, 0);
 		return 1;
 	}
 
@@ -3441,7 +3441,7 @@ static int Receive_run(int ind)
 	}
 
 	/* Disturb if we want to change directions */
-	//if (dir != p_ptr->find_current) disturb(player, 0, 0);
+	//if (dir != p_ptr->find_current) disturb(player, 0);
 
 	/* Hack -- Fix the running in '5' bug */
 	if (dir == 5)
@@ -5141,7 +5141,7 @@ static int Receive_rest(int ind)
 		/* Waking up takes no energy, although we will still be drowsy... */
 		if (p_ptr->resting)
 		{
-			disturb(player, 0, 0);
+			disturb(player, 0);
 			return 2;
 		}
 
@@ -5174,7 +5174,7 @@ static int Receive_rest(int ind)
 		 */
 		else
 		{
-			disturb(player, 0, 0);
+			disturb(player, 0);
 			Packet_printf(&connp->q, "%c", ch);
 			return 0;
 		}

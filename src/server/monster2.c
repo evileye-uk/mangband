@@ -1277,7 +1277,7 @@ void update_mon(int m_idx, bool dist)
 				if (r_ptr->r_sights < MAX_SHORT) r_ptr->r_sights++;
 
 				/* Disturb on appearance */
-				if (p_ptr->disturb_move) disturb(Ind, 1, 0);
+				if (p_ptr->disturb_move) disturb(Ind, 1);
 			}
 
 			/* Memorize various observable flags */
@@ -1306,7 +1306,7 @@ void update_mon(int m_idx, bool dist)
 				if (p_ptr->health_who == m_idx) p_ptr->redraw |= (PR_HEALTH);
 
 				/* Disturb on disappearance*/
-				if (p_ptr->disturb_move) disturb(Ind, 1, 0);
+				if (p_ptr->disturb_move) disturb(Ind, 1);
 			}
 		}
 
@@ -1321,7 +1321,7 @@ void update_mon(int m_idx, bool dist)
 				p_ptr->mon_los[m_idx] = TRUE;
 
 				/* Disturb on appearance */
-				if (p_ptr->disturb_near) disturb(Ind, 1, 0);
+				if (p_ptr->disturb_near) disturb(Ind, 1);
 			}
 		}
 
@@ -1335,7 +1335,7 @@ void update_mon(int m_idx, bool dist)
 				p_ptr->mon_los[m_idx] = FALSE;
 
 				/* Disturb on disappearance */
-				if (p_ptr->disturb_near) disturb(Ind, 1, 0);
+				if (p_ptr->disturb_near) disturb(Ind, 1);
 			}
 		}
 	}
@@ -1477,7 +1477,7 @@ void update_player(int Ind)
 				if (p_ptr->disturb_move && check_hostile(i, Ind))
 				{
 					/* Disturb */
-					disturb(i, 1, 0);
+					disturb(i, 1);
 				}
 			}
 		}
@@ -1498,7 +1498,7 @@ void update_player(int Ind)
 				if (p_ptr->disturb_move && check_hostile(i, Ind))
 				{
 					/* Disturb */
-					disturb(i, 1, 0);
+					disturb(i, 1);
 				}
 			}
 		}
@@ -1516,7 +1516,7 @@ void update_player(int Ind)
 				if (p_ptr->disturb_near && check_hostile(i, Ind))
 				{
 					/* Disturb */
-					disturb(i, 1, 0);
+					disturb(i, 1);
 				}
 			}
 		}
@@ -1534,7 +1534,7 @@ void update_player(int Ind)
 				if (p_ptr->disturb_near && check_hostile(i, Ind))
 				{
 					/* Disturb */
-					disturb(i, 1, 0);
+					disturb(i, 1);
 				}
 			}
 		}

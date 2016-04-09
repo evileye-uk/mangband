@@ -405,7 +405,7 @@ extern bool projectable(int Depth, int y1, int x1, int y2, int x2);
 extern void scatter(int Depth, int *yp, int *xp, int y, int x, int d, int m);
 extern void health_track(int m_idx);
 extern void recent_track(int r_idx);
-extern void disturb(int Ind, int stop_search, int flush_output);
+extern void disturb(int Ind, int stop_search);
 extern bool is_quest(int level);
 
 /* cmd1.c */

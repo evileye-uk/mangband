@@ -460,7 +460,7 @@ extern void scatter(int Depth, int *yp, int *xp, int y, int x, int d, int m);
 extern void health_track(int Ind, int m_idx);
 extern void update_health(int m_idx);
 extern void recent_track(int r_idx);
-extern void disturb(int Ind, int stop_search, int flush_output);
+extern void disturb(int Ind, int stop_search);
 extern bool is_quest(int level);
 extern void update_players(void);
 extern void update_cursor(int);

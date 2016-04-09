@@ -549,7 +549,7 @@ void take_hit(int Ind, int damage, cptr hit_from)
 
 
 	/* Disturb */
-	disturb(Ind, 1, 0);
+	disturb(Ind, 1);
 
 	/* Mega-Hack -- Apply "invulnerability" */
 	if (p_ptr->invuln && (damage < 9000)) return;
@@ -1309,10 +1309,6 @@ bool apply_disenchant(int Ind, int mode)
 	object_type		*o_ptr;
 
 	char		o_name[80];
-
-
-	/* Unused */
-	mode = mode;
 
 
 	/* Pick a random slot */
@@ -4093,7 +4089,7 @@ static bool project_p(int Ind, int who, int r, int Depth, int y, int x, int dam,
 
 
 	/* Disturb */
-	disturb(Ind, 1, 0);
+	disturb(Ind, 1);
 
 
 	/* Return "Anything seen?" */

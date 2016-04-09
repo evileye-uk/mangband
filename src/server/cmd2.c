@@ -848,7 +848,7 @@ void do_cmd_open(int Ind, int dir)
 				/* Player owned store! */
 	
 				/* Disturb */
-				disturb(Ind, 0, 0);
+				disturb(Ind, 0);
 
 				/* Hack -- Enter store */
 				command_new = '_';
@@ -891,7 +891,7 @@ void do_cmd_open(int Ind, int dir)
 	}
 
 	/* Cancel repeat unless we may continue */
-	if (!more) disturb(Ind, 0, 0);
+	if (!more) disturb(Ind, 0);
 }
 
 
@@ -1021,7 +1021,7 @@ void do_cmd_close(int Ind, int dir)
 	}
 
 	/* Cancel repeat unless we may continue */
-	if (!more) disturb(Ind, 0, 0);
+	if (!more) disturb(Ind, 0);
 }
 
 
@@ -1357,7 +1357,7 @@ void do_cmd_tunnel(int Ind, int dir)
 	}
 
 	/* Cancel repetition unless we can continue */
-	if (!more) disturb(Ind, 0, 0);
+	if (!more) disturb(Ind, 0);
 }
 
 
@@ -1575,7 +1575,7 @@ void do_cmd_disarm(int Ind, int dir)
 	}
 
 	/* Cancel repeat unless told not to */
-	if (!more) disturb(Ind, 0, 0);
+	if (!more) disturb(Ind, 0);
 }
 
 
@@ -1741,7 +1741,7 @@ void do_cmd_bash(int Ind, int dir)
 	}
 
 	/* Unless valid action taken, cancel bash */
-	if (!more) disturb(Ind, 0, 0);
+	if (!more) disturb(Ind, 0);
 }
 
 
@@ -1933,7 +1933,7 @@ void do_cmd_walk(int Ind, int dir, int pickup)
 	}
 
 	/* Cancel repeat unless we may continue */
-	if (!more) disturb(Ind, 0, 0);
+	if (!more) disturb(Ind, 0);
 }
 
 
@@ -1992,7 +1992,7 @@ int do_cmd_run(int Ind, int dir)
 			msg_print(Ind, "You cannot run in that direction.");
 
 			/* Disturb */
-			disturb(Ind, 0, 0);
+			disturb(Ind, 0);
 
 			/* Waste a little bit of energy for trying */
 			p_ptr->energy -= level_speed(p_ptr->dun_depth)/5;
@@ -2078,7 +2078,7 @@ void do_cmd_stay(int Ind, int pickup)
 	    (c_ptr->feat <= FEAT_SHOP_TAIL))
 	{
 		/* Disturb */
-		disturb(Ind, 0, 0);
+		disturb(Ind, 0);
 
 		/* Hack -- enter store */
 		command_new = '_';

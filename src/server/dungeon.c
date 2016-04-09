@@ -283,7 +283,7 @@ static void sense_inventory(int Ind)
 		if (!feel) continue;
 
 		/* Stop everything */
-		if (p_ptr->disturb_minor) disturb(Ind, 0, 0);
+		if (p_ptr->disturb_minor) disturb(Ind, 0);
 
 		/* Get an object description */
 		object_desc(Ind, o_name, o_ptr, FALSE, 0);
@@ -1057,7 +1057,7 @@ static void process_player_end(int Ind)
 		amt = o_ptr->number;
 
 		/* Disturbing */
-		disturb(Ind, 0, 0);
+		disturb(Ind, 0);
 
 		/* Warning */
 		msg_print(Ind, "Your pack overflows!");
@@ -1198,7 +1198,7 @@ static void process_player_end(int Ind)
 				{
 					/* Message */
 					msg_print(Ind, "You faint from the lack of food.");
-					disturb(Ind, 1, 0);
+					disturb(Ind, 1);
 
 					/* Hack -- faint (bypass free action) */
 					(void)set_paralyzed(Ind, p_ptr->paralyzed + 1 + rand_int(5));
@@ -1238,7 +1238,7 @@ static void process_player_end(int Ind)
 		/* Disturb if we are done resting */
 		if ((p_ptr->resting) && (p_ptr->chp == p_ptr->mhp) && (p_ptr->csp == p_ptr->msp))
 		{
-			disturb(Ind, 0, 0);
+			disturb(Ind, 0);
 		}
 
 	minus = 1;
@@ -1432,14 +1432,14 @@ static void process_player_end(int Ind)
 				/* The light is now out */
 				else if (o_ptr->pval == 0)
 				{
-					disturb(Ind, 0, 0);
+					disturb(Ind, 0);
 					msg_print(Ind, "Your light has gone out!");
 				}
 
 				/* The light is getting dim */
 				else if ((o_ptr->pval < 100) && (!(o_ptr->pval % 10)))
 				{
-					if (p_ptr->disturb_minor) disturb(Ind, 0, 0);
+					if (p_ptr->disturb_minor) disturb(Ind, 0);
 					msg_print(Ind, "Your light is growing faint.");
 				}
 			}
@@ -1537,7 +1537,7 @@ static void process_player_end(int Ind)
 			if (!p_ptr->word_recall)
 			{
 				/* Disturbing! */
-				disturb(Ind, 0, 0);
+				disturb(Ind, 0);
 
 				/* Determine the level */
 				if (p_ptr->dun_depth > 0)

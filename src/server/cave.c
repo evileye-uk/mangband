@@ -3616,7 +3616,8 @@ bool projectable(int Depth, int y1, int x1, int y2, int x2)
 
 
 /* The same function... but with target in a wall (for player ghosts)
-/* Used by monsters... otherwise player ghosts would be safe from monster spells! */
+ * Used by monsters... otherwise player ghosts would be safe from
+ * monster spells! */
 bool projectable_wall(int Depth, int y1, int x1, int y2, int x2)
 {
 	int dist, y, x;
@@ -3787,12 +3788,9 @@ void recent_track(int r_idx)
  *
  * All disturbance cancels repeated commands, resting, and running.
  */
-void disturb(int Ind, int stop_search, int unused_flag)
+void disturb(int Ind, int stop_search)
 {
 	player_type *p_ptr = Players[Ind];
-
-	/* Unused */
-	unused_flag = unused_flag;
 
 	/* Cancel auto-commands */
 	/* command_new = 0; */
