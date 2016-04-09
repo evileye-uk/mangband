@@ -39,7 +39,7 @@
 #  include <sys/time.h>
 # endif
 
-# if !defined(sgi) && !defined(ultrix)
+# if !defined(sgi) && !defined(ultrix) && !defined(__FreeBSD__)
 #  include <sys/timeb.h>
 # endif
 
