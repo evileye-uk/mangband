@@ -37,7 +37,7 @@ extern void stretch_chat_ctrl( void );
 
 
 /* variable.c */
-extern char nick[80];
+extern char nick[MAX_NAME_LEN];
 extern char pass[80];
 
 extern char real_name[80];

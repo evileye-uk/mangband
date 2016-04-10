@@ -2,7 +2,7 @@
 
 /* Client global variables */
 
-char nick[80];
+char nick[MAX_NAME_LEN];
 char pass[80];
 
 char real_name[80];
