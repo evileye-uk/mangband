@@ -4267,7 +4267,7 @@ static int Receive_inscribe(int ind)
 {
     s16b item;
 
-    char inscription[80];
+    char inscription[MAX_CHARS];
 
 	connection_t *connp = &Conn[ind];
     player_type *p_ptr;
@@ -4821,7 +4821,7 @@ static int Receive_pass(int ind)
 {
 	connection_t *connp = &Conn[ind];
 
-	char ch, buf[1024];
+	char ch, buf[MSG_LEN];
 
 	int n, player;
 
@@ -4844,7 +4844,7 @@ static int Receive_message(int ind)
 {
 	connection_t *connp = &Conn[ind];
 
-	char ch, buf[1024];
+	char ch, buf[MSG_LEN];
 
 	int n, player;
 
@@ -5303,7 +5303,7 @@ static int Receive_party(int ind)
 {
 	connection_t *connp = &Conn[ind];
 	int player, n;
-	char ch, buf[160];
+	char ch, buf[MAX_CHARS];
 	s16b command;
 
 	if (connp->id != -1) player = GetInd[connp->id];
@@ -5461,7 +5461,7 @@ static int Receive_master(int ind)
 {
 	connection_t *connp = &Conn[ind];
 	int player, n;
-	char ch, buf[160];
+	char ch, buf[MAX_CHARS];
 	s16b command;
 
 	if (connp->id != -1) player = GetInd[connp->id];

@@ -263,7 +263,7 @@ static void console_shutdown(void)
  */
 void NewConsole(int read_fd, int arg)
 {
-	char ch, passwd[80], buf[1024];
+	char ch, passwd[MSG_LEN], buf[MSG_LEN];
 	char *params;
 	int i, j, bytes, buflen;
 	static int newsock = 0;
@@ -338,7 +338,7 @@ void NewConsole(int read_fd, int arg)
 	/* Get the password if not authenticated */
 	if(!console_authenticated)
 	{
-		Packet_scanf(&console_buf, "%N",passwd); 
+		Packet_scanf(&console_buf, "%N", passwd); 
 
 		/* Check for illegal accesses */
 		if (strcmp(passwd, cfg_console_password))
