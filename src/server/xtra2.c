@@ -14,50 +14,6 @@
 
 #include "angband.h"
 
-int get_player(int Ind, object_type *o_ptr)
-{
-        player_type *p_ptr = Players[Ind];
-        bool ok = FALSE;
-        int Ind2;
-
-	unsigned char * inscription = (unsigned char *) quark_str(o_ptr->note);
-
-       	/* check for a valid inscription */
-	if (inscription == NULL)
-	  {
-	    msg_print(Ind, "Nobody to use the power with.");
-	    return 0;
-	  }
-	
-	/* scan the inscription for @P */
-	while ((*inscription != '\0') && !ok)
-	{
-		
-		if (*inscription == '@')
-		{
-			inscription++;
-			
-			/* a valid @P has been located */
-			if (*inscription == 'P')
-			{			
-				inscription++;
-				
-				Ind2 = find_player_name(inscription);
-				if (Ind2) ok = TRUE;
-			}
-		}
-		inscription++;
-	}
-	
-        if (!ok)
-	  {
-	    msg_print(Ind, "Player is not on.");
-	    return 0;
-	  }
-
-	return Ind2;
-}
-
 /*
  * Set "p_ptr->blind", notice observable changes
  *
@@ -73,7 +29,7 @@ bool set_blind(int Ind, int v)
 	bool notice = FALSE;
 
 	/* the admin wizard can not be blinded */
-	if (!strcmp(p_ptr->name, cfg_dungeon_master)) return 1;
+	if (!strcmp(p_ptr->name, cfg_dungeon_master)) return TRUE;
 
 	/* Hack -- Force good values */
 	v = (v > 10000) ? 10000 : (v < 0) ? 0 : v;
