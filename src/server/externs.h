@@ -1028,7 +1028,6 @@ extern void text_out(cptr buf);
 extern void text_out_init(int Ind);
 
 /* xtra1.c */
-extern void cnv_stat(int val, char *out_val);
 extern s16b modify_stat_value(int value, int amount);
 extern void notice_stuff(int Ind);
 extern void update_stuff(int Ind);

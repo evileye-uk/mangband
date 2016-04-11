@@ -29,6 +29,40 @@ volatile sig_atomic_t signalbusy = 0;
 /* #undef _POSIX_SAVED_IDS */
 
 
+
+/*
+ * Converts stat num into a six-char (right justified) string
+ */
+static void cnv_stat(int val, char *out_val)
+{
+	/* Above 18 */
+	if (val > 18)
+	{
+		int bonus = (val - 18);
+
+		if (bonus >= 220)
+		{
+			sprintf(out_val, "18/%3s", "***");
+		}
+		else if (bonus >= 100)
+		{
+			sprintf(out_val, "18/%03d", bonus);
+		}
+		else
+		{
+			sprintf(out_val, " 18/%02d", bonus);
+		}
+	}
+
+	/* From 3 to 18 */
+	else
+	{
+		sprintf(out_val, "    %2d", val);
+	}
+}
+
+
+
 /*
  * Hack -- drop permissions
  */

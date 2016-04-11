@@ -15,41 +15,6 @@
 #include "angband.h"
 
 
-
-
-/*
- * Converts stat num into a six-char (right justified) string
- */
-void cnv_stat(int val, char *out_val)
-{
-	/* Above 18 */
-	if (val > 18)
-	{
-		int bonus = (val - 18);
-
-		if (bonus >= 220)
-		{
-			sprintf(out_val, "18/%3s", "***");
-		}
-		else if (bonus >= 100)
-		{
-			sprintf(out_val, "18/%03d", bonus);
-		}
-		else
-		{
-			sprintf(out_val, " 18/%02d", bonus);
-		}
-	}
-
-	/* From 3 to 18 */
-	else
-	{
-		sprintf(out_val, "    %2d", val);
-	}
-}
-
-
-
 /*
  * Modify a stat value by a "modifier", return new value
  *
@@ -420,7 +385,7 @@ static void prt_stun(int Ind)
 /*
  * Obtain the "flags" for the player as if he was an item
  */
-void    player_flags(int Ind, u32b *f1, u32b * f2, u32b *f3)
+static void player_flags(int Ind, u32b *f1, u32b * f2, u32b *f3)
 {
 	player_type *p_ptr = Players[Ind];
 	/* Clear */
