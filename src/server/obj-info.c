@@ -298,7 +298,7 @@ static bool describe_stats(const object_type *o_ptr, u32b f1, u32b fH)
 	cptr descs[A_MAX];
 	int pval[A_MAX];
 	bool noted[A_MAX], found = FALSE;
-	int cnt = 0;
+	int cnt;
 	int i, j;
 
 	/* First pass - collect flags */
@@ -315,7 +315,6 @@ static bool describe_stats(const object_type *o_ptr, u32b f1, u32b fH)
 	for (j = 0; j < A_MAX; j++) 
 	{
 		cnt = 0;
-		WIPE(descs, cptr);
 		/* Found a suitable flag to report */
 		if (pval[j] != 0 && noted[j] == FALSE)
 		{
@@ -405,7 +404,7 @@ cptr secondary_names[8] =
 static bool describe_secondary(const object_type *o_ptr, u32b f1, u32b fH)
 {
 	cptr descs[8];
-	int cnt = 0;
+	int cnt;
 	int pval[8];
 	bool noted[8], found = FALSE;
 	int j, i;
@@ -426,7 +425,6 @@ static bool describe_secondary(const object_type *o_ptr, u32b f1, u32b fH)
 	for (j = 0; j < 8; j++) 
 	{
 		cnt = 0;
-		WIPE(descs, cptr);
 		/* Found a suitable flag to report */
 		if (pval[j] != 0 && noted[j] == FALSE)
 		{
