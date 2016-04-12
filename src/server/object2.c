@@ -99,13 +99,6 @@ static void excise_object_idx(int o_idx)
    } 
 } 
 
-
-static void object_wipe(object_type* o_ptr) 
-{ 
-    /* Wipe the object */ 
-    WIPE(o_ptr, object_type); 
-} 
-
 /*
  * Prepare an object based on an object kind.
  */
@@ -113,8 +106,7 @@ void object_prep(object_type *o_ptr, int k_idx)
 {
 	object_kind *k_ptr = &k_info[k_idx];
 
-	/* Clear the record */
-	(void)WIPE(o_ptr, object_type);
+	invwipe(o_ptr);
 
 	/* Save the kind index */
 	o_ptr->k_idx = k_idx;
@@ -180,7 +172,7 @@ void delete_object_idx(int o_idx)
    } 
 
    /* Wipe the object */ 
-   object_wipe(j_ptr); 
+   invwipe(j_ptr); 
 } 
 
 
@@ -282,7 +274,7 @@ static void compact_objects_aux(int i1, int i2)
    COPY(&o_list[i2], &o_list[i1], object_type); 
 
    /* Hack -- wipe hole */
-   object_wipe(o_ptr); 
+   invwipe(o_ptr); 
 } 
 
 
@@ -486,7 +478,7 @@ void wipe_o_list(int Depth)
 		}
 
 		/* Wipe the object */
-		WIPE(o_ptr, object_type);
+		invwipe(o_ptr);
 	}
 
 	/* Compact the object list */
@@ -1591,8 +1583,7 @@ void invcopy(object_type *o_ptr, int k_idx)
 {
 	object_kind *k_ptr = &k_info[k_idx];
 
-	/* Clear the record */
-	WIPE(o_ptr, object_type);
+	invwipe(o_ptr);
 
 	/* Save the kind index */
 	o_ptr->k_idx = k_idx;
@@ -3732,7 +3723,7 @@ void drop_near(object_type *o_ptr, int chance, int Depth, int y, int x)
 		           o_name, ((o_ptr->number == 1) ? "s" : ""));
 		*/
 
-		WIPE(o_ptr, object_type);
+		invwipe(o_ptr);
 	}
 }
 

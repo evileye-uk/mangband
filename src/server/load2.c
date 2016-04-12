@@ -434,7 +434,7 @@ static void rd_item(object_type *o_ptr)
 	start_section_read("item");
 	
 	/* Hack -- wipe */
-	WIPE(o_ptr, object_type);
+	invwipe(o_ptr);
 
 	/* Skip name */
 	skip_value("name");

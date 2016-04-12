@@ -2451,7 +2451,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXx
 		{
 			/* We dropped the item on the floor, forget about it */
 			inven_item_increase(Ind, i, -p_ptr->inventory[i].number);
-			WIPE(&p_ptr->inventory[i], object_type);			
+			invwipe(&p_ptr->inventory[i]);
 		}
 	}
 
