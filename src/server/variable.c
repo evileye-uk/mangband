@@ -177,7 +177,7 @@ char * cfg_console_password = "change_me";
 char * cfg_dungeon_master = "DungeonMaster";
 bool cfg_secret_dungeon_master = 0;
 s16b cfg_fps = 12;
-s16b cfg_tcp_port = 18346;
+s32b cfg_tcp_port = 18346;
 bool cfg_mage_hp_bonus = 1;
 bool cfg_no_steal = 0;
 bool cfg_newbies_cannot_drop = 0;
@@ -723,7 +723,7 @@ char *p_text;
  * The player class arrays
  */
 player_class *c_info;
-char *c_name;
+cptr c_name;
 char *c_text;
 
 /*
@@ -750,7 +750,7 @@ char *h_text;
  * The object flavor arrays
  */
 flavor_type *flavor_info;
-char *flavor_name;
+cptr flavor_name;
 char *flavor_text;
 
 /*
