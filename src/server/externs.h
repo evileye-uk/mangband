@@ -576,7 +576,7 @@ extern void do_cmd_activate_dir(int Ind, int dir);
 /* control.c */
 extern void NewConsole(int fd, int arg);
 extern bool InitNewConsole(int write_fd);
-extern void console_print(char *msg);
+extern void console_print(cptr msg);
 
 /* dungeon.c */
 extern bool is_boring(byte feat);
@@ -1003,7 +1003,6 @@ extern void flush(void);
 extern void bell(void);
 extern void sound(int Ind, int num);
 extern void text_to_ascii(char *buf, cptr str);
-extern void ascii_to_text(char *buf, cptr str);
 extern void keymap_init(void);
 extern void macro_add(cptr pat, cptr act, bool cmd_flag);
 extern char inkey(void);

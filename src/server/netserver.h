@@ -62,7 +62,6 @@ typedef struct {
 } connection_t;
 
 static void Contact(int fd, int arg);
-static void Console(int fd, int arg);
 static int Enter_player(char *real, char *name, char *addr, char *host,
 				unsigned version, int port, int *login_port, int fd);
 
@@ -144,7 +143,6 @@ static int Receive_autophase(int ind);
 static int Receive_clear(int ind);
 
 static void Handle_item(int Ind, int item);
-static int Receive_mind(int ind);
 
 int Setup_net_server(void);
 bool Destroy_connection(int ind, char *reason);

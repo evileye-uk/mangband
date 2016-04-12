@@ -924,24 +924,6 @@ void move_cursor(int row, int col)
 #endif
 
 
-
-/*
- * Convert a decimal to a single digit octal number
- */
-static char octify(uint i)
-{
-	return (hexsym[i%8]);
-}
-
-/*
- * Convert a decimal to a single digit hex number
- */
-static char hexify(uint i)
-{
-	return (hexsym[i%16]);
-}
-
-
 /*
  * Convert a octal-digit into a decimal
  */
@@ -1088,87 +1070,6 @@ void text_to_ascii(char *buf, cptr str)
 	*s = '\0';
 }
 
-
-/*
- * Hack -- convert a string into a printable form
- */
-void ascii_to_text(char *buf, cptr str)
-{
-	char *s = buf;
-
-	/* Analyze the "ascii" string */
-	while (*str)
-	{
-		byte i = (byte)(*str++);
-
-		if (i == ESCAPE)
-		{
-			*s++ = '\\';
-			*s++ = 'e';
-		}
-		else if (i == ' ')
-		{
-			*s++ = '\\';
-			*s++ = 's';
-		}
-		else if (i == '\b')
-		{
-			*s++ = '\\';
-			*s++ = 'b';
-		}
-		else if (i == '\t')
-		{
-			*s++ = '\\';
-			*s++ = 't';
-		}
-		else if (i == '\n')
-		{
-			*s++ = '\\';
-			*s++ = 'n';
-		}
-		else if (i == '\r')
-		{
-			*s++ = '\\';
-			*s++ = 'r';
-		}
-		else if (i == '^')
-		{
-			*s++ = '\\';
-			*s++ = '^';
-		}
-		else if (i == '\\')
-		{
-			*s++ = '\\';
-			*s++ = '\\';
-		}
-		else if (i < 32)
-		{
-			*s++ = '^';
-			*s++ = i + 64;
-		}
-		else if (i < 127)
-		{
-			*s++ = i;
-		}
-		else if (i < 64)
-		{
-			*s++ = '\\';
-			*s++ = '0';
-			*s++ = octify(i / 8);
-			*s++ = octify(i % 8);
-		}
-		else
-		{
-			*s++ = '\\';
-			*s++ = 'x';
-			*s++ = hexify(i / 16);
-			*s++ = hexify(i % 16);
-		}
-	}
-
-	/* Terminate */
-	*s = '\0';
-}
 
 
 
@@ -2538,7 +2439,6 @@ void msg_broadcast(int Ind, cptr msg)
 	 
 	/* Send to console */
 	console_print(msg);
-	 
 }
 
 

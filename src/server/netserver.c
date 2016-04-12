@@ -591,66 +591,10 @@ static int Check_names(char *nick_name, char *real_name, char *host_name, char *
 	return SUCCESS;
 }
 
-static void Console(int fd, int arg)
-{
-#if 0
-	char buf[1024];
-	int i;
-
-	/* See what we got */
-        /* this code added by thaler, 6/28/97 */
-        fgets(buf, 1024, stdin);
-        if (buf[ strlen(buf)-1 ] == '\n')
-            buf[ strlen(buf)-1 ] = '\0';
-
-	for (i = 0; i < strlen(buf) && buf[i] != ' '; i++)
-	{
-		/* Capitalize each letter until we hit a space */
-		buf[i] = toupper(buf[i]);
-	}
-
-	/* Process our input */
-	if (!strncmp(buf, "HELLO", 5))
-		s_printf("Hello.  How are you?\n");
-
-	if (!strncmp(buf, "SHUTDOWN", 8))
-	{
-		shutdown_server();
-	}
-
-		
-	if (!strncmp(buf, "STATUS", 6))
-	{
-		s_printf("There %s %d %s.\n", (NumPlayers != 1 ? "are" : "is"), NumPlayers, (NumPlayers != 1 ? "players" : "player"));
-
-		if (NumPlayers > 0)
-		{
-			s_printf("%s:\n", (NumPlayers > 1 ? "They are" : "He is"));
-			for (i = 1; i < NumPlayers + 1; i++)
-				s_printf("\t%s\n", Players[i]->name);
-		}
-	}
-
-	if (!strncmp(buf, "MESSAGE", 7))
-	{
-		/* Send message to all players */
-		for (i = 1; i <= NumPlayers; i++)
-			msg_format(i, "[Server Admin] %s", &buf[8]);
-
-		/* Acknowledge */
-		s_printf("Message sent.\n");
-	}
-		
-	if (!strncmp(buf, "KELDON", 6))
-	{
-		/* Whatever I need at the moment */
-	}
-#endif
-}
-		
 static void Contact(int fd, int arg)
 {
-	int bytes, login_port, newsock, len;
+	int bytes, login_port, newsock;
+	socklen_t len;
 	u16b version = 0;
 	unsigned magic;
 	unsigned short port;
@@ -660,7 +604,7 @@ static void Contact(int fd, int arg)
 		host_name[MAX_CHARS],
 		host_addr[24],
 		reply_to, status;
-    struct sockaddr_in sin;
+	struct sockaddr_in sin;
     
 	/* Create a TCP socket for communication with whoever contacted us */
 	/* Hack -- check if this data has arrived on the contact socket or not.
@@ -842,7 +786,6 @@ static void Delete_player(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
 	char buf[255];
-	int i;
 
 	/* Be paranoid */
 	if (cave[p_ptr->dun_depth])

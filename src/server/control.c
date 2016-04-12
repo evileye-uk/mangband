@@ -13,7 +13,7 @@ static bool console_listen;
 /*
  * Output some text to the console, if we are listening
  */
-void console_print(char *msg)
+void console_print(cptr msg)
 {
 	if (console_listen)
 	{
