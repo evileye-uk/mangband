@@ -46,7 +46,7 @@ static int get_spell(int *sn, cptr prompt, int book, bool known)
 	char		out_val[160];
 	cptr p;
 	
-	p = ((class == CLASS_PRIEST || class == CLASS_PALADIN) ? "prayer" : "spell");
+	p = ((p_class == CLASS_PRIEST || p_class == CLASS_PALADIN) ? "prayer" : "spell");
 
 	if (p_ptr->ghost)
 		p = "power";
@@ -123,7 +123,7 @@ static int get_spell(int *sn, cptr prompt, int book, bool known)
 		}
 		
 		/* hack for CAPITAL prayers (heal other) */
-        if ((class == CLASS_PRIEST) || (class == CLASS_PALADIN) )
+        if ((p_class == CLASS_PRIEST) || (p_class == CLASS_PALADIN) )
 		{
 			/* lowercase */
 			if (islower(choice))
@@ -221,7 +221,7 @@ void show_browse(int book)
 void do_study(int book)
 {
 	int j;
-	cptr p = ((class == CLASS_PRIEST || class == CLASS_PALADIN) ? "prayer" : "spell");
+	cptr p = ((p_class == CLASS_PRIEST || p_class == CLASS_PALADIN) ? "prayer" : "spell");
 
 	/* Mage -- Learn a selected spell */
 	if (!strcmp(p, "spell"))

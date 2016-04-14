@@ -82,7 +82,7 @@ extern int	CreateServerSocket(int);
 extern int	GetPortNum(int);
 extern char	*GetSockAddr(int);
 extern int	GetPeerName(int, char *, int);
-extern int	CreateClientSocket(char *, int);
+extern int	CreateClientSocket(const char *, int);
 extern int	SocketAccept(int);
 extern int	SocketLinger(int);
 extern int	SetSocketReceiveBufferSize(int, int);

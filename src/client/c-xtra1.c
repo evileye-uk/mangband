@@ -488,7 +488,7 @@ void prt_basic(void)
         case RACE_KOBOLD: r = "Kobold"; break;
 	}
 
-	switch(class)
+	switch(p_class)
 	{
         case CLASS_WARRIOR: c = "Warrior"; break;
         case CLASS_MAGE: c = "Mage"; break;
@@ -1032,7 +1032,7 @@ void fix_player(void)
 
 void fix_message(void)
 {
-        int j, c, i, pmdone;
+        int j, c, i;
         int w, h;
         int x, y;
         term *oldt;
@@ -1579,7 +1579,6 @@ static void display_player_misc_info(void)
 void display_player(void)
 {
 	int i;
-	char buf[80];
 	cptr desc;
 
      /* Clear screen */
@@ -1594,7 +1593,7 @@ void display_player(void)
      c_put_str(TERM_L_BLUE, nick, 2, 15);
      c_put_str(TERM_L_BLUE, (p_ptr->male ? "Male" : "Female"), 3, 15);
      c_put_str(TERM_L_BLUE, p_name + race_info[race].name, 4, 15);
-     c_put_str(TERM_L_BLUE, c_name + c_info[class].name, 5, 15);
+     c_put_str(TERM_L_BLUE, c_name + c_info[p_class].name, 5, 15);
 
 	display_player_stats_info();
 

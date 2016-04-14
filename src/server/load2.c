@@ -79,7 +79,7 @@ static char file_buf[1024];
  */
 
 /* Start a section */
-void start_section_read(char* name)
+void start_section_read(const char *name)
 {
 	char seek_section[80];
 	char got_section[80];
@@ -100,7 +100,7 @@ void start_section_read(char* name)
 }
 
 /* End a section */
-void end_section_read(char* name)
+void end_section_read(const char *name)
 {
 	char seek_section[80];
 	char got_section[80];
@@ -121,7 +121,7 @@ void end_section_read(char* name)
 }
 
 /* Read an integer */
-int read_int(char* name)
+int read_int(const char *name)
 {
 	char seek_name[80];
 	bool matched = FALSE;
@@ -142,7 +142,7 @@ int read_int(char* name)
 }
 
 /* Read an unsigned integer */
-uint read_uint(char* name)
+uint read_uint(const char *name)
 {
 	char seek_name[80];
 	bool matched = FALSE;
@@ -163,7 +163,7 @@ uint read_uint(char* name)
 }
 
 /* Read a signed long */
-huge read_huge(char* name)
+huge read_huge(const char *name)
 {
 	char seek_name[80];
 	bool matched = FALSE;
@@ -185,7 +185,7 @@ huge read_huge(char* name)
 
 /* Read a string */
 /* Returns TRUE if the string could be read */
-void read_str(char* name, char* value)
+void read_str(const char* name, char* value)
 {
 	char seek_name[80];
 	int params;
@@ -214,7 +214,7 @@ void read_str(char* name, char* value)
 
 /* Read a float */
 /* Returns TRUE if the float could be read */
-float read_float(char* name)
+static float read_float(const char *name)
 {
 	char seek_name[80];
 	bool matched = FALSE;
@@ -235,7 +235,7 @@ float read_float(char* name)
 }
 
 /* Read some binary data */
-void read_binary(char* name, char* value, int max_len)
+static void read_binary(const char *name, char* value, int max_len)
 {
 	char seek_name[80];
 	char hex[3];
@@ -294,7 +294,7 @@ void skip_value(char* name)
 }
 
 /* Check if the given named value is next */
-bool value_exists(char* name)
+bool value_exists(const char *name)
 {
 	char seek_name[80];
 	bool matched = FALSE;

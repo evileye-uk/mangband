@@ -243,7 +243,7 @@ static void choose_class(void)
 		j = (islower(c) ? A2I(c) : -1);
 		if ((j < MAX_CLASS) && (j >= 0))
 		{
-			class = j;
+			p_class = j;
 			cp_ptr = &c_info[j];
 			c_put_str(TERM_L_BLUE, c_name + cp_ptr->name, 6, 15);
 			break;

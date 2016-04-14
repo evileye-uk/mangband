@@ -21,7 +21,7 @@ static char xml_buf[32];
 static char *xml_prefix = xml_buf;
 
 /* Start a section */
-static void start_section(char* name)
+static void start_section(const char *name)
 {
 	int i;
 	if(xml_indent == 0) xml_prefix[0] = '\0';
@@ -32,7 +32,7 @@ static void start_section(char* name)
 }
 
 /* End a section */
-static void end_section(char* name)
+static void end_section(const char *name)
 {
 	int i;
 	xml_indent -= 2;
@@ -42,36 +42,36 @@ static void end_section(char* name)
 }
 
 /* Write an integer */
-static void write_int(char* name, int value)
+static void write_int(const char *name, int value)
 {
 	fprintf(file_handle,"%s%s = %i\n",xml_prefix,name,value);
 }
 
 /* Write an unsigned integer value */
-static void write_uint(char* name, unsigned int value)
+static void write_uint(const char *name, unsigned int value)
 {
 	fprintf(file_handle,"%s%s = %u\n",xml_prefix,name,value);
 }
 
 /* Write an signed long value */
-static void write_huge(char* name, huge value)
+static void write_huge(const char *name, huge value)
 {
 	fprintf(file_handle,"%s%s = %llu\n",xml_prefix,name,value);
 }
 
 /* Write a string */
-static void write_str(char* name, char* value)
+static void write_str(const char *name, const char *value)
 {
 	fprintf(file_handle,"%s%s = %s\n",xml_prefix,name,value);
 }
 
-static void write_float(char* name, float value)
+static void write_float(const char *name, float value)
 {
 	fprintf(file_handle,"%s%s = %f\n",xml_prefix,name,value);
 }
 
 /* Write binary data */
-static void write_binary(char* name, char* data)
+static void write_binary(const char *name, char* data)
 {
 	int i,len;
 	byte b;
@@ -630,7 +630,7 @@ static void wr_dungeon(int Depth)
 }
 
 /* Write a players memory of a cave, simmilar to the above function. */
-void wr_cave_memory(Ind)
+void wr_cave_memory(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
 	int y,x;

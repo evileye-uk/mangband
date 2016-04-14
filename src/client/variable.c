@@ -91,7 +91,7 @@ s16b command_dir;
 
 
 s16b race;
-s16b class;
+s16b p_class;
 s16b sex;
 
 s16b stat_order[6];			/* Desired order of stats */
@@ -105,7 +105,6 @@ bool cursor_icky;
 /*
  * The player race arrays
  */
-char *p_name;
 
 cptr race_title[] = {
 	"Human", "Half-elf", "Elf", "Hobbit",

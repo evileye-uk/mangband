@@ -63,7 +63,7 @@ static void console_whois(char *name)
 {
 	int i, len;
 	u16b major, minor, patch, extra;
-	char output[1024], brave[15];
+	char brave[15];
 	player_type *p_ptr, *p_ptr_search;
 	
 	p_ptr = 0;
@@ -263,9 +263,9 @@ static void console_shutdown(void)
  */
 void NewConsole(int read_fd, int arg)
 {
-	char ch, passwd[MSG_LEN], buf[MSG_LEN];
+	char passwd[MSG_LEN], buf[MSG_LEN];
 	char *params;
-	int i, j, bytes, buflen;
+	int bytes, buflen;
 	static int newsock = 0;
 
 	/* Make a TCP connection */

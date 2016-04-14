@@ -89,8 +89,8 @@ int Sockbuf_copy(sockbuf_t *dest, sockbuf_t *src, int len);
 #   endif
 #endif
 #if STDVA
-    int Packet_printf(sockbuf_t *, char *fmt, ...);
-    int Packet_scanf(sockbuf_t *, char *fmt, ...);
+    int Packet_printf(sockbuf_t *, const char *fmt, ...);
+    int Packet_scanf(sockbuf_t *, const char *fmt, ...);
 #else
     int Packet_printf();
     int Packet_scanf();

@@ -399,7 +399,7 @@ int Sockbuf_copy(sockbuf_t *dest, sockbuf_t *src, int len)
 }
 
 #if STDVA
-int Packet_printf(sockbuf_t *sbuf, char *fmt, ...)
+int Packet_printf(sockbuf_t *sbuf, const char *fmt, ...)
 #else
 int Packet_printf(va_alist)
     va_dcl
@@ -591,7 +591,7 @@ int Packet_printf(va_alist)
 }
 
 #if STDVA
-int Packet_scanf(sockbuf_t *sbuf, char *fmt, ...)
+int Packet_scanf(sockbuf_t *sbuf, const char *fmt, ...)
 #else
 int Packet_scanf(va_alist)
     va_dcl

@@ -26,6 +26,7 @@
 
 #include "angband.h"
 #include <signal.h>
+#include <sys/time.h>
 
 /*char sched_version[] = VERSION;*/
 
@@ -347,8 +348,7 @@ void install_input(void (*func)(int, int), int fd, int arg)
     {
         if( biggest_fd < fd )
         {
-           input_handlers = realloc( input_handlers, 
-                                     sizeof(struct io_handler) * (fd + 1) );
+           input_handlers = (struct io_handler*)realloc( input_handlers, sizeof(struct io_handler) * (fd + 1) );
            biggest_fd = fd;
         }
         if( input_handlers == NULL )

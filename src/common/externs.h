@@ -374,7 +374,7 @@ extern cptr get_spell_name(int tval, int index);
  */
 
 /* birth.c */
-extern void player_birth(int Ind, cptr name, int conn, int race, int class, int sex);
+extern void player_birth(int Ind, cptr name, int conn, int race, int player_class, int sex);
 
 /* cave.c */
 extern int distance(int y1, int x1, int y2, int x2);
@@ -588,7 +588,7 @@ extern int Send_experience(int Ind, int lev, int max_exp, int cur_exp, s32b adv_
 extern int Send_gold(int Ind, s32b gold);
 extern int Send_hp(int Ind, int mhp, int chp);
 extern int Send_sp(int Ind, int msp, int csp);
-extern int Send_char_info(int Ind, int race, int class, int sex);
+extern int Send_char_info(int Ind, int race, int player_class, int sex);
 extern int Send_various(int Ind, int height, int weight, int age, int sc);
 extern int Send_stat(int Ind, int stat, int max, int cur);
 extern int Send_maxstat(int Ind, int stat, int max);

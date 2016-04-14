@@ -121,7 +121,7 @@ owner_type owners[MAX_STORES][MAX_OWNERS] =
 	}
 };
 
-char *p_name = "Human\0Half-Elf\0Elf\0Hobbit\0Gnome\0Dwarf\0Half-Orc\0Half-Troll\0Dunadan\0High-Elf\0Kobold\0";
+const char *p_name = "Human\0Half-Elf\0Elf\0Hobbit\0Gnome\0Dwarf\0Half-Orc\0Half-Troll\0Dunadan\0High-Elf\0Kobold\0";
 
 /*
  * Player Race Information:
@@ -316,8 +316,8 @@ player_race race_info[MAX_RACES] =
 };
 
 
-char *c_name = "Warrior\0Mage\0Priest\0Rogue\0Ranger\0Paladin\0";
-char *c_text = "Rookie\0Soldier\0Swordsman\0Swashbuckler\0Veteran\0Myrmidon\0Commando\0Champion\0Hero\0Lord\0Novice\0Apprentice\0Trickster\0Illusionist\0Spellbinder\0Evoker\0Conjurer\0Warlock\0Sorcerer\0Arch-Mage\0Believer\0Acolyte\0Adept\0Evangelist\0Priest\0Curate\0Canon\0Bishop\0Prophet\0Patriarch\0Vagabond\0Cutpurse\0Footpad\0Robber\0Burglar\0Filcher\0Sharper\0Rogue\0Thief\0Master Thief\0Runner\0Strider\0Scout\0Courser\0Tracker\0Guide\0Explorer\0Pathfinder\0Ranger\0Ranger Lord\0Gallant\0Keeper\0Protector\0Defender\0Warder\0Knight\0Guardian\0Chevalier\0Paladin\0Paladin Lord\0";
+const char *c_name = "Warrior\0Mage\0Priest\0Rogue\0Ranger\0Paladin\0";
+const char *c_text = "Rookie\0Soldier\0Swordsman\0Swashbuckler\0Veteran\0Myrmidon\0Commando\0Champion\0Hero\0Lord\0Novice\0Apprentice\0Trickster\0Illusionist\0Spellbinder\0Evoker\0Conjurer\0Warlock\0Sorcerer\0Arch-Mage\0Believer\0Acolyte\0Adept\0Evangelist\0Priest\0Curate\0Canon\0Bishop\0Prophet\0Patriarch\0Vagabond\0Cutpurse\0Footpad\0Robber\0Burglar\0Filcher\0Sharper\0Rogue\0Thief\0Master Thief\0Runner\0Strider\0Scout\0Courser\0Tracker\0Guide\0Explorer\0Pathfinder\0Ranger\0Ranger Lord\0Gallant\0Keeper\0Protector\0Defender\0Warder\0Knight\0Guardian\0Chevalier\0Paladin\0Paladin Lord\0";
 
 /*
  * Player Classes.

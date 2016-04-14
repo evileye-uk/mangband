@@ -971,7 +971,7 @@ void prt(cptr str, int row, int col)
  */
 
 /* APD -- added private so passwords will not be displayed. */
-bool askfor_aux(char *buf, int len, char private)
+bool askfor_aux(char *buf, int len, char priv)
 {
 	int y, x;
 
@@ -1041,7 +1041,7 @@ bool askfor_aux(char *buf, int len, char private)
 				buf[k++] = i;
 
 				/* Update the entry */
-				Term_putch(x+k-1, y, TERM_WHITE, private ? 'x' : buf[k-1]);
+				Term_putch(x+k-1, y, TERM_WHITE, priv ? 'x' : buf[k-1]);
 			}
 			else
 			{

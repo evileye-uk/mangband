@@ -133,8 +133,6 @@ struct sockaddr_un	sl_dgram_lastaddr;
 struct sockaddr_in	sl_dgram_lastaddr;
 #endif
 
-int ConsoleSocket;
-
 /* Global broadcast enable variable (super-user only), default disabled */
 int			sl_broadcast_enabled = 0;
 
@@ -550,10 +548,10 @@ int	namelen;
  */
 int
 #ifdef __STDC__
-CreateClientSocket(char *host, int port)
+CreateClientSocket(const char *host, int port)
 #else
 CreateClientSocket(host, port)
-char	*host;
+const char	*host;
 int	port;
 #endif /* __STDC__ */
 {

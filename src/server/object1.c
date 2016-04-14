@@ -838,7 +838,7 @@ static void object_flags_aux(int mode, const object_type *o_ptr, u32b *f1, u32b 
 /*
  * Obtain "flags" known to player
  */
-void object_flags_known(int Ind, object_type *o_ptr, u32b *f1, u32b *f2, u32b *f3)
+void object_flags_known(int Ind, const object_type *o_ptr, u32b *f1, u32b *f2, u32b *f3)
 {
 	bool aware, known;
 	
@@ -858,7 +858,7 @@ void object_flags_known(int Ind, object_type *o_ptr, u32b *f1, u32b *f2, u32b *f
 /*
  * Obtain the "flags" for an item
  */
-void object_flags(object_type *o_ptr, u32b *f1, u32b *f2, u32b *f3)
+void object_flags(const object_type *o_ptr, u32b *f1, u32b *f2, u32b *f3)
 {
 	object_flags_aux(OBJECT_FLAGS_FULL, o_ptr, f1, f2, f3);
 }
@@ -1031,7 +1031,7 @@ static char *object_desc_int(char *t, sint v)
  *   2 -- The Cloak of Death [1,+3] (+2 to Stealth)
  *   3 -- The Cloak of Death [1,+3] (+2 to Stealth) {nifty}
  */
-void object_desc(int Ind, char *buf, object_type *o_ptr, int pref, int mode)
+void object_desc(int Ind, char *buf, const object_type *o_ptr, int pref, int mode)
 {
 	cptr		basenm, modstr;
 	int		power, indexx;

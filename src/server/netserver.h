@@ -55,7 +55,7 @@ typedef struct {
 	char		*host;
 	char		*pass;
 	int		race;
-	int		class;
+	int		player_class;
 	int		sex;
 	int		stat_order[6];
 	client_setup_t	Client_setup;
@@ -145,7 +145,7 @@ static int Receive_clear(int ind);
 static void Handle_item(int Ind, int item);
 
 int Setup_net_server(void);
-bool Destroy_connection(int ind, char *reason);
+bool Destroy_connection(int ind, const char *reason);
 int Check_connection(char *real, char *nick, char *addr);
 int Setup_connection(char *real, char *nick, char *addr, char *host, unsigned version, int fd);
 int Input(void);

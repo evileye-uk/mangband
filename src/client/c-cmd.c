@@ -1544,13 +1544,13 @@ void cmd_browse(void)
 		return;
 	}
 
-	if (class == CLASS_WARRIOR)
+	if (p_class == CLASS_WARRIOR)
 	{
 		c_msg_print("You cannot read books!");
 		return;
 	}
 
-	if (class == CLASS_PRIEST || class == CLASS_PALADIN)
+	if (p_class == CLASS_PRIEST || p_class == CLASS_PALADIN)
 		item_tester_tval = TV_PRAYER_BOOK;
     else 
 	item_tester_tval = TV_MAGIC_BOOK;
@@ -1569,13 +1569,13 @@ void cmd_study(void)
 {
 	int item;
 
-	if (class == CLASS_WARRIOR)
+	if (p_class == CLASS_WARRIOR)
 	{
 		c_msg_print("You cannot gain spells!");
 		return;
 	}
 
-	if (class == CLASS_PRIEST || class == CLASS_PALADIN)
+	if (p_class == CLASS_PRIEST || p_class == CLASS_PALADIN)
 		item_tester_tval = TV_PRAYER_BOOK;
 	else item_tester_tval = TV_MAGIC_BOOK;
 
@@ -1593,7 +1593,7 @@ void cmd_cast(void)
 {
 	int item;
 
-    if (class != CLASS_MAGE && class != CLASS_ROGUE && class != CLASS_RANGER )
+    if (p_class != CLASS_MAGE && p_class != CLASS_ROGUE && p_class != CLASS_RANGER )
 	{
 		c_msg_print("You cannot cast spells!");
 		return;
@@ -1615,7 +1615,7 @@ void cmd_pray(void)
 {
 	int item;
 
-	if (class != CLASS_PRIEST && class != CLASS_PALADIN)
+	if (p_class != CLASS_PRIEST && p_class != CLASS_PALADIN)
 	{
 		c_msg_print("Pray hard enough and your prayers may be answered.");
 		return;

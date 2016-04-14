@@ -520,33 +520,6 @@ static errr Metadpy_init_2(Display *dpy, cptr name)
 
 
 
-/*
- * Nuke the current metadpy
- */
-static errr Metadpy_nuke(void)
-{
-	metadpy *m = Metadpy;
-
-
-	/* If required, Free the Display */
-	if (m->nuke)
-	{
-		/* Close the Display */
-		XCloseDisplay(m->dpy);
-
-		/* Forget the Display */
-		m->dpy = (Display*)(NULL);
-
-		/* Do not nuke it again */
-		m->nuke = 0;
-	}
-
-	/* Return Success */
-	return (0);
-}
-
-
-
 
 /*
  * General Flush/ Sync/ Discard routine
@@ -600,43 +573,6 @@ static errr Infowin_set_name(cptr name)
 }
 
 
-/*
- * Set the icon name of Infowin
- */
-static errr Infowin_set_icon_name(cptr name)
-{
-	Status st;
-	XTextProperty tp;
-	char buf[128];
-	char *bp = buf;
-	strcpy(buf, name);
-	st = XStringListToTextProperty(&bp, 1, &tp);
-	if (st) XSetWMIconName(Metadpy->dpy, Infowin->win, &tp);
-	return (0);
-}
-
-
-
-
-/*
- * Nuke Infowin
- */
-static errr Infowin_nuke(void)
-{
-	infowin *iwin = Infowin;
-
-	/* Nuke if requested */
-	if (iwin->nuke)
-	{
-		/* Destory the old window */
-		XDestroyWindow(Metadpy->dpy, iwin->win);
-	}
-
-	/* Success */
-	return (0);
-}
-
-
 
 
 
@@ -649,7 +585,8 @@ static errr Infowin_prepare(Window xid)
 
 	Window tmp_win;
 	XWindowAttributes xwa;
-	int x, y, w, h, b, d;
+	int x, y;
+  unsigned int w, h, b, d;
 
 	/* Assign stuff */
 	iwin->win = xid;
@@ -676,25 +613,6 @@ static errr Infowin_prepare(Window xid)
 
 	/* Success */
 	return (0);
-}
-
-
-
-
-
-/*
- * Initialize a new 'infowin'.
- */
-static errr Infowin_init_real(Window xid)
-{
-	/* Wipe it clean */
-	WIPE(Infowin, infowin);
-
-	/* Start out non-nukable */
-	Infowin->nuke = 0;
-
-	/* Attempt to Prepare ourself */
-	return (Infowin_prepare(xid));
 }
 
 
@@ -808,7 +726,7 @@ static cptr opcode_pairs[] =
  */
 static int Infoclr_Opcode(cptr str)
 {
-	register int i;
+	int i;
 
 	/* Scan through all legal operation names */
 	for (i = 0; opcode_pairs[i*2]; ++i)
@@ -886,52 +804,6 @@ static Pixell Infoclr_Pixell(cptr name)
 	return (Metadpy->fg);
 }
 
-
-
-
-
-
-
-
-/*
- * Initialize a new 'infoclr' with a real GC.
- */
-static errr Infoclr_init_1(GC gc)
-{
-	infoclr *iclr = Infoclr;
-
-	/* Wipe the iclr clean */
-	WIPE(iclr, infoclr);
-
-	/* Assign the GC */
-	iclr->gc = gc;
-
-	/* Success */
-	return (0);
-}
-
-
-
-/*
- * Nuke an old 'infoclr'.
- */
-static errr Infoclr_nuke(void)
-{
-	infoclr *iclr = Infoclr;
-
-	/* Deal with 'GC' */
-	if (iclr->nuke)
-	{
-		/* Free the GC */
-		XFreeGC(Metadpy->dpy, iclr->gc);
-	}
-
-	/* Forget the current */
-	Infoclr = (infoclr*)(NULL);
-
-	/* Success */
-	return (0);
-}
 
 
 
@@ -1024,33 +896,6 @@ static errr Infoclr_init_data(Pixell fg, Pixell bg, int op, int stip)
 
 
 /*
- * Nuke an old 'infofnt'.
- */
-static errr Infofnt_nuke (void)
-{
-	infofnt *ifnt = Infofnt;
-
-	/* Deal with 'name' */
-	if (ifnt->name)
-	{
-		/* Free the name */
-		string_free(ifnt->name);
-	}
-
-	/* Nuke info if needed */
-	if (ifnt->nuke)
-	{
-		/* Free the font */
-		XFreeFont(Metadpy->dpy, ifnt->info);
-	}
-
-	/* Success */
-	return (0);
-}
-
-
-
-/*
  * Prepare a new 'infofnt'
  */
 static errr Infofnt_prepare(XFontStruct *info)
@@ -1079,25 +924,6 @@ static errr Infofnt_prepare(XFontStruct *info)
 
 	/* Success */
 	return (0);
-}
-
-
-
-
-
-/*
- * Initialize a new 'infofnt'.
- */
-static errr Infofnt_init_real(XFontStruct *info)
-{
-	/* Wipe the thing */
-	WIPE(Infofnt, infofnt);
-
-	/* No nuking */
-	Infofnt->nuke = 0;
-
-	/* Attempt to prepare it */
-	return (Infofnt_prepare (info));
 }
 
 
@@ -1201,19 +1027,6 @@ static errr Infowin_map (void)
 }
 
 
-/*
- * Request that Infowin be unmapped
- */
-static errr Infowin_unmap (void)
-{
-	/* Execute the Un-Mapping */
-	XUnmapWindow(Metadpy->dpy, Infowin->win);
-
-	/* Success */
-	return (0);
-}
-
-
 
 /*
  * Request that Infowin be raised
@@ -1228,34 +1041,6 @@ static errr Infowin_raise(void)
 }
 
 
-/*
- * Request that Infowin be lowered
- */
-static errr Infowin_lower(void)
-{
-	/* Lower towards invisibility */
-	XLowerWindow(Metadpy->dpy, Infowin->win);
-
-	/* Success */
-	return (0);
-}
-
-
-
-
-
-/*
- * Request that Infowin be moved to a new location
- */
-static errr Infowin_impell(int x, int y)
-{
-	/* Execute the request */
-	XMoveWindow(Metadpy->dpy, Infowin->win, x, y);
-
-	/* Success */
-	return (0);
-}
-
 
 
 /*
@@ -1269,20 +1054,6 @@ static errr Infowin_resize(int w, int h)
 	/* Success */
 	return (0);
 }
-
-
-/*
- * Move and Resize an infowin
- */
-static errr Infowin_locate(int x, int y, int w, int h)
-{
-	/* Execute the request */
-	XMoveResizeWindow(Metadpy->dpy, Infowin->win, x, y, w, h);
-
-	/* Success */
-	return (0);
-}
-
 
 
 
@@ -1300,19 +1071,6 @@ static errr Infowin_wipe(void)
 	return (0);
 }
 
-
-/*
- * Visually Paint Infowin with the current color
- */
-static errr Infowin_fill(void)
-{
-	/* Execute the request */
-	XFillRectangle(Metadpy->dpy, Infowin->win, Infoclr->gc,
-	               0, 0, Infowin->w, Infowin->h);
-
-	/* Success */
-	return (0);
-}
 
 
 /* SHUT: r-infowin.c */
@@ -1487,7 +1245,7 @@ static errr Infofnt_text_non(int x, int y, cptr str, int len)
 /*
  * Hack -- cursor color
  */
-static infoclr *xor;
+static infoclr *xor_;
 
 /*
  * Color table
@@ -2127,7 +1885,7 @@ static errr Term_curs_x11(int x, int y)
 
 	term_data *td = (term_data*)(Term->data);
 
-	XDrawRectangle(Metadpy->dpy, Infowin->win, xor->gc,
+	XDrawRectangle(Metadpy->dpy, Infowin->win, xor_->gc,
 			 x * td->fnt->wid + Infowin->x - 1,
 			 y * td->fnt->hgt + Infowin->y - 1,
 			 td->fnt->wid - 1, td->fnt->hgt - 1);
@@ -2275,8 +2033,8 @@ errr init_x11(void)
 
 
 	/* Prepare color "xor" (for cursor) */
-	MAKE(xor, infoclr);
-	Infoclr_set (xor);
+	MAKE(xor_, infoclr);
+	Infoclr_set (xor_);
 	Infoclr_init_ccn ("fg", "bg", "xor", 0);
 
 	/* Prepare the colors (including "black") */

@@ -14,6 +14,8 @@
 
 #include "angband.h"
 
+#include <stdlib.h>
+
 
 /* Wipe everything */
 void wipe_spell(int Depth, int cy, int cx, int r)
@@ -1026,7 +1028,7 @@ void set_recall(int Ind, object_type * o_ptr)
 {
 	int recall_depth = 0;
 	player_type * p_ptr = Players[Ind];
-	unsigned char * inscription = (unsigned char *) quark_str(o_ptr->note);
+	const char * inscription = (const char *) quark_str(o_ptr->note);
 
 	/* Ironmen don't recall unless they've won */
 	if (cfg_ironman && !p_ptr->total_winner)
@@ -1772,7 +1774,7 @@ void stair_creation(int Ind)
 /*
  * Hook to specify "weapon"
  */
-static bool item_tester_hook_weapon(object_type *o_ptr)
+static bool item_tester_hook_weapon(const object_type *o_ptr)
 {
 	switch (o_ptr->tval)
 	{
@@ -1796,7 +1798,7 @@ static bool item_tester_hook_weapon(object_type *o_ptr)
 /*
  * Hook to specify "armour"
  */
-static bool item_tester_hook_armour(object_type *o_ptr)
+static bool item_tester_hook_armour(const object_type *o_ptr)
 {
 	switch (o_ptr->tval)
 	{
@@ -2363,7 +2365,7 @@ bool identify_fully_item(int Ind, int item)
 /*
  * Hook for "get_item()".  Determine if something is rechargable.
  */
-static bool item_tester_hook_recharge(object_type *o_ptr)
+static bool item_tester_hook_recharge(const object_type *o_ptr)
 {
 	/* Recharge staffs */
 	if (o_ptr->tval == TV_STAFF) return (TRUE);

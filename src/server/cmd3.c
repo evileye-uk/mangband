@@ -1183,7 +1183,7 @@ void do_cmd_steal(int Ind, int dir)
 /*
  * An "item_tester_hook" for refilling lanterns
  */
-static bool item_tester_refill_lantern(object_type *o_ptr)
+static bool item_tester_refill_lantern(const object_type *o_ptr)
 {
     /* Randarts are not refillable */
     if (o_ptr->name3) return (FALSE);
@@ -1285,7 +1285,7 @@ static void do_cmd_refill_lamp(int Ind, int item)
 /*
  * An "item_tester_hook" for refilling torches
  */
-static bool item_tester_refill_torch(object_type *o_ptr)
+static bool item_tester_refill_torch(const object_type *o_ptr)
 {
 	/* Torches are okay */
 	if ((o_ptr->tval == TV_LITE) &&
@@ -1543,7 +1543,7 @@ static bool do_cmd_look_accept(int Ind, int y, int x)
  *	
  * if !active, activities such as tracking are disabled
  */
-void describe_floor_tile(cave_type *c_ptr, cptr out_val, int Ind, bool active, byte cave_flag)
+void describe_floor_tile(cave_type *c_ptr, char *out_val, int Ind, bool active, byte cave_flag)
 {
 	player_type *p_ptr = Players[Ind];
 	player_type *q_ptr;

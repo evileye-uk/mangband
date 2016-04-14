@@ -23,6 +23,7 @@
 #ifndef WIN32
 #include <unistd.h>
 #endif
+#include <sys/time.h>
 
 static u32b last_keepalive;
 static huge last_sent;
@@ -243,12 +244,12 @@ int Net_setup(void)
  * is from the right UDP connection, it already has
  * this info from the ENTER_GAME_pack.
  */
-int Net_verify(char *real, char *nick, char *pass, int sex, int race, int class)
+int Net_verify(char *real, char *nick, char *pass, int sex, int race, int p_class)
 {
 	int	i, n, type, result, data_size;
 
 	Sockbuf_clear(&wbuf);
-	n = Packet_printf(&wbuf, "%c%s%s%s%hd%hd%hd", PKT_VERIFY, real, nick, pass, sex, race, class);
+	n = Packet_printf(&wbuf, "%c%s%s%s%hd%hd%hd", PKT_VERIFY, real, nick, pass, sex, race, p_class);
 
 	/* Determine the total size of the following data */
 	data_size = 12 + 64 + (TV_MAX+1 + MAX_F_IDX+1 + MAX_K_IDX+1 + MAX_R_IDX+1)*2;
@@ -1224,15 +1225,15 @@ int Receive_char_info(void)
 	static bool pref_files_loaded = FALSE;
 
 	/* Clear any old info */
-	race = class = sex = 0;
+	race = p_class = sex = 0;
 
-	if ((n = Packet_scanf(&rbuf, "%c%hd%hd%hd", &ch, &race, &class, &sex)) <= 0)
+	if ((n = Packet_scanf(&rbuf, "%c%hd%hd%hd", &ch, &race, &p_class, &sex)) <= 0)
 	{
 		return n;
 	}
 
 	p_ptr->prace = race;
-	p_ptr->pclass = class;
+	p_ptr->pclass = p_class;
 	p_ptr->male = sex;
 
 	/* Mega-hack -- Read pref files if we haven't already */
@@ -1248,7 +1249,7 @@ int Receive_char_info(void)
 	if (!screen_icky && !shopping)
 		prt_basic();
 	else
-		if ((n = Packet_printf(&qbuf, "%c%hd%hd%hd", ch, race, class, sex)) <= 0)
+		if ((n = Packet_printf(&qbuf, "%c%hd%hd%hd", ch, race, p_class, sex)) <= 0)
 		{
 			return n;
 		}

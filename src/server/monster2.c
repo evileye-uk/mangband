@@ -2711,7 +2711,7 @@ void setup_monsters(void)
 /* Takes a monster name and returns an index, or 0 if no such monster
  * was found.
  */
-int race_index(char * name)
+int race_index(const char *name)
 {
 	int i;
 

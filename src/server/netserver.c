@@ -856,7 +856,7 @@ static void Delete_player(int Ind)
  * closed.  If our connection to it has been closed, then connp->w.sock will
  * be set to -1.
  */
-bool Destroy_connection(int ind, char *reason)
+bool Destroy_connection(int ind, const char *reason)
 {
 	connection_t		*connp = &Conn[ind];
 	int			id, len, sock;
@@ -1133,7 +1133,7 @@ static int Handle_listening(int ind)
 	connection_t *connp = &Conn[ind];
 	unsigned char type;
 	int i, n, oldlen;
-	s16b sex, race, class;
+	s16b sex, race, player_class;
 	s16b block_size;
 	bool old_client;
 	char p1,p2;
@@ -1186,7 +1186,7 @@ static int Handle_listening(int ind)
 		Destroy_connection(ind, "not connecting");
 		return -1;
 	}
-	if ((n = Packet_scanf(&connp->r, "%c%s%s%s%hd%hd%hd", &type, real, nick, pass, &sex, &race, &class)) <= 0)
+	if ((n = Packet_scanf(&connp->r, "%c%s%s%s%hd%hd%hd", &type, real, nick, pass, &sex, &race, &player_class)) <= 0)
 	{
 		Send_reply(ind, PKT_VERIFY, PKT_FAILURE);
 		Send_reliable(ind);
@@ -1375,7 +1375,7 @@ static int Handle_listening(int ind)
 	connp->pass = strdup(pass);
 	connp->sex = sex;
 	connp->race = race;
-	connp->class = class;
+	connp->player_class = player_class;
 
 
 
@@ -1470,7 +1470,7 @@ static int Handle_login(int ind)
 		}
 	}
 
-	if (!player_birth(NumPlayers + 1, connp->nick, connp->pass, ind, connp->race, connp->class, connp->sex, connp->stat_order))
+	if (!player_birth(NumPlayers + 1, connp->nick, connp->pass, ind, connp->race, connp->player_class, connp->sex, connp->stat_order))
 	{
 		/* Failed, connection destroyed */
 		return -1;
@@ -2380,7 +2380,7 @@ int Send_sp(int ind, int msp, int csp)
 	return Packet_printf(&connp->c, "%c%hd%hd", PKT_SP, msp, csp);
 }
 
-int Send_char_info(int ind, int race, int class, int sex)
+int Send_char_info(int ind, int race, int player_class, int sex)
 {
 	connection_t *connp = &Conn[Players[ind]->conn];
 
@@ -2391,7 +2391,7 @@ int Send_char_info(int ind, int race, int class, int sex)
 			ind, connp->state, connp->id));
 		return 0;
 	}
-	return Packet_printf(&connp->c, "%c%hd%hd%hd", PKT_CHAR_INFO, race, class, sex);
+	return Packet_printf(&connp->c, "%c%hd%hd%hd", PKT_CHAR_INFO, race, player_class, sex);
 }
 
 int Send_various(int ind, int hgt, int wgt, int age, int sc)
@@ -4746,9 +4746,7 @@ static int Receive_item(int ind)
 }
 
 
-static int change_password(Ind, buf)
-int Ind;
-char * buf;
+static int change_password(int Ind, char *buf)
 {
 
 	player_type *p_ptr = Players[Ind];

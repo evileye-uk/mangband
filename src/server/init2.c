@@ -305,7 +305,7 @@ static errr init_info_raw(int fd, header *head)
 	C_MAKE(head->info_ptr, head->info_size, char);
 
 	/* Read the "*_info" array */
-	fd_read(fd, head->info_ptr, head->info_size);
+	fd_read(fd, (char*)head->info_ptr, head->info_size);
 
 	if (head->name_size)
 	{
@@ -525,7 +525,7 @@ static errr init_info(cptr filename, header *head)
 
 			/* Dump the "*_info" array */
 			if (head->info_size > 0)
-				fd_write(fd, head->info_ptr, head->info_size);
+				fd_write(fd, (char*)head->info_ptr, head->info_size);
 
 			/* Dump the "*_name" array */
 			if (head->name_size > 0)
@@ -623,7 +623,7 @@ static errr init_z_info(void)
 	err = init_info("limits", &z_head);
 
 	/* Set the global variables */
-	z_info = z_head.info_ptr;
+	z_info = (maxima*)z_head.info_ptr;
 
 	return (err);
 }
@@ -930,7 +930,7 @@ static errr init_c_info(void)
 	err = init_info("p_class", &c_head);
 
 	/* Set the global variables */
-	c_info = c_head.info_ptr;
+	c_info = (player_class*)c_head.info_ptr;
 	c_name = c_head.name_ptr;
 	c_text = c_head.text_ptr;
 
@@ -959,7 +959,7 @@ static errr init_h_info(void)
 	err = init_info("p_hist", &h_head);
 
 	/* Set the global variables */
-	h_info = h_head.info_ptr;
+	h_info = (hist_type*)h_head.info_ptr;
 	h_text = h_head.text_ptr;
 
 	return (err);
@@ -1265,7 +1265,7 @@ static errr init_flavor_info(void)
 	err = init_info("flavor", &flavor_head);
 
 	/* Set the global variables */
-	flavor_info = flavor_head.info_ptr;
+	flavor_info = (flavor_type*)flavor_head.info_ptr;
 	flavor_name = flavor_head.name_ptr;
 	flavor_text = flavor_head.text_ptr;
 
@@ -2178,7 +2178,7 @@ static errr init_p_info(void)
 	err = init_info("p_race", &p_head);
 
 	/* Set the global variables */
-	p_info = p_head.info_ptr;
+	p_info = (player_race*)p_head.info_ptr;
 	p_name = p_head.name_ptr;
 	p_text = p_head.text_ptr;
 

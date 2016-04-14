@@ -769,7 +769,7 @@ static void player_outfit(int Ind)
 	(void)inven_carry(Ind, o_ptr);
 	
 	/* Warriors get cure serious wounds */
-	if( (p_ptr->pclass == CLASS_WARRIOR) )
+	if(p_ptr->pclass == CLASS_WARRIOR)
 	{
 		invcopy(o_ptr, lookup_kind(TV_POTION, SV_POTION_CURE_SERIOUS));
 		o_ptr->number = 5;
@@ -780,7 +780,7 @@ static void player_outfit(int Ind)
 	}
 	
 	/* Mages get third book */
-	if( (p_ptr->pclass == CLASS_MAGE) )
+	if(p_ptr->pclass == CLASS_MAGE)
 	{
 		invcopy(o_ptr, lookup_kind(TV_MAGIC_BOOK, 2));
 		o_ptr->number = 1;
@@ -791,7 +791,7 @@ static void player_outfit(int Ind)
 	}
 
 	/* Priests get third book */
-	if( (p_ptr->pclass == CLASS_PRIEST) )
+	if(p_ptr->pclass == CLASS_PRIEST)
 	{
 		invcopy(o_ptr, lookup_kind(TV_PRAYER_BOOK, 2));
 		o_ptr->number = 1;
@@ -802,7 +802,7 @@ static void player_outfit(int Ind)
 	}
 
     	/* Rangers get second book */
-	if( (p_ptr->pclass == CLASS_RANGER) )
+	if(p_ptr->pclass == CLASS_RANGER)
 	{
 		invcopy(o_ptr, lookup_kind(TV_MAGIC_BOOK, 1));
 		o_ptr->number = 1;
@@ -1201,14 +1201,14 @@ static void player_setup(int Ind)
  * Note that we may be called with "junk" leftover in the various
  * fields, so we must be sure to clear them first.
  */
-bool player_birth(int Ind, cptr name, cptr pass, int conn, int race, int class, int sex, int stat_order[6])
+bool player_birth(int Ind, cptr name, cptr pass, int conn, int race, int player_class, int sex, int stat_order[6])
 {
 	player_type *p_ptr;
 	int i;
 
 	/* Do some consistency checks */
     if (race < 0 || race >= MAX_RACES) race = RACE_HUMAN;
-    if (class < 0 || class >= MAX_CLASS) class = CLASS_WARRIOR;
+    if (player_class < 0 || player_class >= MAX_CLASS) player_class = CLASS_WARRIOR;
 	if (sex < 0 || sex > 1) sex = 0;
 
 	/* Allocate memory for him */
@@ -1264,13 +1264,13 @@ bool player_birth(int Ind, cptr name, cptr pass, int conn, int race, int class, 
 
 	/* Set info */
 	p_ptr->prace = race;
-	p_ptr->pclass = class;
+	p_ptr->pclass = player_class;
 	p_ptr->male = sex;
 
 	/* Set pointers */
 	p_ptr->rp_ptr = &p_info[p_ptr->prace];
-	p_ptr->cp_ptr = &c_info[class];
-	p_ptr->mp_ptr = &c_info[class].spells;
+	p_ptr->cp_ptr = &c_info[player_class];
+	p_ptr->mp_ptr = &c_info[player_class].spells;
 
 	/* Set his ID */
 	p_ptr->id = player_id++;

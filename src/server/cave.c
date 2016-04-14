@@ -6,6 +6,8 @@
 
 #include "angband.h"
 
+#include <stdio.h>
+
 
 
 /*
@@ -645,17 +647,17 @@ void map_info(int Ind, int y, int x, byte *ap, char *cp, bool server)
 	if (server)
 	{
 		/* We have initialised a global array of server char/attr elsewhere for speed */
-		f_attr_ptr = &f_attr_s;
-		f_char_ptr = &f_char_s;
-		r_attr_ptr = &r_attr_s;
-		r_char_ptr = &r_char_s;
+		f_attr_ptr = f_attr_s;
+		f_char_ptr = f_char_s;
+		r_attr_ptr = r_attr_s;
+		r_char_ptr = r_char_s;
 	}
 	else
 	{
-		f_attr_ptr = &p_ptr->f_attr;
-		f_char_ptr = &p_ptr->f_char;
-		r_attr_ptr = &p_ptr->r_attr;
-		r_char_ptr = &p_ptr->r_char;
+		f_attr_ptr = p_ptr->f_attr;
+		f_char_ptr = p_ptr->f_char;
+		r_attr_ptr = p_ptr->r_attr;
+		r_char_ptr = p_ptr->r_char;
 	}
 
 	/* Feature code */
@@ -984,7 +986,7 @@ void map_info(int Ind, int y, int x, byte *ap, char *cp, bool server)
 			else if((( Players[0 - c_ptr->m_idx]->chp * 95)/ (Players[0 - c_ptr->m_idx]->mhp*10)) >= 7) c = '@';
 			else 
 			{
-				sprintf((unsigned char *)&kludge,"%d", ((Players[0 - c_ptr->m_idx]->chp * 95) / (Players[0 - c_ptr->m_idx]->mhp*10)));
+				sprintf((char *)&kludge,"%d", ((Players[0 - c_ptr->m_idx]->chp * 95) / (Players[0 - c_ptr->m_idx]->mhp*10)));
 				c = (char)kludge;
 			}			
 
@@ -1169,7 +1171,7 @@ void lite_spot(int Ind, int y, int x)
 			pre_kludge = pre_kludge > 0 ? pre_kludge : 0;
 			if (pre_kludge < 7) 
 			{
-				sprintf((unsigned char *)&kludge,"%d",pre_kludge); 
+				sprintf((char *)&kludge,"%d",pre_kludge); 
 				c = kludge;
 			}
 				
@@ -1414,7 +1416,7 @@ void display_map(int Ind)
 	player_type *p_ptr = Players[Ind];
 	monster_race *r_ptr = &r_info[0];
 
-	int i, j, x, y;
+	int x, y;
 
 	int map_hgt, map_wid;
 	int dungeon_hgt, dungeon_wid;
@@ -1567,12 +1569,11 @@ void wild_display_map(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
 
-	int i, j;
 	int world_x,world_y, x,y, wild_idx, type;
 
 	int map_hgt, map_wid;
 	int dungeon_hgt, dungeon_wid;
-	int row, col;
+	int col;
 
 	byte ta;
 	char tc;
@@ -1733,8 +1734,6 @@ void wild_display_map(int Ind)
  
 void do_cmd_view_map(int Ind)
 {
-	int cy, cx;
-
 	/* Display the map */
 	
 	/* if not in town or the dungeon, do normal map */

@@ -125,21 +125,21 @@ void initialize_all_pref_files(void)
 
         /* Access the "race" pref file */
         sprintf(buf, "%s.prf", race_title[race]);
-	buf[0] = tolower(buf[0]);
+        buf[0] = tolower(buf[0]);
 
         /* Process that file */
         process_pref_file(buf);
 
         /* Access the "class" pref file */
-        sprintf(buf, "%s.prf", class_title[class]);
-	buf[0] = tolower(buf[0]);
+        sprintf(buf, "%s.prf", class_title[p_class]);
+        buf[0] = tolower(buf[0]);
 
         /* Process that file */
         process_pref_file(buf);
 
         /* Access the "character" pref file */
         sprintf(buf, "%s.prf", nick);
-	buf[0] = tolower(buf[0]);
+        buf[0] = tolower(buf[0]);
 
         /* Process that file */
         process_pref_file(buf);
@@ -498,7 +498,7 @@ void client_init(char *argv1)
 	initialize_all_pref_files();
 
 	/* Verify that we are on the correct port */
-	if (Net_verify(real_name, nick, pass, sex, race, class) == -1)
+  if (Net_verify(real_name, nick, pass, sex, race, p_class) == -1)
 	{
 		Net_cleanup(TRUE);
 		quit("Network verify failed!\n");

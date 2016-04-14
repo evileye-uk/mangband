@@ -2255,10 +2255,7 @@ void player_death(int Ind)
 	char dumpname[42];
 	int i;
 	u32b uniques;
-	s16b num_keys = 0;
 	s16b item_weight = 0;
-	int tmp;  /* used to check for pkills */
-	int pkill=0;  /* verifies we have a pkill */
 
 	/* If this is our final death, clear any houses */
 	if (p_ptr->ghost || p_ptr->no_ghost)
@@ -2623,7 +2620,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXx
  
 void resurrect_player(int Ind)
 {
-	int exp, lives, level;
+	int exp, lives;
 	player_type *p_ptr = Players[Ind];
 
 	/* Hack -- the dungeon master can not ressurect */

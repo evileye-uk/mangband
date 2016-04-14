@@ -173,8 +173,8 @@ bool cfg_report_to_meta = 0;
 char * cfg_meta_address;
 char * cfg_report_address = NULL;
 char * cfg_bind_name = NULL;
-char * cfg_console_password = "change_me";
-char * cfg_dungeon_master = "DungeonMaster";
+const char * cfg_console_password = "change_me";
+const char * cfg_dungeon_master = "DungeonMaster";
 bool cfg_secret_dungeon_master = 0;
 s16b cfg_fps = 12;
 s32b cfg_tcp_port = 18346;
@@ -674,7 +674,7 @@ feature_type *f_info;
 char *f_name;
 char *f_text;
 char f_char_s[MAX_F_IDX];
-char f_attr_s[MAX_F_IDX];
+byte f_attr_s[MAX_F_IDX];
 
 /*
  * The object kind arrays
@@ -709,7 +709,7 @@ monster_race *r_info;
 char *r_name;
 char *r_text;
 char r_char_s[MAX_R_IDX];
-char r_attr_s[MAX_R_IDX];
+byte r_attr_s[MAX_R_IDX];
 
 
 /*
@@ -816,7 +816,7 @@ byte item_tester_tval;
  * Here is a "hook" used during calls to "get_item()" and
  * "show_inven()" and "show_equip()", and the choice window routines.
  */
-bool (*item_tester_hook)(object_type*);
+bool (*item_tester_hook)(const object_type*);
 
 
 
