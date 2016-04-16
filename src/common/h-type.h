@@ -50,11 +50,6 @@ typedef void *vptr;
 /* A simple pointer (to unmodifiable strings) */
 typedef const char *cptr;
 
-
-/* Since float's are silly, hard code real numbers as doubles */
-typedef double real;
-
-
 /* Error codes for function return values */
 /* Success = 0, Failure = -N, Problem = +N */
 typedef int errr;
@@ -134,56 +129,6 @@ typedef unsigned long u32b;
 
 /*** Pointers to all the basic types defined above ***/
 
-typedef real *real_ptr;
-typedef errr *errr_ptr;
-typedef char *char_ptr;
 typedef byte *byte_ptr;
-typedef bool *bool_ptr;
-typedef sint *sint_ptr;
-typedef uint *uint_ptr;
-typedef long *long_ptr;
-typedef huge *huge_ptr;
-typedef s16b *s16b_ptr;
-typedef u16b *u16b_ptr;
-typedef s32b *s32b_ptr;
-typedef u32b *u32b_ptr;
-typedef vptr *vptr_ptr;
-typedef cptr *cptr_ptr;
-
-
-
-/*** Pointers to Functions with simple return types and any args ***/
-
-typedef void	(*func_void)();
-typedef errr	(*func_errr)();
-typedef char	(*func_char)();
-typedef byte	(*func_byte)();
-typedef bool	(*func_bool)();
-typedef sint	(*func_sint)();
-typedef uint	(*func_uint)();
-typedef real	(*func_real)();
-typedef vptr	(*func_vptr)();
-typedef cptr	(*func_cptr)();
-
-
-
-/*** Pointers to Functions of special types (for various purposes) ***/
-
-/* A generic function takes a user data and a special data */
-typedef errr	(*func_gen)(vptr, vptr);
-
-/* An equality testing function takes two things to compare (bool) */
-typedef bool	(*func_eql)(vptr, vptr);
-
-/* A comparison function takes two things and to compare (-1,0,+1) */
-typedef sint	(*func_cmp)(vptr, vptr);
-
-/* A hasher takes a thing (and a max hash size) to hash (0 to siz - 1) */
-typedef uint	(*func_hsh)(vptr, uint);
-
-/* A key extractor takes a thing and returns (a pointer to) some key */
-typedef vptr	(*func_key)(vptr);
-
-
 
 #endif

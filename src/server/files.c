@@ -979,7 +979,6 @@ void display_player_server(int Ind, char buffer[100][82])
 	int i;
 	char buf[80];
 	cptr desc;
-	bool hist = FALSE;
 	player_type *p_ptr = Players[Ind];
 
     int show_tohit = p_ptr->dis_to_h;
@@ -1192,7 +1191,6 @@ errr file_character_server(int Ind, cptr name)
 	cptr		paren = ")";
 	int			fd = -1;
 	FILE		*fff = NULL;
-	store_type		*st_ptr = &store[7];
 	char		o_name[80];
 	char		today[10];
 	char		buf[1024];
@@ -1223,11 +1221,8 @@ errr file_character_server(int Ind, cptr name)
 	/* Existing file */
 	if (fd >= 0)
 	{
-		char out_val[160];
-
 		/* Close the file */
 		(void)fd_close(fd);
-
 	}
 
 	/* Open the non-existing file */
@@ -2573,7 +2568,7 @@ static void display_scores_aux(int Ind, int line, int note, high_score *score)
 	if (highscore_fd < 0) return;
 	
 	/* Temporary file */
-	if (path_temp(file_name, 1024)) return;
+	if (path_temp(file_name)) return;
 
 	/* Open the temp file */
 	fff = my_fopen(file_name, "w");

@@ -48,17 +48,17 @@ void do_cmd_go_up(int Ind)
 		}
 	}
 
-  if (cfg_ironman)
-  {
-	/* 
-	 * Ironmen don't go up
-	 */
-	if(strcmp(p_ptr->name,cfg_dungeon_master))
+	if (cfg_ironman)
 	{
-		msg_print(Ind, "Morgoth awaits you in the darkness below.");
-		return;	
+		/* 
+		 * Ironmen don't go up
+		 */
+		if(strcmp(p_ptr->name,cfg_dungeon_master))
+		{
+			msg_print(Ind, "Morgoth awaits you in the darkness below.");
+			return;	
+		}
 	}
-  }
 
 	/* Remove the player from the old location */
 	c_ptr->m_idx = 0;
@@ -120,17 +120,17 @@ void do_cmd_go_down(int Ind)
 
 	/* Verify stairs */
 
-    if (p_ptr->ghost && (
-			    strcmp(p_ptr->name,cfg_dungeon_master)
-			) && !cfg_ghost_diving
-		    ) {
+	if (p_ptr->ghost && (
+				strcmp(p_ptr->name,cfg_dungeon_master)
+				) && !cfg_ghost_diving
+		 ) {
 		msg_print(Ind, "You seem unable to go down.  Try going up.");
 		return;
 	};
 
-    if (!p_ptr->ghost && (
-			    strcmp(p_ptr->name,cfg_dungeon_master)
-			 ) && c_ptr->feat != FEAT_MORE)
+	if (!p_ptr->ghost && (
+				strcmp(p_ptr->name,cfg_dungeon_master)
+				) && c_ptr->feat != FEAT_MORE)
 	{
 		msg_print(Ind, "I see no down staircase here.");
 		return;
@@ -143,7 +143,7 @@ void do_cmd_go_down(int Ind)
 			msg_print(Ind, "There is nothing below you.");
 			return;
 		}
-	
+
 		/* Verify maximum depth */
 		if (p_ptr->dun_depth >= 127)
 		{
@@ -320,7 +320,7 @@ static void chest_death(int Ind, int y, int x, object_type *o_ptr)
 				/* Otherwise drop an item */
 				else
 				{
-                    place_object(Depth, ny, nx, FALSE, FALSE, 0);
+					place_object(Depth, ny, nx, FALSE, FALSE, 0);
 				}
 
 				/* Reset the object level */
@@ -467,8 +467,8 @@ bool house_inside(int Ind, int house)
 	if (house >= 0 && house < num_houses)
 	{
 		if (houses[house].depth == p_ptr->dun_depth
-			&& p_ptr->px >= houses[house].x_1 && p_ptr->px <= houses[house].x_2 
-			&& p_ptr->py >= houses[house].y_1 && p_ptr->py <= houses[house].y_2)
+				&& p_ptr->px >= houses[house].x_1 && p_ptr->px <= houses[house].x_2 
+				&& p_ptr->py >= houses[house].y_1 && p_ptr->py <= houses[house].y_2)
 		{
 			return TRUE;
 		}
@@ -501,7 +501,7 @@ bool house_owned_by(int Ind, int house)
 
 	/* If not owned at all, obviously not owned by this player */
 	if (!house_owned(house)) return FALSE;
-	
+
 	/* It's owned, is it by this player */
 	if (!strcmp(p_ptr->name,houses[house].owned))
 	{
@@ -540,10 +540,10 @@ bool set_house_owner(int Ind, int house)
 
 	/* Not if it's already owned */
 	if (house_owned(house)) return FALSE;
-	
+
 	/* Set the player as the owner */
 	strncpy(houses[house].owned,p_ptr->name,MAX_NAME_LEN);
-	
+
 	return TRUE;
 }
 
@@ -554,7 +554,7 @@ void disown_house(int house)
 {
 	cave_type *c_ptr;
 	int i,j, Depth;
-	
+
 	if (house >= 0 && house < num_houses)
 	{
 		Depth = houses[house].depth;
@@ -577,10 +577,10 @@ void disown_house(int house)
 				delete_object(houses[house].depth,i,j); 
 			} 
 		} 		
-		
+
 		/* Paranoia! */		
 		if (!cave[Depth]) return;
-		
+
 		/* Get requested grid */
 		c_ptr = &cave[Depth][houses[house].door_y][houses[house].door_x];
 
@@ -648,10 +648,10 @@ void do_cmd_open(int Ind, int dir)
 
 		/* Nothing useful */
 		if (!((c_ptr->feat >= FEAT_DOOR_HEAD) &&
-		      (c_ptr->feat <= FEAT_DOOR_TAIL)) &&
-		    !((c_ptr->feat >= FEAT_HOME_HEAD) &&
-		      (c_ptr->feat <= FEAT_HOME_TAIL)) &&
-		    (o_ptr->tval != TV_CHEST))
+					(c_ptr->feat <= FEAT_DOOR_TAIL)) &&
+				!((c_ptr->feat >= FEAT_HOME_HEAD) &&
+					(c_ptr->feat <= FEAT_HOME_TAIL)) &&
+				(o_ptr->tval != TV_CHEST))
 		{
 			/* Message */
 			msg_print(Ind, "You see nothing there to open.");
@@ -799,7 +799,7 @@ void do_cmd_open(int Ind, int dir)
 		else if (c_ptr->feat >= FEAT_HOME_HEAD && c_ptr->feat <= FEAT_HOME_TAIL)
 		{
 			i = pick_house(Depth, y, x);
-			
+
 			/* Do we own this house? */
 			if (house_owned_by(Ind,i) || (!(strcmp(p_ptr->name,cfg_dungeon_master))) )
 			{
@@ -837,7 +837,7 @@ void do_cmd_open(int Ind, int dir)
 
 				/* Update some things */
 				p_ptr->update |= (PU_VIEW | PU_LITE | PU_MONSTERS);
-					
+
 				/* Done */
 				return;
 			}
@@ -846,7 +846,7 @@ void do_cmd_open(int Ind, int dir)
 			else if (house_owned(i))
 			{
 				/* Player owned store! */
-	
+
 				/* Disturb */
 				disturb(Ind, 0);
 
@@ -860,7 +860,7 @@ void do_cmd_open(int Ind, int dir)
 
 				/* Take CHR into account */
 				factor = adj_chr_gold[p_ptr->stat_ind[A_CHR]];
-                price = (unsigned long) houses[i].price * factor / 100;
+				price = (unsigned long) houses[i].price * factor / 100;
 				if(Depth==0) {
 					price = (unsigned long)price *5L;
 				};
@@ -1138,7 +1138,7 @@ void do_cmd_tunnel(int Ind, int dir)
 
 		/* No tunnelling through doors */
 		else if ((c_ptr->feat < FEAT_SECRET || c_ptr->feat >= FEAT_DRAWBRIDGE) 
-			&& (c_ptr->feat != FEAT_TREE && c_ptr->feat != FEAT_EVIL_TREE)	)
+				&& (c_ptr->feat != FEAT_TREE && c_ptr->feat != FEAT_EVIL_TREE)	)
 		{
 			/* Message */
 			msg_print(Ind, "You cannot tunnel through doors.");
@@ -1268,7 +1268,7 @@ void do_cmd_tunnel(int Ind, int dir)
 					/* Hack -- place an object */
 					if (rand_int(100) < 10)
 					{
-                        place_object(Depth, y, x, FALSE, FALSE, 0);
+						place_object(Depth, y, x, FALSE, FALSE, 0);
 						if (player_can_see_bold(Ind, y, x))
 						{
 							msg_print(Ind, "You have found something!");
@@ -1289,17 +1289,17 @@ void do_cmd_tunnel(int Ind, int dir)
 					more = TRUE;
 				}
 			}
-			
+
 			else if (c_ptr->feat == FEAT_TREE)
 			{
 				/* mow down the vegetation */
 				if ((p_ptr->skill_dig > rand_int(400)) && twall(Ind, y, x))
 				{
 					if (Depth == 0) trees_in_town--;				
-				
+
 					/* Message */
 					msg_print(Ind, "You hack your way through the vegetation.");
-					
+
 					/* Notice */
 					note_spot_depth(Depth, y, x);
 
@@ -1313,7 +1313,7 @@ void do_cmd_tunnel(int Ind, int dir)
 					more = TRUE;
 				}
 			}
-			
+
 			else if (c_ptr->feat == FEAT_EVIL_TREE)
 			{
 				/* mow down the vegetation */
@@ -1321,7 +1321,7 @@ void do_cmd_tunnel(int Ind, int dir)
 				{
 					/* Message */
 					msg_print(Ind, "You hack your way through the vegetation.");
-					
+
 					/* Notice */
 					note_spot_depth(Depth, y, x);
 
@@ -1416,8 +1416,8 @@ void do_cmd_disarm(int Ind, int dir)
 
 		/* Nothing useful */
 		if (!((c_ptr->feat >= FEAT_TRAP_HEAD) &&
-		      (c_ptr->feat <= FEAT_TRAP_TAIL)) &&
-		    (o_ptr->tval != TV_CHEST))
+					(c_ptr->feat <= FEAT_TRAP_TAIL)) &&
+				(o_ptr->tval != TV_CHEST))
 		{
 			/* Message */
 			msg_print(Ind, "You see nothing there to disarm.");
@@ -1644,7 +1644,7 @@ void do_cmd_bash(int Ind, int dir)
 
 		/* Nothing useful */
 		if (!((c_ptr->feat >= FEAT_DOOR_HEAD) &&
-		      (c_ptr->feat <= FEAT_DOOR_TAIL)))
+					(c_ptr->feat <= FEAT_DOOR_TAIL)))
 		{
 			/* Message */
 			msg_print(Ind, "You see nothing there to bash.");
@@ -1719,7 +1719,7 @@ void do_cmd_bash(int Ind, int dir)
 
 			/* Saving throw against stun */
 			else if (rand_int(100) < adj_dex_safe[p_ptr->stat_ind[A_DEX]] +
-			         p_ptr->lev)
+					p_ptr->lev)
 			{
 				/* Message */
 				msg_print(Ind, "The door holds firm.");
@@ -1815,7 +1815,7 @@ void do_cmd_spike(int Ind, int dir)
 
 		/* Require closed door */
 		if (!((c_ptr->feat >= FEAT_DOOR_HEAD) &&
-		      (c_ptr->feat <= FEAT_DOOR_TAIL)))
+					(c_ptr->feat <= FEAT_DOOR_TAIL)))
 		{
 			/* Message */
 			msg_print(Ind, "You see nothing there to spike.");
@@ -1913,9 +1913,9 @@ void do_cmd_walk(int Ind, int dir, int pickup)
 			c_ptr = &cave[p_ptr->dun_depth][p_ptr->py+ddy[dir]][p_ptr->px+ddx[dir]];
 
 			if (((c_ptr->feat >= FEAT_DOOR_HEAD) && 
-			      (c_ptr->feat <= FEAT_DOOR_TAIL)) ||
-			    ((c_ptr->feat >= FEAT_HOME_HEAD) &&
-			      (c_ptr->feat <= FEAT_HOME_TAIL))) 
+						(c_ptr->feat <= FEAT_DOOR_TAIL)) ||
+					((c_ptr->feat >= FEAT_HOME_HEAD) &&
+					 (c_ptr->feat <= FEAT_HOME_TAIL))) 
 			{
 				do_cmd_open(Ind, dir);
 				return;
@@ -1954,8 +1954,8 @@ int do_cmd_run(int Ind, int dir)
 
 	if (p_ptr->confused)
 	{
-	    msg_print(Ind, "You are too confused!");
-	    return 2;
+		msg_print(Ind, "You are too confused!");
+		return 2;
 	}
 
 	/* Ignore if we are already running in this direction */
@@ -1974,9 +1974,9 @@ int do_cmd_run(int Ind, int dir)
 				c_ptr = &cave[p_ptr->dun_depth][p_ptr->py+ddy[dir]][p_ptr->px+ddx[dir]];
 
 				if (((c_ptr->feat >= FEAT_DOOR_HEAD) && 
-				      (c_ptr->feat <= FEAT_DOOR_TAIL)) ||
-				    ((c_ptr->feat >= FEAT_HOME_HEAD) &&
-				      (c_ptr->feat <= FEAT_HOME_TAIL))) 
+							(c_ptr->feat <= FEAT_DOOR_TAIL)) ||
+						((c_ptr->feat >= FEAT_HOME_HEAD) &&
+						 (c_ptr->feat <= FEAT_HOME_TAIL))) 
 				{
 					/* Check if we have enough energy to open the door */
 					if (p_ptr->energy >= level_speed(p_ptr->dun_depth))
@@ -1996,7 +1996,7 @@ int do_cmd_run(int Ind, int dir)
 
 			/* Waste a little bit of energy for trying */
 			p_ptr->energy -= level_speed(p_ptr->dun_depth)/5;
-			
+
 			return 2;
 		}
 
@@ -2033,7 +2033,7 @@ void do_cmd_stay(int Ind, int pickup)
 	player_type *p_ptr = Players[Ind];
 	int Depth = p_ptr->dun_depth;
 	cave_type *c_ptr;
-	
+
 	if (p_ptr->new_level_flag) return;
 
 	c_ptr = &cave[Depth][p_ptr->py][p_ptr->px];
@@ -2053,7 +2053,7 @@ void do_cmd_stay(int Ind, int pickup)
 	}
 
 
-/* We don't want any of this */
+	/* We don't want any of this */
 #if 0
 	/* Take a turn */
 	p_ptr->energy -= level_speed(p_ptr->dun_depth);
@@ -2075,7 +2075,7 @@ void do_cmd_stay(int Ind, int pickup)
 
 	/* Hack -- enter a store if we are on one */
 	if ((c_ptr->feat >= FEAT_SHOP_HEAD) &&
-	    (c_ptr->feat <= FEAT_SHOP_TAIL))
+			(c_ptr->feat <= FEAT_SHOP_TAIL))
 	{
 		/* Disturb */
 		disturb(Ind, 0);
@@ -2182,27 +2182,27 @@ static int breakage_chance(object_type *o_ptr)
 		case TV_BOTTLE:
 		case TV_FOOD:
 		case TV_JUNK:
-		{
-			return (100);
-		}
+			{
+				return (100);
+			}
 
-		/* Often break */
+			/* Often break */
 		case TV_LITE:
 		case TV_SCROLL:
 		case TV_ARROW:
 		case TV_SKELETON:
-		{
-			return (50);
-		}
+			{
+				return (50);
+			}
 
-		/* Sometimes break */
+			/* Sometimes break */
 		case TV_WAND:
 		case TV_SHOT:
 		case TV_BOLT:
 		case TV_SPIKE:
-		{
-			return (25);
-		}
+			{
+				return (25);
+			}
 	}
 
 	/* Rarely break */
@@ -2259,7 +2259,7 @@ void do_cmd_fire(int Ind, int dir, int item)
 	int			missile_char;
 
 	char		o_name[80];
-    bool                magic = FALSE;
+	bool                magic = FALSE;
 
 
 	/* Get the "bow" (if any) */
@@ -2294,9 +2294,9 @@ void do_cmd_fire(int Ind, int dir, int item)
 	}
 
 	if( check_guard_inscription( o_ptr->note, 'f' )) {
-      		msg_print(Ind, "The item's inscription prevents it");
-                return;
-        }
+		msg_print(Ind, "The item's inscription prevents it");
+		return;
+	}
 
 
 	if (o_ptr->tval != p_ptr->tval_ammo)
@@ -2311,9 +2311,9 @@ void do_cmd_fire(int Ind, int dir, int item)
 		return;
 	}
 
-    /* Magic ammo */
-    if ((o_ptr->sval == SV_AMMO_MAGIC) || artifact_p(o_ptr))
-	magic = TRUE;
+	/* Magic ammo */
+	if ((o_ptr->sval == SV_AMMO_MAGIC) || artifact_p(o_ptr))
+		magic = TRUE;
 
 	/* Only fire in direction 5 if we have a target */
 	if ((dir == 5) && !target_okay(Ind))
@@ -2323,23 +2323,23 @@ void do_cmd_fire(int Ind, int dir, int item)
 	throw_obj = *o_ptr;
 	throw_obj.number = 1;
 
-    if (!magic)
-    {
-	/* Reduce and describe inventory */
-	if (item >= 0)
+	if (!magic)
 	{
-		inven_item_increase(Ind, item, -1);
-		inven_item_describe(Ind, item);
-		inven_item_optimize(Ind, item);
-	}
+		/* Reduce and describe inventory */
+		if (item >= 0)
+		{
+			inven_item_increase(Ind, item, -1);
+			inven_item_describe(Ind, item);
+			inven_item_optimize(Ind, item);
+		}
 
-	/* Reduce and describe floor item */
-	else
-	{
-		floor_item_increase(0 - item, -1);
-		floor_item_optimize(0 - item);
+		/* Reduce and describe floor item */
+		else
+		{
+			floor_item_increase(0 - item, -1);
+			floor_item_optimize(0 - item);
+		}
 	}
-    }
 
 	/* Use the missile object */
 	o_ptr = &throw_obj;
@@ -2373,38 +2373,38 @@ void do_cmd_fire(int Ind, int dir, int item)
 	{
 		/* Sling and ammo */
 		case SV_SLING:
-		{
-			tmul = 2;
-			break;
-		}
+			{
+				tmul = 2;
+				break;
+			}
 
-		/* Short Bow and Arrow */
+			/* Short Bow and Arrow */
 		case SV_SHORT_BOW:
-		{
-			tmul = 2;
-			break;
-		}
+			{
+				tmul = 2;
+				break;
+			}
 
-		/* Long Bow and Arrow */
+			/* Long Bow and Arrow */
 		case SV_LONG_BOW:
-		{
-			tmul = 3;
-			break;
-		}
+			{
+				tmul = 3;
+				break;
+			}
 
-		/* Light Crossbow and Bolt */
+			/* Light Crossbow and Bolt */
 		case SV_LIGHT_XBOW:
-		{
-			tmul = 3;
-			break;
-		}
+			{
+				tmul = 3;
+				break;
+			}
 
-		/* Heavy Crossbow and Bolt */
+			/* Heavy Crossbow and Bolt */
 		case SV_HEAVY_XBOW:
-		{
-			tmul = 4;
-			break;
-		}
+			{
+				tmul = 4;
+				break;
+			}
 	}
 
 	/* Get extra "power" from "extra might" */
@@ -2519,62 +2519,62 @@ void do_cmd_fire(int Ind, int dir, int item)
 			/* AD hack -- "pass over" players in same party */
 			if ((!player_in_party(p_ptr->party, 0 - c_ptr->m_idx)) || (p_ptr->party == 0)){ 
 
-			/* Check the visibility */
-			visible = p_ptr->play_vis[0 - c_ptr->m_idx];
+				/* Check the visibility */
+				visible = p_ptr->play_vis[0 - c_ptr->m_idx];
 
-			/* Note the collision */
-			hit_body = TRUE;
+				/* Note the collision */
+				hit_body = TRUE;
 
-			/* Did we hit it (penalize range) */
-			if (test_hit_fire(chance - cur_dis, q_ptr->ac + q_ptr->to_a, visible))
-			{
-				char pvp_name[80];
-
-				/* Get the name */
-				strcpy(pvp_name, q_ptr->name);
-
-				/* Don't allow if players aren't hostile */
-				if (!check_hostile(Ind, 0 - c_ptr->m_idx) || !check_hostile(0 - c_ptr->m_idx, Ind))
+				/* Did we hit it (penalize range) */
+				if (test_hit_fire(chance - cur_dis, q_ptr->ac + q_ptr->to_a, visible))
 				{
-					return;
+					char pvp_name[80];
+
+					/* Get the name */
+					strcpy(pvp_name, q_ptr->name);
+
+					/* Don't allow if players aren't hostile */
+					if (!check_hostile(Ind, 0 - c_ptr->m_idx) || !check_hostile(0 - c_ptr->m_idx, Ind))
+					{
+						return;
+					}
+
+					/* Handle unseen player */
+					if (!visible)
+					{
+						/* Invisible player */
+						msg_format(Ind, "The %s finds a mark.", o_name);
+						msg_format(0 - c_ptr->m_idx, "You are hit by a %s!", o_name);
+					}
+
+					/* Handle visible player */
+					else
+					{
+						/* Messages */
+						msg_format(Ind, "The %s hits %s.", o_name, pvp_name);
+						msg_format(0 - c_ptr->m_idx, "%^s hits you with a %s.", p_ptr->name, o_name);
+
+						/* Track this player's health */
+						health_track(Ind, c_ptr->m_idx);
+					}
+
+					/* Apply special damage XXX XXX XXX */
+					tdam = tot_dam_aux_player(o_ptr, tdam, q_ptr);
+					tdam = critical_shot(Ind, o_ptr->weight, o_ptr->to_h, tdam);
+
+					/* No negative damage */
+					if (tdam < 0) tdam = 0;
+
+					/* XXX Reduce damage by 1/3 */
+					tdam = (tdam + 2) / 3;
+
+					/* Take damage */
+					take_hit(0 - c_ptr->m_idx, tdam, p_ptr->name);
+
+					/* Stop looking */
+					break;
 				}
 
-				/* Handle unseen player */
-				if (!visible)
-				{
-					/* Invisible player */
-					msg_format(Ind, "The %s finds a mark.", o_name);
-					msg_format(0 - c_ptr->m_idx, "You are hit by a %s!", o_name);
-				}
-
-				/* Handle visible player */
-				else
-				{
-					/* Messages */
-					msg_format(Ind, "The %s hits %s.", o_name, pvp_name);
-					msg_format(0 - c_ptr->m_idx, "%^s hits you with a %s.", p_ptr->name, o_name);
-
-					/* Track this player's health */
-					health_track(Ind, c_ptr->m_idx);
-				}
-
-				/* Apply special damage XXX XXX XXX */
-				tdam = tot_dam_aux_player(o_ptr, tdam, q_ptr);
-				tdam = critical_shot(Ind, o_ptr->weight, o_ptr->to_h, tdam);
-
-				/* No negative damage */
-				if (tdam < 0) tdam = 0;
-
-				/* XXX Reduce damage by 1/3 */
-				tdam = (tdam + 2) / 3;
-
-				/* Take damage */
-				take_hit(0 - c_ptr->m_idx, tdam, p_ptr->name);
-
-				/* Stop looking */
-				break;
-			}
-			
 			} /* end hack */
 		}
 
@@ -2602,9 +2602,9 @@ void do_cmd_fire(int Ind, int dir, int item)
 
 				/* Some monsters get "destroyed" */
 				if ((r_ptr->flags3 & RF3_DEMON) ||
-				    (r_ptr->flags3 & RF3_UNDEAD) ||
-				    (r_ptr->flags2 & RF2_STUPID) ||
-				    (strchr("Evg", r_ptr->d_char)))
+						(r_ptr->flags3 & RF3_UNDEAD) ||
+						(r_ptr->flags2 & RF2_STUPID) ||
+						(strchr("Evg", r_ptr->d_char)))
 				{
 					/* Special note at death */
 					note_dies = " is destroyed.";
@@ -2647,7 +2647,7 @@ void do_cmd_fire(int Ind, int dir, int item)
 				if (wizard)
 				{
 					msg_format(Ind, "You do %d (out of %d) damage.",
-					           tdam, m_ptr->hp);
+							tdam, m_ptr->hp);
 				}
 
 				/* Hit the monster, check for death */
@@ -2688,7 +2688,7 @@ void do_cmd_fire(int Ind, int dir, int item)
 	j = (hit_body ? breakage_chance(o_ptr) : 0);
 
 	/* Drop (or break) near that location */
-    if (!magic) drop_near(o_ptr, j, Depth, y, x);
+	if (!magic) drop_near(o_ptr, j, Depth, y, x);
 }
 
 
@@ -2736,8 +2736,8 @@ void do_cmd_throw(int Ind, int dir, int item)
 		o_ptr = &o_list[0 - item];
 	}
 	if(!o_ptr->tval) {
-      		msg_print(Ind, "There is nothing there to throw");
-                return;
+		msg_print(Ind, "There is nothing there to throw");
+		return;
 	};
 
 	if( check_guard_inscription( o_ptr->note, 'v' )) {
@@ -2841,12 +2841,12 @@ void do_cmd_throw(int Ind, int dir, int item)
 		{
 			/* Special case: potion VS house door */
 			if (o_ptr->tval == TV_POTION &&
-				 cave[Depth][ny][nx].feat >= FEAT_HOME_HEAD && 
-				 cave[Depth][ny][nx].feat <= FEAT_HOME_TAIL) 
+					cave[Depth][ny][nx].feat >= FEAT_HOME_HEAD && 
+					cave[Depth][ny][nx].feat <= FEAT_HOME_TAIL) 
 			{
 				/* Break it */
 				hit_body = TRUE;
-				
+
 				/* Find suitable color */
 				for (i = FEAT_HOME_HEAD; i < FEAT_HOME_TAIL + 1; i++)
 				{
@@ -2857,7 +2857,7 @@ void do_cmd_throw(int Ind, int dir, int item)
 
 						/* Must own the house */
 						if (!house_owned_by(Ind,j)) break;
-						
+
 						/* Chance to fail */
 						if (randint(100) > p_ptr->sc) break;
 
@@ -2865,7 +2865,7 @@ void do_cmd_throw(int Ind, int dir, int item)
 						houses[j].strength = i - FEAT_HOME_HEAD;
 						cave[Depth][ny][nx].feat = i;
 						everyone_lite_spot(Depth, ny, nx);
-						
+
 						/* Done */
 						break;
 					}
@@ -2963,7 +2963,7 @@ void do_cmd_throw(int Ind, int dir, int item)
 					msg_format(Ind, "The %s finds a mark!", o_name);
 					msg_format(0 - c_ptr->m_idx, "You are hit by a %s!", o_name);
 				}
-				
+
 				/* Handle visible player */
 				else
 				{
@@ -3017,9 +3017,9 @@ void do_cmd_throw(int Ind, int dir, int item)
 
 				/* Some monsters get "destroyed" */
 				if ((r_ptr->flags3 & RF3_DEMON) ||
-				    (r_ptr->flags3 & RF3_UNDEAD) ||
-				    (r_ptr->flags2 & RF2_STUPID) ||
-				    (strchr("Evg", r_ptr->d_char)))
+						(r_ptr->flags3 & RF3_UNDEAD) ||
+						(r_ptr->flags2 & RF2_STUPID) ||
+						(strchr("Evg", r_ptr->d_char)))
 				{
 					/* Special note at death */
 					note_dies = " is destroyed.";
@@ -3062,7 +3062,7 @@ void do_cmd_throw(int Ind, int dir, int item)
 				if (wizard)
 				{
 					msg_format(Ind, "You do %d (out of %d) damage.",
-					           tdam, m_ptr->hp);
+							tdam, m_ptr->hp);
 				}
 
 				/* Hit the monster, check for death */
@@ -3110,18 +3110,17 @@ void do_cmd_throw(int Ind, int dir, int item)
 /*
  * Buy a house.  It is assumed that the player already knows the
  * price.
- 
+
  Hacked to sell houses for half price. -APD-
- 
+
  */
 void do_cmd_purchase_house(int Ind, int dir)
 {
 	player_type *p_ptr = Players[Ind];
 	int Depth = p_ptr->dun_depth;
 
-	int y, x, i, j, factor, price;
+	int y, x, i, factor, price;
 	cave_type *c_ptr;
-	object_type key;
 
 	/* Ghosts cannot buy houses */
 	if(strcmp(p_ptr->name,cfg_dungeon_master))  {
@@ -3137,50 +3136,50 @@ void do_cmd_purchase_house(int Ind, int dir)
 	/* Check for no-direction -- confirmation (when selling house) */
 	if (!dir)
 	{
-			i = p_ptr->current_house;
-			p_ptr->current_house = -1;	
+		i = p_ptr->current_house;
+		p_ptr->current_house = -1;	
 
-			if (i == -1)
-			{
-				/* No house, message */
-				msg_print(Ind, "You see nothing to sell there.");
-				return;
-			}
-			
-			/* Get requested grid */
-			c_ptr = &cave[Depth][houses[i].door_y][houses[i].door_x];
-				
-			/* Take player's CHR into account */
-			factor = adj_chr_gold[p_ptr->stat_ind[A_CHR]];
-        	price = (unsigned long) houses[i].price * factor / 100;
-
-			if (house_owned(i))
-			{
-				/* Is it owned by this player? */
-				if (house_owned_by(Ind,i))
-				{	
-					/* house is no longer owned */
-					disown_house(i);
-					
-					msg_format(Ind, "You sell your house for %ld gold.", price/2);
-	
-					 /* Get the money */
-					p_ptr->au += price / 2;
-	
-					/* Window */
-					p_ptr->window |= (PW_INVEN);
-	
-					/* Redraw */
-					p_ptr->redraw |= (PR_GOLD);
-	
-					/* Done */
-					return;			
-					}
-			}
-			
+		if (i == -1)
+		{
 			/* No house, message */
-			msg_print(Ind, "You don't own this house.");
+			msg_print(Ind, "You see nothing to sell there.");
 			return;
+		}
+
+		/* Get requested grid */
+		c_ptr = &cave[Depth][houses[i].door_y][houses[i].door_x];
+
+		/* Take player's CHR into account */
+		factor = adj_chr_gold[p_ptr->stat_ind[A_CHR]];
+		price = (unsigned long) houses[i].price * factor / 100;
+
+		if (house_owned(i))
+		{
+			/* Is it owned by this player? */
+			if (house_owned_by(Ind,i))
+			{	
+				/* house is no longer owned */
+				disown_house(i);
+
+				msg_format(Ind, "You sell your house for %ld gold.", price/2);
+
+				/* Get the money */
+				p_ptr->au += price / 2;
+
+				/* Window */
+				p_ptr->window |= (PW_INVEN);
+
+				/* Redraw */
+				p_ptr->redraw |= (PR_GOLD);
+
+				/* Done */
+				return;			
+			}
+		}
+
+		/* No house, message */
+		msg_print(Ind, "You don't own this house.");
+		return;
 	}
 
 	/* Be sure we have a direction */
@@ -3203,13 +3202,13 @@ void do_cmd_purchase_house(int Ind, int dir)
 
 		/* Take player's CHR into account */
 		factor = adj_chr_gold[p_ptr->stat_ind[A_CHR]];
-        price = (unsigned long) houses[i].price * factor / 100;
+		price = (unsigned long) houses[i].price * factor / 100;
 
 
 		/* Check for already-owned house */
 		if (house_owned(i))
 		{
-			
+
 			/* Is it owned by this player? */
 			if (house_owned_by(Ind,i))
 			{
@@ -3223,25 +3222,25 @@ void do_cmd_purchase_house(int Ind, int dir)
 				{
 					/* Delay house transaction */
 					p_ptr->current_house = i;			
-			
+
 					/* Tell the client about the price */
 					Send_store_sell(Ind, price/2);
 				}
 				return;		
 			}
-		
+
 			if (!strcmp(p_ptr->name,cfg_dungeon_master))
 			{
 				disown_house(i);
-				
+
 				msg_format(Ind, "The house has been reset.");
-				
+
 				return;
 			}
-		
+
 			/* Message */
 			msg_print(Ind, "That house is already owned.");
-			
+
 			/* No sale */
 			return;
 		}
@@ -3259,7 +3258,7 @@ void do_cmd_purchase_house(int Ind, int dir)
 			msg_print(Ind, "You do not have enough money.");
 			return;
 		}
-		
+
 		/* Check if we have too many houses already */
 		if( cfg_max_houses && houses_owned(Ind) >= cfg_max_houses )
 		{

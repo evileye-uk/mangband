@@ -109,10 +109,9 @@ char *showtime(void)
 {
 	time_t		now;
 	struct tm	*tmp;
-	static char	month_names[13][4] = {
+	static const char	*month_names[12] = {
 				"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 				"Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-				"Bug"
 			};
 	static char	buf[80];
 
@@ -930,27 +929,6 @@ bool Destroy_connection(int ind, const char *reason)
 
 	return TRUE;
 }
-
-int Check_connection(char *real, char *nick, char *addr)
-{
-	int i;
-	connection_t *connp;
-
-	for (i = 0; i < max_connections; i++)
-	{
-		connp = &Conn[i];
-		if (connp->state == CONN_LISTENING)
-			if (strcasecmp(connp->nick, nick) == 0)
-			{
-				if (!strcmp(real, connp->real)
-					&& !strcmp(addr, connp->addr))
-						return connp->my_port;
-				return -1;
-			}
-	}
-	return -1;
-}
-
 
 /*
  * A client has requested a playing connection with this server.
@@ -3126,7 +3104,7 @@ int Send_party(int ind)
 	return Packet_printf(&connp->c, "%c%s", PKT_PARTY, buf);
 }
 
-int Send_special_other(int ind, char *header)
+int Send_special_other(int ind, const char *header)
 {
 	connection_t *connp = &Conn[Players[ind]->conn];
 
@@ -4150,7 +4128,6 @@ static int Receive_zap(int ind)
 static int Receive_target(int ind)
 {
 	connection_t *connp = &Conn[ind];
-    player_type *p_ptr;
 
 	char ch;
 	s16b dir;
@@ -4160,8 +4137,7 @@ static int Receive_target(int ind)
     if (connp->id != -1)
     {
         player = GetInd[connp->id];
-        p_ptr = Players[player];
-    }
+	}
 
 	if ((n = Packet_scanf(&connp->r, "%c%hd", &ch, &dir)) <= 0)
 	{
@@ -4457,7 +4433,6 @@ static int Receive_fill(int ind)
 static int Receive_locate(int ind)
 {
 	connection_t *connp = &Conn[ind];
-    player_type *p_ptr;
 
 	char ch, dir;
 
@@ -4466,8 +4441,7 @@ static int Receive_locate(int ind)
     if (connp->id != -1)
     {
         player = GetInd[connp->id];
-        p_ptr = Players[player];
-    }
+	}
 
 	if ((n = Packet_scanf(&connp->r, "%c%c", &ch, &dir)) <= 0)
 	{
@@ -4485,7 +4459,6 @@ static int Receive_locate(int ind)
 static int Receive_map(int ind)
 {
 	connection_t *connp = &Conn[ind];
-    player_type *p_ptr;
 
 	char ch;
 
@@ -4494,8 +4467,7 @@ static int Receive_map(int ind)
     if (connp->id != -1)
     {
         player = GetInd[connp->id];
-        p_ptr = Players[player];
-    }
+	}
 
 	if ((n = Packet_scanf(&connp->r, "%c", &ch)) <= 0)
 	{
@@ -4513,7 +4485,6 @@ static int Receive_map(int ind)
 static int Receive_search_mode(int ind)
 {
 	connection_t *connp = &Conn[ind];
-    player_type *p_ptr;
 
 	char ch;
 
@@ -4522,8 +4493,7 @@ static int Receive_search_mode(int ind)
     if (connp->id != -1)
     {
         player = GetInd[connp->id];
-        p_ptr = Players[player];
-    }
+	}
 
 	if ((n = Packet_scanf(&connp->r, "%c", &ch)) <= 0)
 	{
@@ -4688,7 +4658,6 @@ static int Receive_go_down(int ind)
 static int Receive_direction(int ind)
 {
 	connection_t *connp = &Conn[ind];
-    player_type *p_ptr;
 
 	char ch, dir;
 
@@ -4697,8 +4666,7 @@ static int Receive_direction(int ind)
     if (connp->id != -1)
     {
         player = GetInd[connp->id];
-        p_ptr = Players[player];
-    }
+	}
 		else player = 0;
 
 	if ((n = Packet_scanf(&connp->r, "%c%c", &ch, &dir)) <= 0)
@@ -4719,7 +4687,6 @@ static int Receive_item(int ind)
     s16b item;
 
 	connection_t *connp = &Conn[ind];
-    player_type *p_ptr;
 
 	char ch;
 
@@ -4728,8 +4695,7 @@ static int Receive_item(int ind)
     if (connp->id != -1)
     {
         player = GetInd[connp->id];
-        p_ptr = Players[player];
-    }
+	}
 		else player = 0;
 
 	if ((n = Packet_scanf(&connp->r, "%c%hd", &ch, &item)) <= 0)
@@ -4840,7 +4806,6 @@ static int Receive_sell(int ind)
     s16b item, amt;
 
 	connection_t *connp = &Conn[ind];
-    player_type *p_ptr;
 
 	char ch;
 
@@ -4849,8 +4814,7 @@ static int Receive_sell(int ind)
     if (connp->id != -1)
     {
         player = GetInd[connp->id];
-        p_ptr = Players[player];
-    }
+	}
 		else player = 0;
 
 	if ((n = Packet_scanf(&connp->r, "%c%hd%hd", &ch, &item, &amt)) <= 0)

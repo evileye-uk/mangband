@@ -1024,7 +1024,7 @@ bool lose_all_info(int Ind)
 /*
  * Set word of recall as appropriate
  */
-void set_recall(int Ind, object_type * o_ptr)
+void set_recall(int Ind, const object_type *o_ptr)
 {
 	int recall_depth = 0;
 	player_type * p_ptr = Players[Ind];
@@ -2008,7 +2008,6 @@ bool create_artifact_aux(int Ind, int item)
 	player_type *p_ptr = Players[Ind];
 
 	object_type *o_ptr;
-	char o_name[80]; /* Only used by randart() */
 
 	/* Get the item (in the pack) */
 	if (item >= 0)
@@ -4029,7 +4028,6 @@ bool poly_monster(int Ind, int dir)
 
 bool clone_monster(int Ind, int dir)
 {
-	int num, i;
 	player_type *p_ptr = Players[Ind];
 
 	/* Never in the town */

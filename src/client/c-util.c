@@ -237,8 +237,6 @@ static char inkey_aux(void)
 		/* Wait for keypress, while also checking for net input */
 		do
 		{
-			int result;
-
 			/* Look for a keypress */
 			(void)(Term_inkey(&ch, FALSE, TRUE));
 
@@ -259,7 +257,7 @@ static char inkey_aux(void)
 			/* Parse net input if we got any */
 			if (SocketReadable(net_fd))
 			{
-				if ((result = Net_input()) == -1)
+				if (Net_input() == -1)
 				{
 					quit(NULL);
 				}

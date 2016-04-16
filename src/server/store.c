@@ -788,10 +788,9 @@ static void store_delete(int st)
 static void store_create(int st)
 {
 	store_type *st_ptr = &store[st];
-	int			i, tries, level, stocked,x,y;
+	int			i, tries, level;
 	object_type		tmp_obj;
 	object_type		*o_ptr = &tmp_obj;
-	cave_type		*c_ptr;
 
 	/* Paranoia -- no room left */
 	if (st_ptr->stock_num >= st_ptr->stock_size) return;
@@ -982,7 +981,7 @@ static int display_inventory(int Ind)
 {
 	player_type 	*p_ptr = Players[Ind];
 	store_type 		*st_ptr = &store[p_ptr->store_num];
-	int 			k,i,x,y,stocked;
+	int 			k,x,y,stocked;
 	object_type		tmp_obj;
 	object_type		*o_ptr = &tmp_obj;
 	cave_type		*c_ptr;
@@ -1033,7 +1032,7 @@ static int display_inventory(int Ind)
 				{
 							
 					/* Is this item for sale? */
-					if(c = strstr(quark_str(o_ptr->note),"for sale"))
+					if((c = strstr(quark_str(o_ptr->note),"for sale")))
 					{
 						/* Get ask price */
 						c += 8; /* skip "for sale" */
@@ -1117,7 +1116,6 @@ static bool sell_haggle(int Ind, object_type *o_ptr, s32b *price)
 	s32b               purse, cur_ask, final_ask;
 
 	int			noneed;
-	int			final = FALSE;
 
 	cptr		pmt = "Offer";
 
@@ -1161,7 +1159,6 @@ static bool sell_haggle(int Ind, object_type *o_ptr, s32b *price)
 		cur_ask = final_ask;
 
 		/* Final offer */
-		final = TRUE;
 		pmt = "Final Offer";
 	}
 
@@ -1178,12 +1175,11 @@ static bool sell_haggle(int Ind, object_type *o_ptr, s32b *price)
 int sell_player_item(int Ind, object_type *o_ptr_shop, int number, s32b gold)
 {
 	player_type *p_ptr = Players[Ind];
-	int			i,x,y,sold,spacex,spacey,spacedepth;
+	int			x,y,sold,spacex,spacey,spacedepth;
 	object_type		*o_ptr;
 	cave_type		*c_ptr;
 	cave_type		*c_ptr_gold;
 	object_type		gold_obj;
-	s32b			price_each = gold / number;
 	u32b			total;
 	bool			have_gold, have_space;
 	char			*c;
@@ -1232,7 +1228,7 @@ int sell_player_item(int Ind, object_type *o_ptr_shop, int number, s32b gold)
 						
 			/* Is this item for sale? */
 			if (!o_ptr->note) continue;
-			if(c = strstr(quark_str(o_ptr->note),"for sale"))
+			if((c = strstr(quark_str(o_ptr->note),"for sale")))
 			{
 				/* Get ask price */
 				c += 8; /* skip "for sale" */
@@ -1340,7 +1336,6 @@ bool get_store_item(int Ind, int item, object_type *i_ptr)
 	player_type *p_ptr = Players[Ind];
 	int st = p_ptr->store_num;
 	store_type *st_ptr = &store[st];
-	object_type		tmp_obj;
 	cave_type		*c_ptr;
 	char			*c;	
 	int stocked,x,y;
@@ -1367,7 +1362,7 @@ bool get_store_item(int Ind, int item, object_type *i_ptr)
 					if (o_ptr->note)
 					{
 						/* Is this item for sale? */
-						if(c = strstr(quark_str(o_ptr->note),"for sale"))
+						if((c = strstr(quark_str(o_ptr->note),"for sale")))
 						{
 							/* Is this the item we are looking for? */
 							if (item == stocked)
@@ -1762,7 +1757,7 @@ void store_sell(int Ind, int item, int amt)
 void store_confirm(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
-	int item, amt, price, value;
+	int item, amt, price;
 
 	object_type *o_ptr, sold_obj;
 	char o_name[80];
@@ -1814,10 +1809,7 @@ void store_confirm(int Ind)
 	/* Re-Create the now-identified object that was sold */
 	sold_obj = *o_ptr;
 	sold_obj.number = amt;
-
-	/* Get the "actual" value */
-	value = object_value(Ind, &sold_obj) * sold_obj.number;
-
+	
 	/* Get the description all over again */
 	object_desc(Ind, o_name, &sold_obj, TRUE, 3);
 
@@ -1936,7 +1928,6 @@ void store_shuffle(int which)
 {
 	int i, j;
 	store_type *st_ptr;
-	owner_type *ot_ptr;
 
 
 	/* Ignore shop stores */
@@ -1961,10 +1952,6 @@ void store_shuffle(int which)
 	{
 		st_ptr->owner = rand_int(MAX_OWNERS);
 	}
-
-	/* Activate the new owner */
-	ot_ptr = &owners[store_num][st_ptr->owner];
-
 
 	/* Reset the owner data */
 	st_ptr->insult_cur = 0;

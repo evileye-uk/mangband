@@ -74,7 +74,7 @@ static void Receive_init(void)
 
 	receive_tbl[PKT_QUIT]		= Receive_quit;
 	receive_tbl[PKT_STAT]		= Receive_stat;
-    receive_tbl[PKT_MAXSTAT]		= Receive_maxstat;
+	receive_tbl[PKT_MAXSTAT]		= Receive_maxstat;
 	receive_tbl[PKT_HP]		= Receive_hp;
 	receive_tbl[PKT_AC]		= Receive_ac;
 	receive_tbl[PKT_INVEN]		= Receive_inven;
@@ -159,7 +159,7 @@ int Net_setup(void)
 					quit("Can't read setup info from reliable data buffer");
 				}
 				ptr = (char *) &Setup;
-				done = (char *) &Setup.motd[0] - ptr;
+				done = &Setup.motd[0] - ptr;
 				todo = Setup.motd_len;
 			}
 			else
@@ -367,7 +367,7 @@ int Net_verify(char *real, char *nick, char *pass, int sex, int race, int p_clas
  * 3) cbuf is used to copy the reliable data stream
  *    into from the raw and unreliable rbuf packets.
  */
-int Net_init(char *server, int fd)
+int Net_init(int fd)
 {
 	int		 sock;
 
@@ -719,14 +719,13 @@ int Net_packet(void)
  */
 static int Net_read(void)
 {
-	int	n;
 
 	for (;;)
 	{
 		/* Wait for data to appear -- Dave Thaler */
 		while (!SocketReadable(Net_fd()));
 
-		if ((n = Sockbuf_read(&rbuf)) == -1)
+		if ((Sockbuf_read(&rbuf)) == -1)
 		{
 			plog("Net input error");
 			return -1;
@@ -1066,7 +1065,7 @@ int Receive_stat(void)
 	p_ptr->stat_use[(int) stat] = cur;
 
 	if (!screen_icky && !shopping)
-        prt_stat(stat, max, cur, (p_ptr->stat_max[(int) stat] == 18+100));
+		prt_stat(stat, max, cur, (p_ptr->stat_max[(int) stat] == 18+100));
 	else
 		if ((n = Packet_printf(&qbuf, "%c%c%hd%hd", ch, stat, max, cur)) <= 0)
 		{
@@ -1082,31 +1081,31 @@ int Receive_stat(void)
 
 int Receive_maxstat(void)
 {
-    int	n;
-    char	ch;
-    char	stat;
-    s16b	max;
+	int	n;
+	char	ch;
+	char	stat;
+	s16b	max;
 
-    if ((n = Packet_scanf(&rbuf, "%c%c%hd", &ch, &stat, &max)) <= 0)
-    {
-        return n;
-    }
+	if ((n = Packet_scanf(&rbuf, "%c%c%hd", &ch, &stat, &max)) <= 0)
+	{
+		return n;
+	}
 
-    p_ptr->stat_max[(int) stat] = max;
+	p_ptr->stat_max[(int) stat] = max;
 
-    if (!screen_icky && !shopping)
-        prt_stat(stat, p_ptr->stat_top[(int) stat], p_ptr->stat_use[(int) stat], (max == 18+100));
-    else
-        if ((n = Packet_printf(&qbuf, "%c%c%hd", ch, stat, max)) <= 0)
-        {
-            return n;
-        }
+	if (!screen_icky && !shopping)
+		prt_stat(stat, p_ptr->stat_top[(int) stat], p_ptr->stat_use[(int) stat], (max == 18+100));
+	else
+		if ((n = Packet_printf(&qbuf, "%c%c%hd", ch, stat, max)) <= 0)
+		{
+			return n;
+		}
 
 
-    /* Window stuff */
-    p_ptr->window |= (PW_PLAYER);
+	/* Window stuff */
+	p_ptr->window |= (PW_PLAYER);
 
-    return 1;
+	return 1;
 }
 int Receive_hp(void)
 {
@@ -1324,7 +1323,7 @@ int Receive_experience(void)
 	exp_adv = adv;
 
 	if (!screen_icky && !shopping)
-		prt_level(lev, max, cur, adv);
+		prt_level(lev, max, cur);
 	else
 		if ((n = Packet_printf(&qbuf, "%c%hu%d%d%d", ch, lev, max, cur, adv)) <= 0)
 		{
@@ -1352,12 +1351,12 @@ int Receive_gold(void)
 
 	if (shopping)
 	{
-	        char out_val[64];
+		char out_val[64];
 
-	        prt("Gold Remaining: ", 19, 53);
+		prt("Gold Remaining: ", 19, 53);
 
-	        sprintf(out_val, "%9ld", (long) gold);
-	        prt(out_val, 19, 68);
+		sprintf(out_val, "%9ld", (long) gold);
+		prt(out_val, 19, 68);
 	}
 	else if (!screen_icky)
 		prt_gold(gold);
@@ -1408,7 +1407,7 @@ int Receive_objflags(void)
 	int	m, x, i;
 	s16b	y;
 	byte	a;
-	
+
 	if ((m = Packet_scanf(&rbuf, "%c%hu", &ch, &y)) <= 0)
 	{
 		return m;
@@ -1427,7 +1426,7 @@ int Receive_objflags(void)
 
 			/* Read the number of repetitions */
 			Packet_scanf(&rbuf, "%c", &n);
-			
+
 		}
 		else
 		{
@@ -1438,8 +1437,8 @@ int Receive_objflags(void)
 		/* Draw a character n times */
 		for (i = 0; i < n; i++)
 		{
-				p_ptr->hist_flags[y][x+i].a = a;
-				p_ptr->hist_flags[y][x+i].c = c;
+			p_ptr->hist_flags[y][x+i].a = a;
+			p_ptr->hist_flags[y][x+i].c = c;
 		}
 
 		/* Reset 'x' to the correct value */
@@ -1447,27 +1446,27 @@ int Receive_objflags(void)
 
 		/* hack -- if x > 80, assume we have received corrupted data,
 		 * flush our buffers 
-		
-		if (x > 13) 
-		{
-			Sockbuf_clear(&rbuf);
-			Sockbuf_clear(&cbuf);
-		}
-		*/ 
-		
+
+		 if (x > 13) 
+		 {
+		 Sockbuf_clear(&rbuf);
+		 Sockbuf_clear(&cbuf);
+		 }
+		 */ 
+
 	}
 
-	
+
 	/* No RLE mode
-	for (x = 0; x < 13; x++)
-	{
-		
-		Packet_scanf(&rbuf, "%c%c", &a, &c);
-		p_ptr->hist_flags[y][x].a = a;
-		p_ptr->hist_flags[y][x].c = c;
-		
-	}
-	*/
+		 for (x = 0; x < 13; x++)
+		 {
+
+		 Packet_scanf(&rbuf, "%c%c", &a, &c);
+		 p_ptr->hist_flags[y][x].a = a;
+		 p_ptr->hist_flags[y][x].c = c;
+
+		 }
+	 */
 
 	return 1;
 }
@@ -1556,14 +1555,14 @@ int Receive_message(void)
 	 */
 	for (c = 0; c < n; c++) if (buf[c] < ' ') return 1;
 
-/*	printf("Message: %s\n", buf);*/
+	/*	printf("Message: %s\n", buf);*/
 
 	sprintf(search, "%s] ", nick);
 
 	if (strstr(buf, search) != 0)
 	{
 		ptr = strstr(talk_pend, strchr(buf, ']') + 2);
-// [grk] hack not needed for WIN32 client
+		// [grk] hack not needed for WIN32 client
 #ifndef WINDOWS
 		ptr = strtok(ptr, "\t");
 		ptr = strtok(NULL, "\t");
@@ -1581,11 +1580,11 @@ int Receive_message(void)
 		c_message_add(buf);
 	}
 	/*
-		if ((n = Packet_printf(&qbuf, "%c%s", ch, buf)) <= 0)
-		{
-			return n;
-		}
-	*/
+		 if ((n = Packet_printf(&qbuf, "%c%s", ch, buf)) <= 0)
+		 {
+		 return n;
+		 }
+	 */
 	return 1;
 }
 
@@ -1607,7 +1606,7 @@ int Receive_state(void)
 		{
 			return n;
 		}
-	
+
 	return 1;
 }
 
@@ -1679,7 +1678,7 @@ int Receive_confused(void)
 
 	return 1;
 }
-	
+
 int Receive_poison(void)
 {
 	int	n;
@@ -1701,7 +1700,7 @@ int Receive_poison(void)
 
 	return 1;
 }
-	
+
 int Receive_study(void)
 {
 	int	n;
@@ -1905,7 +1904,7 @@ int Receive_item(void)
 		{
 			return n;
 		}
-	
+
 	return 1;
 }
 
@@ -1921,11 +1920,11 @@ int Receive_spell_info(void)
 		return n;
 	}
 
-    /* Save the info... */
+	/* Save the info... */
 	strcpy(spell_info[book][line], buf);
 
-    /* ... and wipe the next line */
-    if (line < 8) spell_info[book][line+1][0] = '\0';
+	/* ... and wipe the next line */
+	if (line < 8) spell_info[book][line+1][0] = '\0';
 
 	return 1;
 }
@@ -1996,7 +1995,7 @@ int Receive_line_info(void)
 	/* If this is the mini-map then we can draw if the screen is icky */
 	if (ch == PKT_MINI_MAP || (!screen_icky && !shopping))
 		draw = TRUE;
-	
+
 	/* Check the max line count */
 	if (y > last_line_info)
 		last_line_info = y;
@@ -2094,7 +2093,7 @@ int Receive_special_other(void)
 	{
 		return n;
 	}
-	
+
 	/* Set file perusal header */
 	strcpy(special_line_header, buf);
 
@@ -2110,7 +2109,8 @@ int Receive_special_other(void)
 int Receive_store(void)
 {
 	int	n, price;
-	char	ch, pos, name[1024];
+	char	ch, name[1024];
+	unsigned char pos;
 	byte	attr;
 	s16b	wgt, num;
 
@@ -2270,23 +2270,23 @@ int Receive_special_line(void)
 		{
 			/* Clear the screen */
 			Term_clear();
-	
+
 			/* Show a general "title" + header */
 			special_line_header[60] = '\0';
-	      prt(format("[Mangband %d.%d.%d] %60s",
-				VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, special_line_header), 0, 0);
-	
+			prt(format("[Mangband %d.%d.%d] %60s",
+						VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, special_line_header), 0, 0);
+
 			/* Prompt (check if we have extra pages) */
 			if (max > (SCREEN_HGT - 2)) 
 				prt("[Press Space to advance, or ESC to exit.]", 23, 0);
 			else
 				prt("[Press ESC to exit.]", 23, 0);
-				
+
 		} else {
 			/* Clear the screen */
 			for (n = 0; n < max_line + 5; n++)
 				Term_erase(0, n, 80);
-			
+
 			/* Show a specific "title" -- header */
 			c_put_str(TERM_YELLOW, special_line_header, 0, 0);
 
@@ -2294,8 +2294,8 @@ int Receive_special_line(void)
 			c_put_str(TERM_L_BLUE, "[Press any key to continue]", max_line + 3, 0);
 		}
 	}
-	
-		
+
+
 
 	/* Print out the info */
 	c_put_str(attr, buf, line + 2, 0);
@@ -2413,7 +2413,7 @@ int Receive_cursor(void)
 	{
 		return n;
 	}
-	
+
 	if (cursor_icky)
 		Term_consolidate_cursor(vis, x, y);
 
@@ -2899,7 +2899,7 @@ int Send_msg(cptr message)
 
 	if (message && strlen(message))
 	{
-// [grk] WIN32 client hack to allow us to send messages longer than 58 chars
+		// [grk] WIN32 client hack to allow us to send messages longer than 58 chars
 #ifndef WINDOWS
 		if (strlen(talk_pend))
 			strcat(talk_pend, "\t");
@@ -2929,11 +2929,11 @@ int Send_pass(cptr newpass)
 
 	if (newpass && strlen(newpass))
 	{
-	    if ((n = Packet_printf(&wbuf, "%c%S", PKT_CHANGEPASS, newpass)) <= 0)
-	    {
-		return n;
-	    }
-	
+		if ((n = Packet_printf(&wbuf, "%c%S", PKT_CHANGEPASS, newpass)) <= 0)
+		{
+			return n;
+		}
+
 	}
 
 	return 1;
@@ -3020,7 +3020,7 @@ int Send_ghost(int ability)
 	{
 		return n;
 	}
-	
+
 	return 1;
 }
 
@@ -3104,7 +3104,7 @@ int Send_redraw(void)
 	{
 		return n;
 	}
-	
+
 	/* Hack -- Clear the screen */
 	Term_clear();
 
@@ -3215,7 +3215,7 @@ void update_ticks()
 	float mscale = 100;
 	int mins,hours;
 
-// [grk] We do this slightly differently on WIN32 
+	// [grk] We do this slightly differently on WIN32 
 
 #ifdef WINDOWS
 	LPSYSTEMTIME lpst;
@@ -3230,10 +3230,10 @@ void update_ticks()
 	scale = 100;
 	mscale = 0.1;
 #else
-/* 	
-	hours = time(NULL) % 86400;
-	mins = time(NULL) % 3600;
-*/
+	/* 	
+			hours = time(NULL) % 86400;
+			mins = time(NULL) % 3600;
+	 */
 	gettimeofday(&cur_time, NULL);
 	hours = mins = 0;
 #endif
@@ -3251,10 +3251,10 @@ void update_ticks()
 		(long)(mins*60*100) +
 		(cur_time.tv_sec*10000) +
 		(long)(cur_time.tv_usec/mscale);
-/* 
-	mticks = (long)(ticks*1000 ) + cur_time.tv_usec/(scale/100) ;
-	mticks = (long) ticks;
-*/
+	/* 
+		 mticks = (long)(ticks*1000 ) + cur_time.tv_usec/(scale/100) ;
+		 mticks = (long) ticks;
+	 */
 }
 
 /* Write a keepalive packet to the output queue if it has been two seconds

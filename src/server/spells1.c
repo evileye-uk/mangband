@@ -349,7 +349,7 @@ void teleport_player_level(int Ind)
 	player_type *p_ptr = Players[Ind];
 	wilderness_type *w_ptr;
 	int Depth = p_ptr->dun_depth, new_depth, new_world_x = 0, new_world_y = 0;
-	char *msg;
+	const char *msg;
 
 	/* Ironmen don't teleport level */
 	if (cfg_ironman)

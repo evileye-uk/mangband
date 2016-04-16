@@ -5,7 +5,6 @@
 #define SERVER
 
 #include "angband.h"
-#include "../common/md5.h"
 
 /*
  * Some "local" parameters, used to help write savefiles
@@ -63,11 +62,6 @@ static void write_huge(const char *name, huge value)
 static void write_str(const char *name, const char *value)
 {
 	fprintf(file_handle,"%s%s = %s\n",xml_prefix,name,value);
-}
-
-static void write_float(const char *name, float value)
-{
-	fprintf(file_handle,"%s%s = %f\n",xml_prefix,name,value);
 }
 
 /* Write binary data */
@@ -565,8 +559,6 @@ static void wr_player_names(void)
 static void wr_dungeon(int Depth)
 {
 	int y, x;
-	byte prev_feature, prev_info;
-	unsigned char runlength;
 	char cave_row[MAX_WID+1];
 
 	cave_type *c_ptr;
@@ -634,8 +626,6 @@ void wr_cave_memory(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
 	int y,x;
-	char prev_flag;
-	unsigned char runlength = 0;
 	char cave_row[MAX_WID+1];
 
 	start_section("cave_memory");

@@ -32,7 +32,7 @@ static void console_who()
 
 	/* Packet header */
 	Packet_printf(&console_buf, "%s",format("%d players online\n", NumPlayers));
-	
+
 	/* Scan the player list */
 	for (k = 1; k <= NumPlayers; k++)
 	{
@@ -41,9 +41,9 @@ static void console_who()
 		/* Add an entry */
 		(p_ptr->no_ghost) ? strcpy(brave,"brave \0") : strcpy(brave,"\0"); 
 		Packet_printf(&console_buf, "%s",format("%s is a %slevel %d %s %s at %d ft\n", 
-			p_ptr->name, brave, p_ptr->lev, p_name + p_info[p_ptr->prace].name,
-			c_name + c_info[p_ptr->pclass].name, p_ptr->dun_depth*50));
-			
+					p_ptr->name, brave, p_ptr->lev, p_name + p_info[p_ptr->prace].name,
+					c_name + c_info[p_ptr->pclass].name, p_ptr->dun_depth*50));
+
 	}
 	Sockbuf_flush(&console_buf);
 }
@@ -65,7 +65,7 @@ static void console_whois(char *name)
 	u16b major, minor, patch, extra;
 	char brave[15];
 	player_type *p_ptr, *p_ptr_search;
-	
+
 	p_ptr = 0;
 
 	/* Find this player */
@@ -84,15 +84,15 @@ static void console_whois(char *name)
 		Sockbuf_flush(&console_buf);
 		return;
 	}
-	
+
 	/* Output player information */
 
 	/* General character description */
 	(p_ptr->no_ghost) ? strcpy(brave,"brave \0") : strcpy(brave,"\0"); 
 	Packet_printf(&console_buf, "%s",format("%s is a %slevel %d %s %s at %d ft\n", 
-		p_ptr->name, brave, p_ptr->lev, p_name + p_info[p_ptr->prace].name,
-		c_name + c_info[p_ptr->pclass].name, p_ptr->dun_depth*50));
-	
+				p_ptr->name, brave, p_ptr->lev, p_name + p_info[p_ptr->prace].name,
+				c_name + c_info[p_ptr->pclass].name, p_ptr->dun_depth*50));
+
 	/* Breakup the client version identifier */
 	major = (p_ptr->version & 0xF000) >> 12;
 	minor = (p_ptr->version & 0xF00) >> 8;
@@ -101,8 +101,8 @@ static void console_whois(char *name)
 
 	/* Player connection info */
 	Packet_printf(&console_buf, "%s",format("(%s@%s [%s] v%d.%d.%d.%d)\n", 
-		p_ptr->realname, p_ptr->hostname, p_ptr->addr, major, minor, patch, extra));
-				
+				p_ptr->realname, p_ptr->hostname, p_ptr->addr, major, minor, patch, extra));
+
 	/* Other interesting factoids */
 	if ( p_ptr->lives > 0 )
 		Packet_printf(&console_buf, "%s",format("Has resurected %d times.\n", p_ptr->lives));
@@ -118,10 +118,10 @@ static void console_whois(char *name)
 			Packet_printf(&console_buf, "%s",format("Last message: %s\n", p_ptr->msg_log[i]));
 		}
 	}
-		
+
 
 	Sockbuf_flush(&console_buf);
-	
+
 }
 
 static void console_message(char *buf)
@@ -177,7 +177,7 @@ static void console_rng_test()
 	u32b outcome;
 	/* This is the expected outcome, generated on our reference platform */
 	u32b reference = 0x0D3E5371;
-	
+
 	bool randquick = Rand_quick;
 	u32b randvalue = Rand_value;
 	u16b randplace = Rand_place;
@@ -190,7 +190,7 @@ static void console_rng_test()
 		Sockbuf_flush(&console_buf);
 		return;
 	}
-	
+
 	/* Preserve current RNG state */
 	for( i=0; i<RAND_DEG; i++ ) randstate[i] = Rand_state[i];
 
@@ -221,10 +221,10 @@ static void console_rng_test()
 	} else {
 		Packet_printf(&console_buf, "%s","RNG integrity check FAILED\n");
 		Packet_printf(&console_buf, "%s",
-			format("Outcome was 0x%08X, expected 0x%08X\n",outcome, reference));
+				format("Outcome was 0x%08X, expected 0x%08X\n",outcome, reference));
 	}
 	Sockbuf_flush(&console_buf);
-	
+
 	/* Restore the RNG state */
 	Rand_quick = randquick;
 	Rand_value= randvalue;
@@ -333,7 +333,7 @@ void NewConsole(int read_fd, int arg)
 	console_buf.len = bytes;
 
 	/* Acquire sender's address */
-//	strcpy(host_name, DgramLastname()); 
+	//	strcpy(host_name, DgramLastname()); 
 
 	/* Get the password if not authenticated */
 	if(!console_authenticated)
@@ -345,10 +345,10 @@ void NewConsole(int read_fd, int arg)
 		{
 			/* Clear buffer */
 			Sockbuf_clear(&console_buf);
-	
+
 			/* Put an "illegal access" reply in the buffer */
 			Packet_printf(&console_buf, "%s", "Invalid password\n");
-			
+
 			/* Send it */
 			DgramWrite(read_fd, console_buf.buf, console_buf.len);
 
@@ -422,7 +422,7 @@ void NewConsole(int read_fd, int arg)
 	{
 		console_debug();
 	}
-	
+
 }
 
 /*

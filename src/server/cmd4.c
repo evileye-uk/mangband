@@ -265,11 +265,11 @@ void do_cmd_check_artifacts(int Ind, int line)
 
 
 	/* Temporary file */
-	if (path_temp(file_name, 1024)) return;
+	if (path_temp(file_name)) return;
 
 	/* Open a new file */
 	fff = my_fopen(file_name, "w");
-	
+
 	/* Paranoia */
 	if (!fff) 
 	{
@@ -330,7 +330,7 @@ void do_cmd_check_artifacts(int Ind, int line)
 	for (i = 1; i <= NumPlayers; i++)
 	{
 		player_type *p_ptr = Players[i];
-		
+
 		/* Check this guy's */
 		for (j = 0; j < INVEN_PACK; j++)
 		{
@@ -412,11 +412,11 @@ void do_cmd_check_uniques(int Ind, int line)
 	monster_race *r_ptr, *curr_ptr;
 
 	/* Temporary file */
-	if (path_temp(file_name, 1024)) return;
+	if (path_temp(file_name)) return;
 
 	/* Open a new file */
 	fff = my_fopen(file_name, "w");
-	
+
 	/* Paranoia */
 	if (!fff) 
 	{
@@ -450,7 +450,7 @@ void do_cmd_check_uniques(int Ind, int line)
 			}
 		}
 	}
-								
+
 	if (total)
 	{
 		/* for each unique */
@@ -461,7 +461,7 @@ void do_cmd_check_uniques(int Ind, int line)
 			r_ptr = &r_info[idx[l]];
 			sprintf(buf, "%s killed by: ", r_name + r_ptr->name);
 			space = width - strlen(buf);
-					
+
 			/* Do we need to highlight this unique? */
 			for (i = 1; i <= NumPlayers; i++)
 			{
@@ -471,7 +471,7 @@ void do_cmd_check_uniques(int Ind, int line)
 					if (i == Ind) highlight = 'w';
 				}
 			}
-			
+
 			/* Append all players who killed this unique */
 			k = 0;
 			for (i = 1; i <= NumPlayers; i++)
@@ -540,11 +540,11 @@ void do_cmd_check_players(int Ind, int line)
 	player_type *p_ptr = Players[Ind];
 
 	/* Temporary file */
-	if (path_temp(file_name, 1024)) return;
+	if (path_temp(file_name)) return;
 
 	/* Open a new file */
 	fff = my_fopen(file_name, "w");
-	
+
 	/* Paranoia */
 	if (!fff) 
 	{
@@ -565,7 +565,7 @@ void do_cmd_check_players(int Ind, int line)
 		/* don't display the dungeon master if the secret_dungeon_master
 		 * option is set 
 		 */
-        if (!strcmp(q_ptr->name,cfg_dungeon_master) && (cfg_secret_dungeon_master)) continue;
+		if (!strcmp(q_ptr->name,cfg_dungeon_master) && (cfg_secret_dungeon_master)) continue;
 
 		/*** Determine color ***/
 
@@ -585,16 +585,16 @@ void do_cmd_check_players(int Ind, int line)
 		if(q_ptr->no_ghost)
 		{
 			fprintf(fff, "     %s the Brave %s %s (Level %d, %s)",
-			q_ptr->name, p_name + p_info[q_ptr->prace].name,
-			c_name + c_info[q_ptr->pclass].name, q_ptr->lev,
-			parties[q_ptr->party].name);
+					q_ptr->name, p_name + p_info[q_ptr->prace].name,
+					c_name + c_info[q_ptr->pclass].name, q_ptr->lev,
+					parties[q_ptr->party].name);
 		} 
 		else 
 		{
 			fprintf(fff, "     %s the %s %s (Level %d, %s)",
-			q_ptr->name, p_name + p_info[q_ptr->prace].name,
-			c_name + c_info[q_ptr->pclass].name, q_ptr->lev,
-			parties[q_ptr->party].name);
+					q_ptr->name, p_name + p_info[q_ptr->prace].name,
+					c_name + c_info[q_ptr->pclass].name, q_ptr->lev,
+					parties[q_ptr->party].name);
 		}
 
 
@@ -641,7 +641,7 @@ void do_cmd_check_other(int Ind, int line)
 	if (!p_ptr->special_file_type) return;
 
 	/* Temporary file */
-	if (path_temp(file_name, 1024)) return;
+	if (path_temp(file_name)) return;
 
 	/* Open a new file */
 	fff = my_fopen(file_name, "w");
@@ -657,7 +657,7 @@ void do_cmd_check_other(int Ind, int line)
 	while (n < 128 && p_ptr->info[n] && strlen(p_ptr->info[n]))
 	{
 		/* Dump a line of info */
-		fprintf(fff, p_ptr->info[n]);
+		fprintf(fff, "%s", p_ptr->info[n]);
 
 		/* Newline */
 		fprintf(fff, "\n");

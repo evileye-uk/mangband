@@ -43,10 +43,10 @@ static void inven_takeoff(int Ind, int item, int amt)
 	/* Paranoia */
 	if (amt <= 0) return;
 
-        if( check_guard_inscription( o_ptr->note, 't' )) {
+	if( check_guard_inscription( o_ptr->note, 't' )) {
 		msg_print(Ind, "The item's inscription prevents it.");
-                return;
-        };
+		return;
+	};
 
 
 	/* Verify */
@@ -172,7 +172,7 @@ static void inven_drop(int Ind, int item, int amt)
 	{
 		act = "Dropped";
 	}
-	
+
 	/* Dropping from equipment? Update object flags! */
 	if (item >= INVEN_WIELD)
 		p_ptr->redraw |= (PR_OFLAGS);
@@ -224,7 +224,7 @@ void do_cmd_inven(void)
 
 	/* Build a prompt */
 	/*sprintf(out_val, "Inventory (carrying %d.%d pounds). Command: ",
-	        total_weight / 10, total_weight % 10);*/
+		total_weight / 10, total_weight % 10);*/
 
 	/* Get a command */
 	/*prt(out_val, 0, 0);*/
@@ -238,18 +238,18 @@ void do_cmd_inven(void)
 
 	/* Process "Escape" */
 	/*if (command_new == ESCAPE)
-	{*/
-		/* Reset stuff */
-		/*command_new = 0;
+		{*/
+	/* Reset stuff */
+	/*command_new = 0;
 		command_gap = 50;
-	}*/
+		}*/
 
 	/* Process normal keys */
 	/*else
-	{*/
-		/* Hack -- Use "display" mode */
-		/*command_see = TRUE;
-	}*/
+		{*/
+	/* Hack -- Use "display" mode */
+	/*command_see = TRUE;
+		}*/
 }
 
 
@@ -281,7 +281,7 @@ void do_cmd_equip(void)
 
 	/* Build a prompt */
 	/*sprintf(out_val, "Equipment (carrying %d.%d pounds). Command: ",
-	        total_weight / 10, total_weight % 10);*/
+		total_weight / 10, total_weight % 10);*/
 
 	/* Get a command */
 	/*prt(out_val, 0, 0);*/
@@ -295,18 +295,18 @@ void do_cmd_equip(void)
 
 	/* Process "Escape" */
 	/*if (command_new == ESCAPE)
-	{*/
-		/* Reset stuff */
-		/*command_new = 0;
+		{*/
+	/* Reset stuff */
+	/*command_new = 0;
 		command_gap = 50;
-	}*/
+		}*/
 
 	/* Process normal keys */
 	/*else
-	{*/
-		/* Enter "display" mode */
-		/*command_see = TRUE;
-	}*/
+		{*/
+	/* Enter "display" mode */
+	/*command_see = TRUE;
+		}*/
 }
 
 
@@ -384,7 +384,7 @@ void do_cmd_wield(int Ind, int item)
 
 		/* Message */
 		msg_format(Ind, "The %s you are %s appears to be cursed.",
-		           o_name, describe_use(Ind, slot));
+				o_name, describe_use(Ind, slot));
 
 		/* Cancel the command */
 		return;
@@ -408,11 +408,11 @@ void do_cmd_wield(int Ind, int item)
 #if 0
 	/* Verify potential overflow */
 	if ((p_ptr->inven_cnt >= INVEN_PACK) &&
-	    ((item < 0) || (o_ptr->number > 1)))
+			((item < 0) || (o_ptr->number > 1)))
 	{
 		/* Verify with the player */
 		if (other_query_flag &&
-		    !get_check(Ind, "Your pack may overflow.  Continue? ")) return;
+				!get_check(Ind, "Your pack may overflow.  Continue? ")) return;
 	}
 #endif
 
@@ -608,16 +608,16 @@ void do_cmd_drop(int Ind, int item, int quantity)
 		return;
 	/* Get the item (on the floor) */
 	/* Impossible
-	else
-	{
-		item = -cave[p_ptr->dun_depth][p_ptr->py][p_ptr->px].o_idx;
-		if (item == 0) {
-			msg_print(Ind, "There's nothing on the floor.");
-			return;
-		}
-		o_ptr = &o_list[0 - item];
-	}
-	*/
+		 else
+		 {
+		 item = -cave[p_ptr->dun_depth][p_ptr->py][p_ptr->px].o_idx;
+		 if (item == 0) {
+		 msg_print(Ind, "There's nothing on the floor.");
+		 return;
+		 }
+		 o_ptr = &o_list[0 - item];
+		 }
+	 */
 
 	if( check_guard_inscription( o_ptr->note, 'd' )) {
 		msg_print(Ind, "The item's inscription prevents it.");
@@ -643,7 +643,7 @@ void do_cmd_drop(int Ind, int item, int quantity)
 	{
 		/* XXX XXX Verify with the player */
 		if (other_query_flag &&
-		    !get_check(Ind, "The item may disappear.  Continue? ")) return;
+				!get_check(Ind, "The item may disappear.  Continue? ")) return;
 	}
 #endif
 
@@ -671,7 +671,7 @@ void do_cmd_drop_gold(int Ind, s32b amt)
 		msg_print(Ind, "You are not experienced enough to drop gold.");
 		return;
 	}
-	
+
 
 	/* Error checks */
 	if (amt <= 0) return;
@@ -716,14 +716,9 @@ void do_cmd_destroy(int Ind, int item, int quantity)
 
 	int			old_number;
 
-	bool		force = FALSE;
-
 	object_type		*o_ptr;
 
 	char		o_name[80];
-
-	/* Hack -- force destruction */
-	if (command_arg > 0) force = TRUE;
 
 	/* Get the item (in the pack) */
 	if (item >= 0)
@@ -764,7 +759,7 @@ void do_cmd_destroy(int Ind, int item, int quantity)
 
 		/* Message */
 		msg_format(Ind, "You cannot destroy %s.", o_name);
- 		
+
 		/* Hack -- Handle icky artifacts */
 		if (cursed_p(o_ptr) || broken_p(o_ptr)) feel = "terrible";
 
@@ -841,18 +836,18 @@ void do_cmd_observe(int Ind, int item)
 			msg_print(Ind,"Sorry, this item is exclusive.");
 			return;
 		}
-		
-			/* Get name */
-			object_desc_store(Ind, o_name, o_ptr, TRUE, 3);
-			/* Identify this store item */
-			object_known(o_ptr);
+
+		/* Get name */
+		object_desc_store(Ind, o_name, o_ptr, TRUE, 3);
+		/* Identify this store item */
+		object_known(o_ptr);
 	} else {
 		/* Get the item (in the pack) */
 		if (item >= 0)
 		{
 			o_ptr = &(p_ptr->inventory[item]);
 		}
-	
+
 		/* Get the item (on the floor) */
 		else
 		{
@@ -863,7 +858,7 @@ void do_cmd_observe(int Ind, int item)
 			}
 			o_ptr = &o_list[0 - item];
 		}
-		
+
 		/* Get name */
 		object_desc(Ind, o_name, o_ptr, TRUE, 3);
 	}
@@ -873,10 +868,10 @@ void do_cmd_observe(int Ind, int item)
 
 	/* Capitalize object name for header */
 	o_name[0] = toupper(o_name[0]);
-	
+
 	/* Describe it fully */
 	identify_fully_aux(Ind, o_ptr);
-	
+
 	/* Notify player */
 	Send_special_other(Ind, o_name);
 }
@@ -981,7 +976,7 @@ void do_cmd_inscribe(int Ind, int item, cptr inscription)
 			}
 		}		
 	}
-	
+
 	/* Describe the activity */
 	object_desc(Ind, o_name, o_ptr, TRUE, 3);
 
@@ -1014,8 +1009,8 @@ void do_cmd_steal(int Ind, int dir)
 	/* Ghosts cannot steal */
 	if ((p_ptr->ghost) || (p_ptr->fruit_bat))
 	{
-	        msg_print(Ind, "You cannot steal things!");
-	        return;
+		msg_print(Ind, "You cannot steal things!");
+		return;
 	}	                                                        
 
 	/* Examine target grid */
@@ -1101,7 +1096,7 @@ void do_cmd_steal(int Ind, int dir)
 
 					/* Message */
 					msg_format(0 - c_ptr->m_idx, "You notice %s stealing %ld gold!",
-					           p_ptr->name, amt);
+							p_ptr->name, amt);
 				}
 				fail = FALSE;
 			}
@@ -1117,42 +1112,42 @@ void do_cmd_steal(int Ind, int dir)
 
 			/* Get object */
 			o_ptr = &q_ptr->inventory[item];
-			
+
 			/* Don't steal (nothing)s */
 			if (o_ptr->k_idx)
 			{
 				forge = *o_ptr;
-	
+
 				/* Give one item to thief */
 				forge.number = 1;
 				inven_carry(Ind, &forge);
-	
+
 				/* Take one from target */
 				inven_item_increase(0 - c_ptr->m_idx, item, -1);
 				inven_item_optimize(0 - c_ptr->m_idx, item);
-	
+
 				/* Tell thief what he got */
 				object_desc(Ind, o_name, &forge, TRUE, 3);
 				msg_format(Ind, "You stole %s.", o_name);
-	
+
 				/* Easier to notice heavier objects */
 				notice += forge.weight;
-	
+
 				/* Check for target noticing */
 				if (rand_int(100) < notice)
 				{
 					/* Make target hostile */
 					add_hostility(0 - c_ptr->m_idx, p_ptr->name);
-	
+
 					/* Message */
 					msg_format(0 - c_ptr->m_idx, "You notice %s stealing %s!",
-					           p_ptr->name, o_name);
+							p_ptr->name, o_name);
 				}
 				fail = FALSE; 
 			}  
 		}
 	}
-	
+
 	if (fail)
 	{
 		/* Message */
@@ -1166,7 +1161,7 @@ void do_cmd_steal(int Ind, int dir)
 
 			/* Message */
 			msg_format(0 - c_ptr->m_idx, "You notice %s try to steal from you!",
-			           p_ptr->name);
+					p_ptr->name);
 		}
 	}
 
@@ -1185,15 +1180,15 @@ void do_cmd_steal(int Ind, int dir)
  */
 static bool item_tester_refill_lantern(const object_type *o_ptr)
 {
-    /* Randarts are not refillable */
-    if (o_ptr->name3) return (FALSE);
+	/* Randarts are not refillable */
+	if (o_ptr->name3) return (FALSE);
 
 	/* Flasks of oil are okay */
 	if (o_ptr->tval == TV_FLASK) return (TRUE);
 
 	/* Torches are okay */
 	if ((o_ptr->tval == TV_LITE) &&
-	    (o_ptr->sval == SV_LITE_LANTERN)) return (TRUE);
+			(o_ptr->sval == SV_LITE_LANTERN)) return (TRUE);
 
 	/* Assume not okay */
 	return (FALSE);
@@ -1275,7 +1270,7 @@ static void do_cmd_refill_lamp(int Ind, int item)
 
 	/* Recalculate torch */
 	p_ptr->update |= (PU_TORCH);
-	
+
 	/* Hack - Force Equipment Update */
 	p_ptr->window |= (PW_EQUIP);
 }
@@ -1289,7 +1284,7 @@ static bool item_tester_refill_torch(const object_type *o_ptr)
 {
 	/* Torches are okay */
 	if ((o_ptr->tval == TV_LITE) &&
-	    (o_ptr->sval == SV_LITE_TORCH)) return (TRUE);
+			(o_ptr->sval == SV_LITE_TORCH)) return (TRUE);
 
 	/* Assume not okay */
 	return (FALSE);
@@ -1377,7 +1372,7 @@ static void do_cmd_refill_torch(int Ind, int item)
 
 	/* Recalculate torch */
 	p_ptr->update |= (PU_TORCH);
-	
+
 	/* Hack - Force Equipment Update */
 	p_ptr->window |= (PW_EQUIP);
 }
@@ -1481,7 +1476,7 @@ static bool do_cmd_look_accept(int Ind, int y, int x)
 	/* Player grids */
 	if (c_ptr->m_idx < 0)
 	{
-        if (player_has_los_bold(Ind, y, x) || (p_ptr->telepathy == TR3_TELEPATHY))
+		if (player_has_los_bold(Ind, y, x) || (p_ptr->telepathy == TR3_TELEPATHY))
 			return (TRUE);
 	}
 
@@ -1515,15 +1510,15 @@ static bool do_cmd_look_accept(int Ind, int y, int x)
 
 		/* Notice shops */
 		if ((c_ptr->feat >= FEAT_SHOP_HEAD) &&
-		    (c_ptr->feat <= FEAT_SHOP_TAIL)) return (TRUE);
+				(c_ptr->feat <= FEAT_SHOP_TAIL)) return (TRUE);
 
 		/* Notice traps */
 		if ((c_ptr->feat >= FEAT_TRAP_HEAD) &&
-		    (c_ptr->feat <= FEAT_TRAP_TAIL)) return (TRUE);
+				(c_ptr->feat <= FEAT_TRAP_TAIL)) return (TRUE);
 
 		/* Notice doors */
 		if ((c_ptr->feat >= FEAT_DOOR_HEAD) &&
-		    (c_ptr->feat <= FEAT_DOOR_TAIL)) return (TRUE);
+				(c_ptr->feat <= FEAT_DOOR_TAIL)) return (TRUE);
 
 		/* Notice rubble */
 		if (c_ptr->feat == FEAT_RUBBLE) return (TRUE);
@@ -1543,11 +1538,10 @@ static bool do_cmd_look_accept(int Ind, int y, int x)
  *	
  * if !active, activities such as tracking are disabled
  */
-void describe_floor_tile(cave_type *c_ptr, char *out_val, int Ind, bool active, byte cave_flag)
+void describe_floor_tile(const cave_type *c_ptr, char *out_val, int Ind, bool active, byte cave_flag)
 {
 	player_type *p_ptr = Players[Ind];
 	player_type *q_ptr;
-	monster_type *m_ptr;
 	object_type *o_ptr;
 	char o_name[80];
 	bool found = FALSE;
@@ -1564,17 +1558,17 @@ void describe_floor_tile(cave_type *c_ptr, char *out_val, int Ind, bool active, 
 			{
 				/* Track health */
 				if (p_ptr->play_vis[0 - c_ptr->m_idx]) health_track(Ind, c_ptr->m_idx);
-		
+
 				/* Track with cursor */
 				if (p_ptr->play_vis[0 - c_ptr->m_idx]) cursor_track(Ind, c_ptr->m_idx);
 			}
 
-		/* Format string */
-		sprintf(out_val, "%s the %s %s", q_ptr->name, p_name + p_info[q_ptr->prace].name, c_name + c_info[q_ptr->pclass].name);
-		
-		found = TRUE;
+			/* Format string */
+			sprintf(out_val, "%s the %s %s", q_ptr->name, p_name + p_info[q_ptr->prace].name, c_name + c_info[q_ptr->pclass].name);
+
+			found = TRUE;
 		}
-		
+
 	}
 	else if (c_ptr->m_idx > 0)
 	{
@@ -1586,15 +1580,15 @@ void describe_floor_tile(cave_type *c_ptr, char *out_val, int Ind, bool active, 
 			{
 				/* Track health */
 				if (p_ptr->mon_vis[c_ptr->m_idx]) health_track(Ind, c_ptr->m_idx);
-		
+
 				/* Track with cursor */
 				if (p_ptr->mon_vis[c_ptr->m_idx]) cursor_track(Ind, c_ptr->m_idx);
 			}
-					
-		/* Format string */
-		sprintf(out_val, "%s (%s)", r_name + r_ptr->name, look_mon_desc(c_ptr->m_idx));
-		
-		found = TRUE;
+
+			/* Format string */
+			sprintf(out_val, "%s (%s)", r_name + r_ptr->name, look_mon_desc(c_ptr->m_idx));
+
+			found = TRUE;
 		}
 	}
 	if (!found && c_ptr->o_idx)
@@ -1602,15 +1596,15 @@ void describe_floor_tile(cave_type *c_ptr, char *out_val, int Ind, bool active, 
 		if (p_ptr->obj_vis[c_ptr->o_idx])
 		{
 			o_ptr = &o_list[c_ptr->o_idx];
-	
+
 			/* Release Tracking */
 			if (active) p_ptr->cursor_who = 0;
-	
+
 			/* Obtain an object description */
 			object_desc(Ind, o_name, o_ptr, TRUE, 3);
-	
+
 			sprintf(out_val, "You see %s", o_name);
-			
+
 			found = TRUE;
 		}
 	}
@@ -1618,12 +1612,12 @@ void describe_floor_tile(cave_type *c_ptr, char *out_val, int Ind, bool active, 
 	{
 		int feat = f_info[c_ptr->feat].mimic;
 		cptr name = f_name + f_info[feat].name;
-		
+
 		cptr p1 = "A ";
 
 		/* Hack -- handle unknown grids */
 		if (!(cave_flag & CAVE_MARK) ) name = "unknown grid";
-		
+
 		if (is_a_vowel(name[0])) p1 = "An ";
 
 		/* Hack -- special description for store doors */
@@ -1634,7 +1628,7 @@ void describe_floor_tile(cave_type *c_ptr, char *out_val, int Ind, bool active, 
 
 		/* Release Tracking */
 		if (active) p_ptr->cursor_who = 0;
-		
+
 		/* Message */
 		sprintf(out_val, "%s%s", p1, name);
 	}
@@ -1660,9 +1654,7 @@ void do_cmd_look(int Ind, int dir)
 
 	cave_type *c_ptr;
 	monster_type *m_ptr;
-	object_type *o_ptr;
 
-	char o_name[80];
 	char out_val[160];
 
 	/* Cancel */
@@ -1706,10 +1698,10 @@ void do_cmd_look(int Ind, int dir)
 			{
 				/* Require line of sight, unless "look" is "expanded" */
 				if (!expand_look && !player_has_los_bold(Ind, y, x)) continue;
-	
+
 				/* Require interesting contents */
 				if (!do_cmd_look_accept(Ind, y, x)) continue;
-	
+
 				/* Save the location */
 				p_ptr->target_x[p_ptr->target_n] = x;
 				p_ptr->target_y[p_ptr->target_n] = y;
@@ -1722,19 +1714,19 @@ void do_cmd_look(int Ind, int dir)
 			/* Start near the player */
 			p_ptr->look_index = 0;
 		}
-		
+
 		/* Paranoia */
 		if (!p_ptr->target_n)
 		{
 			msg_print(Ind, "You see nothing special.");
 			return;
 		}
-	
-	
+
+
 		/* Set the sort hooks */
 		ang_sort_comp = ang_sort_comp_distance;
 		ang_sort_swap = ang_sort_swap_distance;
-	
+
 		/* Sort the positions */
 		ang_sort(Ind, p_ptr->target_x, p_ptr->target_y, p_ptr->target_n);
 
@@ -1748,10 +1740,10 @@ void do_cmd_look(int Ind, int dir)
 			else p_ptr->target_idx[i] = 0;
 		}
 	}
-	
+
 	/* Just be cautius */
 	if (p_ptr->look_index > p_ptr->target_n) p_ptr->look_index = p_ptr->target_n;
-	
+
 	/* Motion */
 	if (dir)
 	{
@@ -1771,7 +1763,7 @@ void do_cmd_look(int Ind, int dir)
 
 				/* Check for player leaving */
 				if (((0 - p_ptr->target_idx[i]) > NumPlayers) ||
-				     (q_ptr->dun_depth != p_ptr->dun_depth))
+						(q_ptr->dun_depth != p_ptr->dun_depth))
 				{
 					p_ptr->target_y[i] = 0;
 					p_ptr->target_x[i] = 0;
@@ -1799,9 +1791,9 @@ void do_cmd_look(int Ind, int dir)
 	if (!cave[Depth]) return;
 
 	c_ptr = &cave[Depth][y][x];
-	
+
 	describe_floor_tile(c_ptr, out_val, Ind, TRUE, p_ptr->cave_flag[y][x]);
-	
+
 	/* Append a little info */
 	strcat(out_val, " [<dir>, q, p]");
 
@@ -1825,7 +1817,7 @@ void do_cmd_locate(int Ind, int dir)
 
 	char	out_val[160];
 
-  if (dir < 0 || dir > 10) return;
+	if (dir < 0 || dir > 10) return;
 
 	/* No direction, recenter */
 	if (!dir)
@@ -1884,14 +1876,14 @@ void do_cmd_locate(int Ind, int dir)
 	else
 	{
 		sprintf(tmp_val, "%s%s of",
-		        ((y2 < y1) ? " North" : (y2 > y1) ? " South" : ""),
-		        ((x2 < x1) ? " West" : (x2 > x1) ? " East" : ""));
+				((y2 < y1) ? " North" : (y2 > y1) ? " South" : ""),
+				((x2 < x1) ? " West" : (x2 > x1) ? " East" : ""));
 	}
 
 	/* Prepare to ask which way to look */
 	sprintf(out_val,
-	        "Map sector [%d,%d], which is%s your sector.  Direction?",
-	        y2, x2, tmp_val);
+			"Map sector [%d,%d], which is%s your sector.  Direction?",
+			y2, x2, tmp_val);
 
 	msg_print(Ind, out_val);
 

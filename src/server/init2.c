@@ -583,26 +583,6 @@ static errr init_info(cptr filename, header *head)
 	return (0);
 }
 
-
-/*
- * Free the allocated memory for the info-, name-, and text- arrays.
- */
-static errr free_info(header *head)
-{
-	if (head->info_size)
-		FREE(head->info_ptr, vptr);
-
-	if (head->name_size)
-		FREE(head->name_ptr, cptr);
-
-	if (head->text_size)
-		FREE(head->text_ptr, cptr);
-
-	/* Success */
-	return (0);
-}
-
-
 /*
  * Initialize the "z_info" array
  */

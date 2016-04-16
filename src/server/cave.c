@@ -6,9 +6,6 @@
 
 #include "angband.h"
 
-#include <stdio.h>
-
-
 
 /*
  * Approximate Distance between two points.
@@ -399,7 +396,7 @@ bool no_lite(int Ind)
  * Hack -- Legal monster codes
  */
 static cptr image_monster_hack = \
-"@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+																 "@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 /*
  * Mega-Hack -- Hallucinatory monster
@@ -420,7 +417,7 @@ static void image_monster(byte *ap, char *cp)
  * Hack -- Legal object codes
  */
 static cptr image_object_hack = \
-"?/|\\\"!$()_-=[]{},~";
+																"?/|\\\"!$()_-=[]{},~";
 
 /*
  * Mega-Hack -- Hallucinatory object
@@ -467,7 +464,7 @@ static byte player_color(int Ind)
 	if (p_ptr->ghost) return TERM_L_DARK;
 
 	/* Bats are orange */
-	
+
 	if (p_ptr->fruit_bat) return TERM_ORANGE;
 
 	/* Color is based off of class */
@@ -562,7 +559,7 @@ static byte player_color(int Ind)
  * Note that floors (and invisible traps) are the only grids which are
  * not memorized when seen, so only these grids need to check to see if
  * the grid is "viewable" to the player (if it is not memorized).  Since
- * most non-memorized grids are in fact walls, this induces *massive*
+ * most non-memorized grids are in fact walls, this induces *massive* 
  * efficiency, at the cost of *forcing* the memorization of non-floor
  * grids when they are first seen.  Note that "invisible traps" are
  * always treated exactly like "floors", which prevents "cheating".
@@ -617,7 +614,7 @@ static byte player_color(int Ind)
  * char/attr values on the server to allow server side rendering of scenes.
  * Without this ability server side renders would use client localised 
  * char/attr values which may not makes sense in the context of the server.
- */
+	*/
 void map_info(int Ind, int y, int x, byte *ap, char *cp, bool server)
 {
 	player_type *p_ptr = Players[Ind];
@@ -631,8 +628,6 @@ void map_info(int Ind, int y, int x, byte *ap, char *cp, bool server)
 
 	cave_type *c_ptr;
 	byte *w_ptr;
-
-	feature_type *f_ptr;
 
 	int feat;
 
@@ -669,15 +664,12 @@ void map_info(int Ind, int y, int x, byte *ap, char *cp, bool server)
 		/* Memorized (or visible) floor */
 		/* Hack -- space are visible to the dungeon master */
 		if (((*w_ptr & CAVE_MARK) ||
-		    ((((c_ptr->info & CAVE_LITE) &&
-		        (*w_ptr & CAVE_VIEW)) ||
-		      ((c_ptr->info & CAVE_GLOW) &&
-		       (*w_ptr & CAVE_VIEW))) &&
-		     !p_ptr->blind)) || (!strcmp(p_ptr->name,cfg_dungeon_master)))
+					((((c_ptr->info & CAVE_LITE) &&
+						 (*w_ptr & CAVE_VIEW)) ||
+						((c_ptr->info & CAVE_GLOW) &&
+						 (*w_ptr & CAVE_VIEW))) &&
+					 !p_ptr->blind)) || (!strcmp(p_ptr->name,cfg_dungeon_master)))
 		{
-			/* Access floor */
-			f_ptr = &f_info[FEAT_FLOOR];
-
 			/* Normal char */
 			(*cp) = f_char_ptr[c_ptr->feat];
 
@@ -733,7 +725,6 @@ void map_info(int Ind, int y, int x, byte *ap, char *cp, bool server)
 		else
 		{
 			/* Access darkness */
-			f_ptr = &f_info[FEAT_NONE];
 
 			/* Normal attr */
 			/* (*ap) = f_ptr->f_attr; */
@@ -756,7 +747,6 @@ void map_info(int Ind, int y, int x, byte *ap, char *cp, bool server)
 			feat = f_info[feat].mimic;
 
 			/* Access feature */
-			f_ptr = &f_info[feat];
 
 			/* Normal char */
 			/* (*cp) = f_ptr->f_char; */
@@ -832,7 +822,6 @@ void map_info(int Ind, int y, int x, byte *ap, char *cp, bool server)
 		else
 		{
 			/* Access darkness */
-			f_ptr = &f_info[FEAT_NONE];
 
 			/* Normal attr */
 			/* (*ap) = f_ptr->f_attr; */
@@ -970,13 +959,13 @@ void map_info(int Ind, int y, int x, byte *ap, char *cp, bool server)
 	}
 
 	/* -APD-
-	   Taking D. Gandy's advice and making it display the char as a number if 
-	   they are severly wounded (60% health or less)
-	   I multiply by 95 instead of 100 because it always rounds down.....
-	   and I want to give PCs a little more breathing room.
-	   
+		 Taking D. Gandy's advice and making it display the char as a number if 
+		 they are severly wounded (60% health or less)
+		 I multiply by 95 instead of 100 because it always rounds down.....
+		 and I want to give PCs a little more breathing room.
+
 	 */
-	   
+
 	if (c_ptr->m_idx < 0)
 	{
 		/* Is that player visible? */
@@ -994,10 +983,10 @@ void map_info(int Ind, int y, int x, byte *ap, char *cp, bool server)
 
 			/* MEGAHACK from 1.2.0 -- Hilite party leader! */
 			if (p_ptr->party &&  player_in_party(p_ptr->party, 0 - c_ptr->m_idx) && streq(parties[p_ptr->party].owner, Players[0 - c_ptr->m_idx]->name)) 
-			    a = TERM_YELLOW; 
+				a = TERM_YELLOW; 
 
 			(*cp) = c;
-	
+
 			(*ap) = a;
 
 			if (p_ptr->image)
@@ -1166,7 +1155,7 @@ void lite_spot(int Ind, int y, int x)
 
 			/* Get the "player" char */
 			c = r_ptr->d_char;
-			
+
 			pre_kludge = (p_ptr->chp * 95) / (p_ptr->mhp*10);
 			pre_kludge = pre_kludge > 0 ? pre_kludge : 0;
 			if (pre_kludge < 7) 
@@ -1174,10 +1163,10 @@ void lite_spot(int Ind, int y, int x)
 				sprintf((char *)&kludge,"%d",pre_kludge); 
 				c = kludge;
 			}
-				
+
 			if (p_ptr->fruit_bat) c = 'b';
-			
-			
+
+
 		}
 
 		/* Normal */
@@ -1195,8 +1184,8 @@ void lite_spot(int Ind, int y, int x)
 
 		/* Only draw if different than buffered */
 		if (p_ptr->scr_info[dispy][dispx].c != c ||
-		    p_ptr->scr_info[dispy][dispx].a != a ||
-		    (x == p_ptr->px && y==p_ptr->py))
+				p_ptr->scr_info[dispy][dispx].a != a ||
+				(x == p_ptr->px && y==p_ptr->py))
 		{
 			/* Modify internal buffer */
 			p_ptr->scr_info[dispy][dispx].c = c;
@@ -1218,7 +1207,7 @@ void lite_spot(int Ind, int y, int x)
  * of both "lite_spot()" and "print_rel()", and that we use the
  * "lite_spot()" function to display the player grid, if needed.
  */
- 
+
 void prt_map(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
@@ -1270,8 +1259,8 @@ void prt_map(int Ind)
 	/* Display player */
 	lite_spot(Ind, p_ptr->py, p_ptr->px);
 }
-	
-	
+
+
 
 
 
@@ -1344,7 +1333,7 @@ static byte priority_table[][2] =
 	{ FEAT_SHOP_HEAD + 0x05, 21 },
 	{ FEAT_SHOP_HEAD + 0x06, 21 },
 	{ FEAT_SHOP_HEAD + 0x07, 21 },
-	
+
 	/* Player Shops */
 	{ FEAT_HOME_HEAD + 0x01, 21 },
 	{ FEAT_HOME_HEAD + 0x02, 21 },
@@ -1409,8 +1398,8 @@ static byte priority(byte a, char c)
  * function to work with any graphic attr/char mappings, and the
  * attempts to optimize this function where possible.
  */
- 
- 
+
+
 void display_map(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
@@ -1439,14 +1428,14 @@ void display_map(int Ind)
 	/* Desired map height */
 	map_hgt = SCREEN_HGT;
 	map_wid = 78;
-	
+
 	dungeon_hgt = MAX_HGT;//p_ptr->cur_hgt;
 	dungeon_wid = MAX_WID;//p_ptr->cur_wid;
 
 	/* Prevent accidents */
 	if (map_hgt > dungeon_hgt) map_hgt = dungeon_hgt;
 	if (map_wid > dungeon_wid) map_wid = dungeon_wid;
- 
+
 	/* Prevent accidents */
 	if ((map_wid < 1) || (map_hgt < 1)) return;
 
@@ -1519,9 +1508,9 @@ void display_map(int Ind)
 	/* Player location */
 	y = (p_ptr->py * map_hgt / dungeon_hgt) + 1;
 	x = (p_ptr->px * map_wid / dungeon_wid) + 1;
-	
+
 	/*** Make sure the player is visible ***/
- 
+
 	/* Set the "player" attr */
 	ma[y][x] = r_ptr->x_attr;
 
@@ -1587,14 +1576,14 @@ void wild_display_map(int Ind)
 	/* Desired map height */
 	map_hgt = SCREEN_HGT;
 	map_wid = 78;
-	
+
 	dungeon_hgt = MAX_HGT;//p_ptr->cur_hgt;
 	dungeon_wid = MAX_WID;//p_ptr->cur_wid;
 
 	/* Prevent accidents */
 	if (map_hgt > dungeon_hgt) map_hgt = dungeon_hgt;
 	if (map_wid > dungeon_wid) map_wid = dungeon_wid;
- 
+
 	/* Prevent accidents */
 	if ((map_wid < 1) || (map_hgt < 1)) return;
 
@@ -1620,19 +1609,19 @@ void wild_display_map(int Ind)
 			world_y = p_ptr->world_y + (map_hgt+2)/2 - y;
 			world_x = p_ptr->world_x - (map_wid+2)/2 + x;
 			wild_idx = world_index(world_x, world_y);
-		
+
 			/* figure out what char to display */
 			if (wild_idx > -MAX_WILD) type = determine_wilderness_type(wild_idx);
 			/* if off the map, set to unknown type */
 			else type = -1;
-			
+
 			/* if the player hasnt been here, dont show him the terrain */
 			/* Hack -- DM has knowledge of the full world */
 			if (strcmp(p_ptr->name,cfg_dungeon_master))
-			if (!(p_ptr->wild_map[-wild_idx / 8] & (1 << (-wild_idx % 8)))) type = -1;
+				if (!(p_ptr->wild_map[-wild_idx / 8] & (1 << (-wild_idx % 8)))) type = -1;
 			/* hack --  the town is always known */
 			if (!wild_idx) type = WILD_TOWN;
-			
+
 			switch (type)
 			{
 				case WILD_LAKE: tc = '~'; ta=TERM_BLUE; break;
@@ -1646,13 +1635,13 @@ void wild_display_map(int Ind)
 				case -1: tc = ' '; ta = TERM_WHITE; break;
 				default: tc = 'O'; ta = TERM_YELLOW; break;
 			} 
-			
+
 			/* put the @ in the center */
 			if ((y == (map_hgt+2)/2) && (x == (map_wid+2)/2))
 			{
 				tc = '@'; ta = TERM_WHITE; 
 			}
-			
+
 			/* Save the char */
 			mc[y][x] = tc;
 
@@ -1674,7 +1663,7 @@ void wild_display_map(int Ind)
 
 	/* Draw the vertical edges */
 	for (y = 1; y <= map_hgt; y++) mc[y][0] = mc[y][x] = '|';
-	
+
 	/* Prepare bottom string */
 	/* [-12,10] */
 	//sprintf(buf, " [%d, %d] ", p_ptr->world_y * -1, p_ptr->world_x);
@@ -1727,15 +1716,15 @@ void wild_display_map(int Ind)
 /*
  * Display a "small-scale" map of the dungeon for the player
  */
- 
- /* in the wilderness, have several scales of maps availiable... adding one
-    "wilderness map" mode now that will represent each level with one character.
+
+/* in the wilderness, have several scales of maps availiable... adding one
+	 "wilderness map" mode now that will represent each level with one character.
  */
- 
+
 void do_cmd_view_map(int Ind)
 {
 	/* Display the map */
-	
+
 	/* if not in town or the dungeon, do normal map */
 	if (Players[Ind]->dun_depth >= 0) display_map(Ind);
 	/* do wilderness map */
@@ -1880,7 +1869,7 @@ void do_cmd_view_map(int Ind)
  *
  * And my favorite "plus" is that you can now use a special option to draw the
  * "floors" in the "viewable region" brightly (actually, to draw the *other*
- * grids dimly), providing a "pretty" effect as the player runs around, and
+		 * grids dimly), providing a "pretty" effect as the player runs around, and
  * to efficiently display the "torch lite" in a special color.
  *
  *
@@ -1929,7 +1918,7 @@ void do_cmd_view_map(int Ind)
  * (above).  For each grid not on a major axis or diagonal, the "view" code
  * depends on the "cave_floor_bold()" and "view" of exactly two other grids
  * (the one along the nearest diagonal, and the one next to that one, see
- * "update_view_aux()"...).
+		 * "update_view_aux()"...).
  *
  * We "memorize" the viewable space array, so that at the cost of under 3000
  * bytes, we reduce the time taken by "forget_view()" to one assignment for
@@ -1943,7 +1932,7 @@ void do_cmd_view_map(int Ind)
  * In the worst "normal" case (in the middle of the town), the reachable space
  * actually reaches to more than half of the largest possible "circle" of view,
  * or about 800 grids, and in the worse case (in the middle of a dungeon level
- * where all the walls have been removed), the reachable space actually reaches
+		 * where all the walls have been removed), the reachable space actually reaches
  * the theoretical maximum size of just under 1500 grids.
  *
  * Each grid G examines the "state" of two (?) other (adjacent) grids, G1 & G2.
@@ -1964,9 +1953,9 @@ void do_cmd_view_map(int Ind)
 
 
 
-/*
- * Actually erase the entire "lite" array, redrawing every grid
- */
+ /*
+	* Actually erase the entire "lite" array, redrawing every grid
+	*/
 void forget_lite(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
@@ -2027,11 +2016,11 @@ void forget_lite(int Ind)
  * top.  --KLJ--
  */
 #define cave_lite_hack(Y,X) \
-    cave[Depth][Y][X].info |= CAVE_LITE; \
-    p_ptr->cave_flag[Y][X] |= CAVE_LITE; \
-    p_ptr->lite_y[p_ptr->lite_n] = (Y); \
-    p_ptr->lite_x[p_ptr->lite_n] = (X); \
-    p_ptr->lite_n++
+	cave[Depth][Y][X].info |= CAVE_LITE; \
+p_ptr->cave_flag[Y][X] |= CAVE_LITE; \
+p_ptr->lite_y[p_ptr->lite_n] = (Y); \
+p_ptr->lite_x[p_ptr->lite_n] = (X); \
+p_ptr->lite_n++
 
 
 
@@ -2352,10 +2341,10 @@ void forget_view(int Ind)
  * I'm again assuming that using p_ptr is OK (see above) --KLJ--
  */
 #define cave_view_hack(W,Y,X) \
-    (*(W)) |= CAVE_VIEW; \
-    p_ptr->view_y[p_ptr->view_n] = (Y); \
-    p_ptr->view_x[p_ptr->view_n] = (X); \
-    p_ptr->view_n++
+	(*(W)) |= CAVE_VIEW; \
+p_ptr->view_y[p_ptr->view_n] = (Y); \
+p_ptr->view_x[p_ptr->view_n] = (X); \
+p_ptr->view_n++
 
 
 
@@ -2376,8 +2365,8 @@ void forget_view(int Ind)
  *
  * This function now returns "TRUE" if vision is "blocked" by grid (y,x).
  */
- 
- 
+
+
 static bool update_view_aux(int Ind, int y, int x, int y1, int x1, int y2, int x2)
 {
 	player_type *p_ptr = Players[Ind];
@@ -2578,14 +2567,14 @@ static bool update_view_aux(int Ind, int y, int x, int y1, int x1, int y2, int x
  * Well, I for one don't understand it, so I'm hoping I didn't screw anything
  * up while trying to do this. --KLJ--
  */
- 
+
  /* Hmm, this function doesn't seem to be very "mangworld" friendly... 
-    lets add some speedbumps/sanity checks.
-    -APD-  
-    
-    With my new "invisible wall" code this shouldn't be neccecary. 
-    
- */
+		lets add some speedbumps/sanity checks.
+		-APD-  
+
+		With my new "invisible wall" code this shouldn't be neccecary. 
+
+	*/
 void update_view(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
@@ -2813,19 +2802,19 @@ void update_view(int Ind)
 				for (k = n, d = 1; d <= m; d++)
 				{				
 					/*if (ypn + d > 65) break; */
-				
+
 					/* Check grid "d" in strip "n", notice "blockage" */
 					if (update_view_aux(Ind, ypn+d, xpn, ypn+d-1, xpn-1, ypn+d-1, xpn))
 					{
 						if (n + d >= se) break;
 					}								
-					
+
 					/* Track most distant "non-blockage" */
 					else
 					{
 						k = n + d;
 					}										
-					
+
 				}
 
 				/* Limit the next strip */
@@ -2839,7 +2828,7 @@ void update_view(int Ind)
 				for (k = n, d = 1; d <= m; d++)
 				{
 					/*if (ypn + d > 65) break;*/
-				
+
 					/* Check grid "d" in strip "n", notice "blockage" */
 					if (update_view_aux(Ind, ypn+d, xmn, ypn+d-1, xmn+1, ypn+d-1, xmn))
 					{
@@ -2851,7 +2840,7 @@ void update_view(int Ind)
 					{
 						k = n + d;
 					}
-										
+
 				}
 
 				/* Limit the next strip */
@@ -2873,7 +2862,7 @@ void update_view(int Ind)
 				for (k = n, d = 1; d <= m; d++)
 				{
 					/*if (d > ymn) break;*/
-				
+
 					/* Check grid "d" in strip "n", notice "blockage" */
 					if (update_view_aux(Ind, ymn-d, xpn, ymn-d+1, xpn-1, ymn-d+1, xpn))
 					{
@@ -2898,7 +2887,7 @@ void update_view(int Ind)
 				for (k = n, d = 1; d <= m; d++)
 				{
 					/*if (d > ymn) break;*/
-					
+
 					/* Check grid "d" in strip "n", notice "blockage" */
 					if (update_view_aux(Ind, ymn-d, xmn, ymn-d+1, xmn+1, ymn-d+1, xmn))
 					{
@@ -2931,7 +2920,7 @@ void update_view(int Ind)
 				for (k = n, d = 1; d <= m; d++)
 				{
 					/*if (ypn > 65) break;*/
-				
+
 					/* Check grid "d" in strip "n", notice "blockage" */
 					if (update_view_aux(Ind, ypn, xpn+d, ypn-1, xpn+d-1, ypn, xpn+d-1))
 					{
@@ -2956,7 +2945,7 @@ void update_view(int Ind)
 				for (k = n, d = 1; d <= m; d++)
 				{
 					/*if (ymn > 65) break;*/
-				
+
 					/* Check grid "d" in strip "n", notice "blockage" */
 					if (update_view_aux(Ind, ymn, xpn+d, ymn+1, xpn+d-1, ymn, xpn+d-1))
 					{
@@ -2989,7 +2978,7 @@ void update_view(int Ind)
 				for (k = n, d = 1; d <= m; d++)
 				{
 					/*if (ypn > 65) break;*/
-				
+
 					/* Check grid "d" in strip "n", notice "blockage" */
 					if (update_view_aux(Ind, ypn, xmn-d, ypn-1, xmn-d+1, ypn, xmn-d+1))
 					{
@@ -3014,7 +3003,7 @@ void update_view(int Ind)
 				for (k = n, d = 1; d <= m; d++)
 				{
 					/*if (ymn > 65) break;*/
-				
+
 					/* Check grid "d" in strip "n", notice "blockage" */
 					if (update_view_aux(Ind, ymn, xmn-d, ymn+1, xmn-d+1, ymn, xmn-d+1))
 					{
@@ -3307,7 +3296,7 @@ void map_area(int Ind)
 
 			/* All non-walls are "checked", including MAngband specifics */
 			if ((c_ptr->feat < FEAT_SECRET) || 
-				((c_ptr->feat >= FEAT_DIRT) && (c_ptr->feat < FEAT_DRAWBRIDGE)))
+					((c_ptr->feat >= FEAT_DIRT) && (c_ptr->feat < FEAT_DRAWBRIDGE)))
 			{
 				/* Memorize normal features */
 				if (!is_boring(c_ptr->feat))
@@ -3324,7 +3313,7 @@ void map_area(int Ind)
 
 					/* Memorize walls (etc) */
 					if ((c_ptr->feat >= FEAT_SECRET) && 
-						((c_ptr->feat < FEAT_DIRT) || (c_ptr->feat >= FEAT_DRAWBRIDGE)))
+							((c_ptr->feat < FEAT_DIRT) || (c_ptr->feat >= FEAT_DRAWBRIDGE)))
 					{
 						/* Memorize the walls */
 						*w_ptr |= CAVE_MARK;
@@ -3668,7 +3657,7 @@ void scatter(int Depth, int *yp, int *xp, int y, int x, int d, int m)
 
 		/* Ignore illegal locations and outer walls */
 		if (!in_bounds(Depth, ny, nx)) continue;
-		
+
 
 		/* Ignore "excessively distant" locations */
 		if ((d > 1) && (distance(y, x, ny, nx) > d)) continue;

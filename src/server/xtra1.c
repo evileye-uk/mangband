@@ -75,7 +75,7 @@ static void prt_stat(int Ind, int stat)
 	player_type *p_ptr = Players[Ind];
 
 	Send_stat(Ind, stat, p_ptr->stat_top[stat], p_ptr->stat_use[stat]);
-    Send_maxstat(Ind, stat, p_ptr->stat_max[stat]);
+	Send_maxstat(Ind, stat, p_ptr->stat_max[stat]);
 }
 
 
@@ -185,7 +185,7 @@ static void prt_sp(int Ind)
 	player_type *p_ptr = Players[Ind];
 
 	/* Do not show mana unless it matters */
-    if (!p_ptr->cp_ptr->spell_book) Send_sp(Ind, 0, 0);
+	if (!p_ptr->cp_ptr->spell_book) Send_sp(Ind, 0, 0);
 
 	else Send_sp(Ind, p_ptr->msp, p_ptr->csp);
 }
@@ -392,8 +392,8 @@ static void player_flags(int Ind, u32b *f1, u32b * f2, u32b *f3)
 	(*f1) = (*f2) = (*f3) = 0L;
 
 	/*
-			Welcome to the bright future!
-	*/		
+		 Welcome to the bright future!
+	 */		
 	(*f1) |= p_info[p_ptr->prace].flags1;
 	(*f2) |= p_info[p_ptr->prace].flags2;
 	(*f3) |= p_info[p_ptr->prace].flags3;
@@ -402,7 +402,7 @@ static void player_flags(int Ind, u32b *f1, u32b * f2, u32b *f3)
 	{
 		if (p_ptr->lev >= 30) (*f2) |= (TR2_RES_FEAR);
 	}
-	
+
 	/* MAngband-specific: Rogues & Fruit Bats */
 	if (p_ptr->pclass == CLASS_ROGUE || p_ptr->fruit_bat) *f1 |= TR1_SPEED;
 
@@ -439,7 +439,7 @@ static const u32b display_player_flag_head[4] =
 	TR1_STEALTH
 };
 
-			
+
 static void prt_player_equippy(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
@@ -477,7 +477,7 @@ static void prt_player_sust_info(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
 
-	int i, row, col, stat, boost;
+	int i, col, stat, boost;
 	object_type *o_ptr;
 	object_kind *k_ptr;
 	ego_item_type *e_ptr;
@@ -489,7 +489,6 @@ static void prt_player_sust_info(int Ind)
 	ignore_f2 = ignore_f3 = 0L;
 
 	/* Row */
-	row = 3;
 	/* Column */
 	col = 26;
 	/* Header */
@@ -502,7 +501,7 @@ static void prt_player_sust_info(int Ind)
 		/* And it's base/ego */
 		k_ptr = &k_info[o_ptr->k_idx];
 		e_ptr = &e_info[o_ptr->name2];		
-		
+
 		/* Clear flags */
 		f1 = f2 = f3 = 0L;
 		/* Get the "known" flags */
@@ -513,11 +512,11 @@ static void prt_player_sust_info(int Ind)
 		/* Hack -- make a second set of flags for "bpval" items */	
 		if (k_ptr->flags1 & TR1_PVAL_MASK) 
 			f1_hack = k_ptr->flags1;
-			
+
 		/* Hack -- clear out any pval bonuses that are in the base item */
 		if (o_ptr->name2)
 			f1 &= ~(k_ptr->flags1 & TR1_PVAL_MASK & ~e_ptr->flags1);
-		
+
 		/* Initialize color based of sign of pval. 6 -- total num of stats*/
 		for (stat = 0; stat < 6; stat++)
 		{
@@ -525,11 +524,11 @@ static void prt_player_sust_info(int Ind)
 			a = TERM_SLATE;
 			c = '.';
 			boost = 0;
-			
+
 			/* Hack -- precalculate boost */
 			if (f1 & (1<<stat))				boost += o_ptr->pval;
 			if (f1_hack & (1<<stat))		boost += o_ptr->bpval;
-				
+
 			/* Boost */
 			if (boost)
 			{
@@ -599,11 +598,11 @@ static void prt_player_sust_info(int Ind)
 static void prt_player_flag_info(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
-	
+
 	int x, y, i, n;
 
-	int row, col;
-	
+	int row;
+
 	int realX, realY;
 
 	int set;
@@ -613,10 +612,10 @@ static void prt_player_flag_info(int Ind)
 
 
 	u32b f[4];
-	
+
 	byte attr = TERM_SLATE;
 	char c = '.';
-	
+
 	object_type *o_ptr;
 
 	realX = 0;
@@ -627,7 +626,6 @@ static void prt_player_flag_info(int Ind)
 	{
 		/* Reset */
 		row = 11;
-		col = 20 * x;
 
 		/* Extract set */
 		set = display_player_flag_set[x];
@@ -637,7 +635,7 @@ static void prt_player_flag_info(int Ind)
 
 		/* Header */
 		//c_put_str(TERM_WHITE, "abcdefghijkl@", row++, col+6);
-		
+
 		/* Eight rows */
 		for (y = 0; y < 8; y++)
 		{
@@ -657,7 +655,7 @@ static void prt_player_flag_info(int Ind)
 
 				/* Object */
 				o_ptr = &p_ptr->inventory[i];
-				
+
 				/* Default Value */
 				attr = TERM_SLATE;
 				c = '.';
@@ -681,10 +679,10 @@ static void prt_player_flag_info(int Ind)
 
 				/* Non-existant objects */
 				if (!o_ptr->k_idx) attr = TERM_L_DARK; 
-				
+
 				/* Hack -- Check immunities */
 				if ((x == 0) && (y < 4) &&
-				    (f[set] & ((TR2_IM_ACID) << y)))
+						(f[set] & ((TR2_IM_ACID) << y)))
 				{
 					attr = TERM_WHITE;
 					c = '*';
@@ -710,10 +708,10 @@ static void prt_player_flag_info(int Ind)
 					//p_ptr->hist_flags[realY][realX].a = attr;
 					//p_ptr->hist_flags[realY][realX].c = c;
 				}
-				
+
 				p_ptr->hist_flags[realY][realX].a = attr;
 				p_ptr->hist_flags[realY][realX].c = c;
-				
+
 				realX++;
 			}
 
@@ -730,7 +728,7 @@ static void prt_player_flag_info(int Ind)
 
 			/* Hack -- Check immunities */
 			if ((x == 0) && (y < 4) &&
-			    (f[set] & ((TR2_IM_ACID) << y)))
+					(f[set] & ((TR2_IM_ACID) << y)))
 			{
 				//c_put_str(TERM_WHITE, "*", row, col+n);
 				p_ptr->hist_flags[realY][realX].a = TERM_WHITE;
@@ -746,7 +744,7 @@ static void prt_player_flag_info(int Ind)
 
 			/* Advance */
 			row++;
-			
+
 			realY++; realX = 0;
 		}
 
@@ -772,7 +770,7 @@ static void prt_flags(int Ind)
 	{
 		Send_objflags(Ind, i);
 	}
-	
+
 }
 
 
@@ -834,10 +832,10 @@ static void cursor_redraw(int Ind)
 	/* Tracking a hallucinatory monster */
 	/* commented: this can't happen as 'looking' doesn't work while hallucinating */
 	/* else if (p_ptr->image)
-	{
-		
-	}
-	*/
+		 {
+
+		 }
+	 */
 	/* Tracking a player */
 	else if (p_ptr->cursor_who < 0)
 	{
@@ -851,7 +849,7 @@ static void cursor_redraw(int Ind)
 			p_ptr->cursor_who = 0;
 			return;
 		}
-		
+
 		q_ptr = Players[0 - p_ptr->cursor_who];
 
 		/* Tracking a bad player (?) */
@@ -892,7 +890,7 @@ static void cursor_redraw(int Ind)
 	}
 
 	/* Tracking a dead monster (???) */
-	else if (!m_list[p_ptr->health_who].hp < 0)
+	else if (!(m_list[p_ptr->health_who].hp < 0))
 	{
 		/* Reset cursor */
 		vis = 0;
@@ -902,12 +900,12 @@ static void cursor_redraw(int Ind)
 	else
 	{
 		monster_type *m_ptr = &m_list[p_ptr->health_who];
-		
+
 		vis = 1;
 		x = m_ptr->fx - p_ptr->panel_col_prt;
 		y = m_ptr->fy - p_ptr->panel_row_prt;
 	}
-	
+
 	if (vis == 1) 
 	{
 		Send_cursor(Ind, vis, x, y);
@@ -915,7 +913,7 @@ static void cursor_redraw(int Ind)
 	else 
 	{
 		Send_cursor(Ind, 0, 0, 0);
-		
+
 		/* Cancel tracking */
 		p_ptr->cursor_who = 0;
 		/* Reset look */
@@ -940,8 +938,8 @@ static void cursor_redraw(int Ind)
  * Auto-track current target monster when bored.  Note that the
  * health-bar stops tracking any monster that "disappears".
  */
- 
- 
+
+
 static void health_redraw(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
@@ -974,7 +972,7 @@ static void health_redraw(int Ind)
 			p_ptr->health_who = 0;
 			return;
 		}
-		
+
 		q_ptr = Players[0 - p_ptr->health_who];
 
 		/* Tracking a bad player (?) */
@@ -1043,7 +1041,7 @@ static void health_redraw(int Ind)
 	}
 
 	/* Tracking a dead monster (???) */
-	else if (!m_list[p_ptr->health_who].hp < 0)
+	else if (!(m_list[p_ptr->health_who].hp < 0))
 	{
 		/* Indicate that the monster health is "unknown" */
 		Send_monster_health(Ind, 0, TERM_WHITE);
@@ -1225,7 +1223,7 @@ static void fix_spell(int Ind)
 		}
 	}
 
-	
+
 #if 0
 	int j;
 
@@ -1310,7 +1308,7 @@ static void calc_spells(int Ind)
 
 	magic_type		*s_ptr;
 
-    cptr p = ((p_ptr->cp_ptr->spell_book == TV_PRAYER_BOOK) ? "prayer" : "spell");
+	cptr p = ((p_ptr->cp_ptr->spell_book == TV_PRAYER_BOOK) ? "prayer" : "spell");
 
 	int mtype = ((p_ptr->cp_ptr->spell_book == TV_PRAYER_BOOK) ? 1 : 0);
 
@@ -1338,8 +1336,8 @@ static void calc_spells(int Ind)
 	{
 		/* Count known spells */
 		if ((j < 32) ?
-		    (p_ptr->spell_learned1 & (1L << j)) :
-		    (p_ptr->spell_learned2 & (1L << (j - 32))))
+				(p_ptr->spell_learned1 & (1L << j)) :
+				(p_ptr->spell_learned2 & (1L << (j - 32))))
 		{
 			num_known++;
 		}
@@ -1370,8 +1368,8 @@ static void calc_spells(int Ind)
 
 		/* Is it known? */
 		if ((j < 32) ?
-		    (p_ptr->spell_learned1 & (1L << j)) :
-		    (p_ptr->spell_learned2 & (1L << (j - 32))))
+				(p_ptr->spell_learned1 & (1L << j)) :
+				(p_ptr->spell_learned2 & (1L << (j - 32))))
 		{
 			/* Mark as forgotten */
 			if (j < 32)
@@ -1395,7 +1393,7 @@ static void calc_spells(int Ind)
 
 			/* Message */
 			msg_format(Ind, "You have forgotten the %s of %s.", p,
-			           spell_names[mtype][j]);
+					spell_names[mtype][j]);
 
 
 			/* One more can be learned */
@@ -1421,8 +1419,8 @@ static void calc_spells(int Ind)
 
 		/* Forget it (if learned) */
 		if ((j < 32) ?
-		    (p_ptr->spell_learned1 & (1L << j)) :
-		    (p_ptr->spell_learned2 & (1L << (j - 32))))
+				(p_ptr->spell_learned1 & (1L << j)) :
+				(p_ptr->spell_learned2 & (1L << (j - 32))))
 		{
 			/* Mark as forgotten */
 			if (j < 32)
@@ -1447,7 +1445,7 @@ static void calc_spells(int Ind)
 
 			/* Message */
 			msg_format(Ind, "You have forgotten the %s of %s.", p,
-			           spell_names[mtype][j]);
+					spell_names[mtype][j]);
 
 
 			/* One more can be learned */
@@ -1479,8 +1477,8 @@ static void calc_spells(int Ind)
 
 		/* First set of spells */
 		if ((j < 32) ?
-		    (p_ptr->spell_forgotten1 & (1L << j)) :
-		    (p_ptr->spell_forgotten2 & (1L << (j - 32))))
+				(p_ptr->spell_forgotten1 & (1L << j)) :
+				(p_ptr->spell_forgotten2 & (1L << (j - 32))))
 		{
 			/* No longer forgotten */
 			if (j < 32)
@@ -1504,7 +1502,7 @@ static void calc_spells(int Ind)
 
 			/* Message */
 			msg_format(Ind, "You have remembered the %s of %s.",
-			           p, spell_names[mtype][j]);
+					p, spell_names[mtype][j]);
 
 
 			/* One less can be learned */
@@ -1527,8 +1525,8 @@ static void calc_spells(int Ind)
 
 		/* Skip spells we already know */
 		if ((j < 32) ?
-		    (p_ptr->spell_learned1 & (1L << j)) :
-		    (p_ptr->spell_learned2 & (1L << (j - 32))))
+				(p_ptr->spell_learned1 & (1L << j)) :
+				(p_ptr->spell_learned2 & (1L << (j - 32))))
 		{
 			continue;
 		}
@@ -1575,7 +1573,7 @@ static void calc_mana(int Ind)
 	int		new_mana, levels, cur_wgt, max_wgt;
 
 	object_type	*o_ptr;
-        u32b f1, f2, f3;
+	u32b f1, f2, f3;
 
 
 	/* Hack -- Must be literate */
@@ -1594,11 +1592,11 @@ static void calc_mana(int Ind)
 	/* Hack -- usually add one mana */
 	if (new_mana) new_mana++;
 
-    /* Get the gloves */
-    o_ptr = &p_ptr->inventory[INVEN_HANDS];
+	/* Get the gloves */
+	o_ptr = &p_ptr->inventory[INVEN_HANDS];
 
-    /* Examine the gloves */
-    object_flags(o_ptr, &f1, &f2, &f3);
+	/* Examine the gloves */
+	object_flags(o_ptr, &f1, &f2, &f3);
 
 	/* Only mages are affected */
 	if (p_ptr->cp_ptr->spell_book == TV_MAGIC_BOOK)
@@ -1608,8 +1606,8 @@ static void calc_mana(int Ind)
 
 		/* Normal gloves hurt mage-type spells */
 		if (o_ptr->k_idx &&
-		    !(f3 & TR3_FREE_ACT) &&
-		    !((f1 & TR1_DEX) && (o_ptr->pval > 0)))
+				!(f3 & TR3_FREE_ACT) &&
+				!((f1 & TR1_DEX) && (o_ptr->pval > 0)))
 		{
 			/* Encumbered */
 			p_ptr->cumber_glove = TRUE;
@@ -1664,8 +1662,8 @@ static void calc_mana(int Ind)
 		else if (!p_ptr->msp)
 		{
 			/* Reset mana */
-	    /* disabled because horribly exploitable!!! */
-            // p_ptr->csp = new_mana;
+			/* disabled because horribly exploitable!!! */
+			// p_ptr->csp = new_mana;
 			p_ptr->csp_frac = 0;
 		}
 
@@ -1677,7 +1675,7 @@ static void calc_mana(int Ind)
 			/* change current mana proportionately to change of max mana, */
 			/* divide first to avoid overflow, little loss of accuracy */
 			value = ((((long)p_ptr->csp << 16) + p_ptr->csp_frac) /
-			         p_ptr->msp * new_mana);
+					p_ptr->msp * new_mana);
 
 			/* Extract mana components */
 			p_ptr->csp = (value >> 16);
@@ -1737,7 +1735,7 @@ static void calc_mana(int Ind)
  * Calculate the players (maximal) hit points
  * Adjust current hitpoints if necessary
  */
- 
+
 /* An option of giving mages an extra hit point per level has been added,
  * to hopefully facilitate them making it down to 1600ish and finding  
  * Constitution potions.  This should probably be changed to stop after level
@@ -1755,16 +1753,16 @@ static void calc_hitpoints(int Ind)
 
 	/* Calculate hitpoints */
 	if (p_ptr->fruit_bat) mhp = p_ptr->lev + 2;
-	
+
 	else mhp = p_ptr->player_hp[p_ptr->lev-1] + (bonus * p_ptr->lev / 100);
 
 	/* Always have at least one hitpoint per level */
 	if (mhp < p_ptr->lev + 1) mhp = p_ptr->lev + 1;
 
-    /* Option : give (most!) mages a bonus hitpoint / lvl */
-    if (cfg_mage_hp_bonus && (p_ptr->pclass == CLASS_MAGE) 
-    	&& (strcmp(p_ptr->name,"Seth")) )
-	mhp += p_ptr->lev;
+	/* Option : give (most!) mages a bonus hitpoint / lvl */
+	if (cfg_mage_hp_bonus && (p_ptr->pclass == CLASS_MAGE) 
+			&& (strcmp(p_ptr->name,"Seth")) )
+		mhp += p_ptr->lev;
 
 	/* Factor in the hero / superhero settings */
 	if (p_ptr->hero) mhp += 10;
@@ -1909,7 +1907,7 @@ static void calc_bonuses(int Ind)
 
 	int			old_speed;
 
-    u32b		old_telepathy;
+	u32b		old_telepathy;
 	int			old_see_inv;
 
 	int			old_dis_ac;
@@ -1925,7 +1923,7 @@ static void calc_bonuses(int Ind)
 	object_kind		*k_ptr;
 	ego_item_type 		*e_ptr;
 
-        u32b		f1, f2, f3;
+	u32b		f1, f2, f3;
 
 	/*** Memorize ***/
 
@@ -1945,12 +1943,12 @@ static void calc_bonuses(int Ind)
 	old_dis_to_d = p_ptr->dis_to_d;
 
 	/*** Reset ***/
-	
-   /* Start with "normal" speed */
-   p_ptr->pspeed = 110;
 
-   /* MAngband-specific: Bats get +10 speed ... they need it! */
-   if (p_ptr->fruit_bat) p_ptr->pspeed += 10;
+	/* Start with "normal" speed */
+	p_ptr->pspeed = 110;
+
+	/* MAngband-specific: Bats get +10 speed ... they need it! */
+	if (p_ptr->fruit_bat) p_ptr->pspeed += 10;
 
 	/* Start with a single blow per turn */
 	p_ptr->num_blow = 1;
@@ -1963,7 +1961,7 @@ static void calc_bonuses(int Ind)
 
 	/* Reset the "ammo" tval */
 	p_ptr->tval_ammo = 0;
-	
+
 	/* Clear extra blows/shots */
 	extra_blows = extra_shots = 0;
 
@@ -1991,7 +1989,7 @@ static void calc_bonuses(int Ind)
 	p_ptr->regenerate = FALSE;
 	p_ptr->feather_fall = FALSE;
 	p_ptr->hold_life = FALSE;
-    p_ptr->telepathy = 0;
+	p_ptr->telepathy = 0;
 	p_ptr->lite = FALSE;
 	p_ptr->sustain_str = FALSE;
 	p_ptr->sustain_int = FALSE;
@@ -2022,7 +2020,7 @@ static void calc_bonuses(int Ind)
 
 
 	/*** Extract race/class info ***/
-	
+
 	/* Base infravision (purely racial) */
 	p_ptr->see_infra = p_ptr->rp_ptr->infra;
 
@@ -2138,12 +2136,12 @@ static void calc_bonuses(int Ind)
 	if (!strcmp(p_ptr->name,cfg_dungeon_master)) 
 	{
 		p_ptr->pspeed += 50;
-        p_ptr->telepathy = TR3_TELEPATHY;
+		p_ptr->telepathy = TR3_TELEPATHY;
 	}
 
 
 	/*** Analyze equipment ***/
-	
+
 	/* Scan the usable inventory */
 	for (i = INVEN_WIELD; i < INVEN_TOTAL; i++)
 	{
@@ -2155,7 +2153,7 @@ static void calc_bonuses(int Ind)
 		if (!o_ptr->k_idx) continue;
 
 		/* Extract the item flags */
-        object_flags(o_ptr, &f1, &f2, &f3);
+		object_flags(o_ptr, &f1, &f2, &f3);
 
 		/* Hack -- first add any "base bonuses" of the item.  A new
 		 * feature in MAngband 0.7.0 is that the magnitude of the
@@ -2206,7 +2204,7 @@ static void calc_bonuses(int Ind)
 		/* Next, add our ego bonuses */
 		/* Hack -- clear out any pval bonuses that are in the base item
 		 * bonus but not the ego bonus so we don't add them twice.
-		*/
+		 */
 		if (o_ptr->name2)
 		{
 			f1 &= ~(k_ptr->flags1 & TR1_PVAL_MASK & ~e_ptr->flags1);
@@ -2259,15 +2257,15 @@ static void calc_bonuses(int Ind)
 		if (f3 & TR3_LITE) p_ptr->lite += 1;
 		if (f3 & TR3_SEE_INVIS) p_ptr->see_inv = TRUE;
 		if (f3 & TR3_FEATHER) p_ptr->feather_fall = TRUE;
-        if (f2 & TR2_RES_FEAR) p_ptr->resist_fear = TRUE;
+		if (f2 & TR2_RES_FEAR) p_ptr->resist_fear = TRUE;
 		if (f3 & TR3_FREE_ACT) p_ptr->free_act = TRUE;
 		if (f3 & TR3_HOLD_LIFE) p_ptr->hold_life = TRUE;
 
-	/* telepathy */
-	if (f3 & TR3_TELEPATHY)
-		p_ptr->telepathy = TR3_TELEPATHY;
-	else if (p_ptr->telepathy != TR3_TELEPATHY)
-		p_ptr->telepathy |= f3;
+		/* telepathy */
+		if (f3 & TR3_TELEPATHY)
+			p_ptr->telepathy = TR3_TELEPATHY;
+		else if (p_ptr->telepathy != TR3_TELEPATHY)
+			p_ptr->telepathy |= f3;
 
 		/* Immunity flags */
 		if (f2 & TR2_IM_FIRE) p_ptr->immune_fire = TRUE;
@@ -2327,7 +2325,7 @@ static void calc_bonuses(int Ind)
 		if (object_known_p(Ind, o_ptr)) p_ptr->dis_to_d += o_ptr->to_d;
 	}
 
-	
+
 	/*** Handle stats ***/
 
 	/* Calculate stats */
@@ -2414,7 +2412,7 @@ static void calc_bonuses(int Ind)
 		}
 	}
 
-	
+
 	/*** Temporary flags ***/
 
 	/* Apply temporary "stun" */
@@ -2499,24 +2497,24 @@ static void calc_bonuses(int Ind)
 
 	/* Hack -- Res Chaos -> Res Conf */
 	/* Not in recent Angband!
-	if (p_ptr->resist_chaos)
-	{
-		p_ptr->resist_conf = TRUE;
-	}
-	*/
-	
+		 if (p_ptr->resist_chaos)
+		 {
+		 p_ptr->resist_conf = TRUE;
+		 }
+	 */
+
 	/* Hack -- Hero/Shero -> Res fear */
 	if (p_ptr->hero || p_ptr->shero)
 	{
 		p_ptr->resist_fear = TRUE;
 	}
 
-	
+
 	/*** Analyze weight ***/
 
 	/* Extract the current weight (in tenth pounds) */
 	j = p_ptr->total_weight;
-	
+
 	/* Cap the weight */
 	if (j > 1<<14) j = 1<<14;
 
@@ -2540,9 +2538,9 @@ static void calc_bonuses(int Ind)
 			p_ptr->skill_stl *= 3;
 		}
 	}
-	
+
 	/*** Apply modifier bonuses ***/
-	
+
 	/* Actual Modifier Bonuses (Un-inflate stat bonuses) */
 	p_ptr->to_a += ((int)(adj_dex_ta[p_ptr->stat_ind[A_DEX]]) - 128);
 	p_ptr->to_d += ((int)(adj_str_td[p_ptr->stat_ind[A_STR]]) - 128);
@@ -2555,7 +2553,7 @@ static void calc_bonuses(int Ind)
 	p_ptr->dis_to_h += ((int)(adj_dex_th[p_ptr->stat_ind[A_DEX]]) - 128);
 	p_ptr->dis_to_h += ((int)(adj_str_th[p_ptr->stat_ind[A_STR]]) - 128);
 
-	
+
 	/*** Modify skills ***/
 
 	/* Affect Skill -- stealth (bonus one) */
@@ -2613,7 +2611,7 @@ static void calc_bonuses(int Ind)
 
 
 	/*** Analyze current bow ***/
-	
+
 	/* Examine the "current bow" */
 	o_ptr = &p_ptr->inventory[INVEN_BOW];
 
@@ -2638,28 +2636,28 @@ static void calc_bonuses(int Ind)
 		switch (o_ptr->sval)
 		{
 			case SV_SLING:
-			{
-				p_ptr->tval_ammo = TV_SHOT;
-				break;
-			}
+				{
+					p_ptr->tval_ammo = TV_SHOT;
+					break;
+				}
 
 			case SV_SHORT_BOW:
 			case SV_LONG_BOW:
-			{
-				p_ptr->tval_ammo = TV_ARROW;
-				break;
-			}
+				{
+					p_ptr->tval_ammo = TV_ARROW;
+					break;
+				}
 
 			case SV_LIGHT_XBOW:
 			case SV_HEAVY_XBOW:
-			{
-				p_ptr->tval_ammo = TV_BOLT;
-				break;
-			}
+				{
+					p_ptr->tval_ammo = TV_BOLT;
+					break;
+				}
 		}
 
 		/* Hack -- Reward High Level Rangers using Bows */
-       if ((p_ptr->cp_ptr->flags & CF_EXTRA_SHOT) && (p_ptr->tval_ammo == TV_ARROW))	
+		if ((p_ptr->cp_ptr->flags & CF_EXTRA_SHOT) && (p_ptr->tval_ammo == TV_ARROW))	
 		{
 			/* Extra shot at level 20 */
 			if (p_ptr->lev >= 20) p_ptr->num_fire++;
@@ -2739,8 +2737,8 @@ static void calc_bonuses(int Ind)
 	p_ptr->icky_wield = FALSE;
 
 	/* Priest weapon penalty for non-blessed edged weapons */
-    if ((p_ptr->cp_ptr->flags & CF_BLESS_WEAPON) && (!p_ptr->bless_blade) &&
-	    ((o_ptr->tval == TV_SWORD) || (o_ptr->tval == TV_POLEARM)))
+	if ((p_ptr->cp_ptr->flags & CF_BLESS_WEAPON) && (!p_ptr->bless_blade) &&
+			((o_ptr->tval == TV_SWORD) || (o_ptr->tval == TV_POLEARM)))
 	{
 		/* Reduce the real bonuses */
 		p_ptr->to_h -= 2;
@@ -2770,7 +2768,7 @@ static void calc_bonuses(int Ind)
 	{
 		p_ptr->update |= (PU_MONSTERS);
 	}
-	
+
 	/* Display the speed (if needed) */
 	if (p_ptr->pspeed != old_speed) p_ptr->redraw |= (PR_SPEED);
 
@@ -3108,7 +3106,7 @@ void redraw_stuff(int Ind)
 		p_ptr->redraw &= ~(PR_HEALTH);
 		health_redraw(Ind);
 	}
-	
+
 	if (p_ptr->redraw & PR_CURSOR)
 	{
 		p_ptr->redraw &= ~(PR_CURSOR);
@@ -3120,7 +3118,7 @@ void redraw_stuff(int Ind)
 		p_ptr->redraw &= ~(PR_HISTORY);
 		prt_history(Ind);
 	}
-	
+
 	if (p_ptr->redraw & PR_OFLAGS)
 	{
 		p_ptr->redraw &= ~(PR_OFLAGS);

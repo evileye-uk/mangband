@@ -471,8 +471,8 @@ extern bool test_hit_fire(int chance, int ac, int vis);
 extern bool test_hit_norm(int chance, int ac, int vis);
 extern s16b critical_shot(int Ind, int weight, int plus, int dam);
 extern s16b critical_norm(int Ind, int weight, int plus, int dam);
-extern s16b tot_dam_aux(object_type *o_ptr, int tdam, monster_type *m_ptr);
-extern s16b tot_dam_aux_player(object_type *o_ptr, int tdam, player_type *p_ptr);
+extern s16b tot_dam_aux(const object_type *o_ptr, int tdam, const monster_type *m_ptr);
+extern s16b tot_dam_aux_player(const object_type *o_ptr, int tdam, const player_type *p_ptr);
 extern void search(int Ind);
 extern void carry(int Ind, int pickup, int confirm);
 extern void py_attack(int Ind, int y, int x);
@@ -524,7 +524,7 @@ extern void do_cmd_target_friendly(int Ind, int dir);
 extern void do_cmd_look(int Ind, int dir);
 extern void do_cmd_locate(int Ind, int dir);
 extern void do_cmd_query_symbol(int Ind, char sym);
-extern void describe_floor_tile(cave_type *c_ptr, char *out_val, int Ind, bool active, byte cave_flag);
+extern void describe_floor_tile(const cave_type *c_ptr, char *out_val, int Ind, bool active, byte cave_flag);
 
 /* cmd4.c */
 extern void do_cmd_redraw(void);
@@ -584,7 +584,7 @@ extern void play_game(bool new_game);
 extern void shutdown_server(void);
 extern void dungeon(void);
 extern bool check_special_level(s16b special_depth);
-extern int find_player_name(char *name);
+extern int find_player_name(const char *name);
 extern int find_player(s32b id);
 
 /* files.c */
@@ -694,7 +694,7 @@ extern int race_index_fuzzy(char * name);
 
 /* monster2.c */
 extern bool is_detected(u32b flag, u32b esp);
-extern s16b monster_carry(int Ind, int m_idx, object_type *j_ptr);
+extern s16b monster_carry(int Ind, int m_idx, const object_type *j_ptr);
 extern bool monster_can_carry(int m_idx);
 
 /* netserver.c */
@@ -753,7 +753,7 @@ extern int Send_special_line(int ind, int max, int line, byte attr, cptr buf);
 extern int Send_floor(int ind, char tval);
 extern int Send_pickup_check(int ind, cptr buf);
 extern int Send_party(int ind);
-extern int Send_special_other(int ind, char *header);
+extern int Send_special_other(int ind, const char *header);
 extern int Send_skills(int ind);
 extern int Send_pause(int ind);
 extern int Send_monster_health(int ind, int num, byte attr);
@@ -771,11 +771,11 @@ extern void object_flags(const object_type *o_ptr, u32b *f1, u32b *f2, u32b *f3)
 extern void object_flags_known(int Ind, const object_type *o_ptr, u32b *f1, u32b *f2, u32b *f3);
 extern void object_desc(int Ind, char *buf, const object_type *o_ptr, int pref, int mode);
 extern void object_desc_store(int Ind, char *buf, object_type *o_ptr, int pref, int mode);
-extern bool identify_fully_aux(int Ind, object_type *o_ptr);
+extern bool identify_fully_aux(int Ind, const object_type *o_ptr);
 extern s16b index_to_label(int i);
 extern s16b label_to_inven(int Ind, int c);
 extern s16b label_to_equip(int Ind, int c);
-extern s16b wield_slot(int Ind, object_type *o_ptr);
+extern s16b wield_slot(int Ind, const object_type *o_ptr);
 extern cptr mention_use(int Ind, int i);
 extern cptr describe_use(int Ind, int i);
 extern void inven_item_charges(int Ind, int item);
@@ -786,9 +786,9 @@ extern void floor_item_charges(int item);
 extern void floor_item_describe(int item);
 extern void floor_item_increase(int item, int num);
 extern void floor_item_optimize(int item);
-extern bool inven_carry_okay(int Ind, object_type *o_ptr);
-extern s16b inven_carry(int Ind, object_type *o_ptr);
-extern bool item_tester_okay(object_type *o_ptr);
+extern bool inven_carry_okay(int Ind, const object_type *o_ptr);
+extern s16b inven_carry(int Ind, const object_type *o_ptr);
+extern bool item_tester_okay(const object_type *o_ptr);
 extern void display_inven(int Ind);
 extern void display_equip(int Ind);
 /*extern void show_inven(void);
@@ -804,11 +804,11 @@ extern s16b o_pop(void);
 extern errr get_obj_num_prep(void);
 extern s16b get_obj_num(int level);
 extern void object_known(object_type *o_ptr);
-extern void object_aware(int Ind, object_type *o_ptr);
-extern void object_tried(int Ind, object_type *o_ptr);
-extern s32b object_value(int Ind, object_type *o_ptr);
-extern bool object_similar(int Ind, object_type *o_ptr, object_type *j_ptr);
-extern void object_absorb(int Ind, object_type *o_ptr, object_type *j_ptr);
+extern void object_aware(int Ind, const object_type *o_ptr);
+extern void object_tried(int Ind, const object_type *o_ptr);
+extern s32b object_value(int Ind, const object_type *o_ptr);
+extern bool object_similar(int Ind, const object_type *o_ptr, const object_type *j_ptr);
+extern void object_absorb(int Ind, object_type *o_ptr, const object_type *j_ptr);
 extern s16b lookup_kind(int tval, int sval);
 extern void invwipe(object_type *o_ptr);
 extern void invcopy(object_type *o_ptr, int k_idx);
@@ -849,7 +849,7 @@ extern void delete_player_name(cptr name);
 extern int player_id_list(int **list);
 extern int ego_kind_index_fuzzy(char * name);
 extern int item_kind_index_fuzzy(char * name);
-extern bool place_specific_object(int Depth, int y1, int x1, object_type *forge, int lev, int num);
+extern bool place_specific_object(int Depth, int y1, int x1, const object_type *forge, int lev, int num);
 
 /* save.c */
 extern bool save_player(int Ind);
@@ -983,7 +983,7 @@ extern void store_init(int which);
 
 /* util.c */
 extern errr path_parse(char *buf, int max, cptr file);
-extern errr path_temp(char *buf, int max);
+extern errr path_temp(char *buf);
 extern errr path_build(char *buf, int max, cptr path, cptr file);
 extern FILE *my_fopen(cptr file, cptr mode);
 extern errr my_fgets(FILE *fff, char *buf, huge n);
@@ -1060,7 +1060,7 @@ extern bool set_oppose_pois(int Ind, int v);
 extern bool set_stun(int Ind, int v);
 extern bool set_cut(int Ind, int v);
 extern bool set_food(int Ind, int v);
-extern void set_recall(int Ind, object_type * o_ptr);
+extern void set_recall(int Ind, const object_type * o_ptr);
 extern void check_experience(int Ind);
 extern void gain_exp(int Ind, s32b amount);
 extern void lose_exp(int Ind, s32b amount);

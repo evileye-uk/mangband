@@ -41,7 +41,6 @@ extern errr init_info_txt(FILE *fp, char *buf, header *head,
 #ifdef ALLOW_TEMPLATES
 extern errr parse_z_info(char *buf, header *head);
 extern errr parse_v_info(char *buf, header *head);
-extern errr parse_f_info(char *buf, header *head);
 extern errr parse_k_info(char *buf, header *head);
 extern errr parse_a_info(char *buf, header *head);
 extern errr parse_e_info(char *buf, header *head);
@@ -49,8 +48,6 @@ extern errr parse_r_info(char *buf, header *head);
 extern errr parse_p_info(char *buf, header *head);
 extern errr parse_c_info(char *buf, header *head);
 extern errr parse_h_info(char *buf, header *head);
-extern errr parse_b_info(char *buf, header *head);
-extern errr parse_g_info(char *buf, header *head);
 extern errr parse_flavor_info(char *buf, header *head);
 
 /*
@@ -66,12 +63,6 @@ extern s16b error_line;
  * File headers
  */
 extern header z_head;
-/*extern header v_head;
-extern header f_head;
-extern header k_head;
-extern header a_head;
-extern header e_head;
-extern header r_head;*/
 extern header p_head;
 extern header c_head;
 extern header h_head;

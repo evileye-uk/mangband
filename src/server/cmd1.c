@@ -175,228 +175,13 @@ s16b critical_norm(int Ind, int weight, int plus, int dam)
  * Note that most brands and slays are x3, except Slay Animal (x2),
  * Slay Evil (x2), and Kill dragon (x5).
  */
-s16b tot_dam_aux(object_type *o_ptr, int tdam, monster_type *m_ptr)
+s16b tot_dam_aux(const object_type *o_ptr, int tdam, const monster_type *m_ptr)
 {
 	int mult = 1;
 
 	monster_race *r_ptr = &r_info[m_ptr->r_idx];
 
-        u32b f1, f2, f3;
-
-	/* Extract the flags */
-        object_flags(o_ptr, &f1, &f2, &f3);
-
-	/* Some "weapons" and "ammo" do extra damage */
-	switch (o_ptr->tval)
-	{
-		case TV_SHOT:
-		case TV_ARROW:
-		case TV_BOLT:
-		case TV_HAFTED:
-		case TV_POLEARM:
-		case TV_SWORD:
-		case TV_DIGGING:
-		{
-			/* Slay Animal */
-			if ((f1 & TR1_SLAY_ANIMAL) &&
-			    (r_ptr->flags3 & RF3_ANIMAL))
-			{
-				/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_ANIMAL;*/
-
-				if (mult < 2) mult = 2;
-			}
-
-			/* Slay Evil */
-			if ((f1 & TR1_SLAY_EVIL) &&
-			    (r_ptr->flags3 & RF3_EVIL))
-			{
-				/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_EVIL;*/
-
-				if (mult < 2) mult = 2;
-			}
-
-			/* Slay Undead */
-			if ((f1 & TR1_SLAY_UNDEAD) &&
-			    (r_ptr->flags3 & RF3_UNDEAD))
-			{
-				/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_UNDEAD;*/
-
-				if (mult < 3) mult = 3;
-			}
-
-			/* Slay Demon */
-			if ((f1 & TR1_SLAY_DEMON) &&
-			    (r_ptr->flags3 & RF3_DEMON))
-			{
-				/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_DEMON;*/
-
-				if (mult < 3) mult = 3;
-			}
-
-			/* Slay Orc */
-			if ((f1 & TR1_SLAY_ORC) &&
-			    (r_ptr->flags3 & RF3_ORC))
-			{
-				/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_ORC;*/
-
-				if (mult < 3) mult = 3;
-			}
-
-			/* Slay Troll */
-			if ((f1 & TR1_SLAY_TROLL) &&
-			    (r_ptr->flags3 & RF3_TROLL))
-			{
-				/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_TROLL;*/
-
-				if (mult < 3) mult = 3;
-			}
-
-			/* Slay Giant */
-			if ((f1 & TR1_SLAY_GIANT) &&
-			    (r_ptr->flags3 & RF3_GIANT))
-			{
-				/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_GIANT;*/
-
-				if (mult < 3) mult = 3;
-			}
-
-			/* Slay Dragon  */
-			if ((f1 & TR1_SLAY_DRAGON) &&
-			    (r_ptr->flags3 & RF3_DRAGON))
-			{
-				/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_DRAGON;*/
-
-				if (mult < 3) mult = 3;
-			}
-
-			/* Execute Dragon */
-			if ((f1 & TR1_KILL_DRAGON) &&
-			    (r_ptr->flags3 & RF3_DRAGON))
-			{
-				/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_DRAGON;*/
-
-				if (mult < 5) mult = 5;
-			}
-
-            /* Execute Demon */
-            if ((f1 & TR1_KILL_DEMON) &&
-                (r_ptr->flags3 & RF3_DEMON))
-            {
-                /*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_DEMON;*/
-
-                if (mult < 5) mult = 5;
-            }
-
-            /* Execute Undead */
-            if ((f1 & TR1_KILL_UNDEAD) &&
-                (r_ptr->flags3 & RF3_UNDEAD))
-            {
-                /*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_UNDEAD;*/
-
-                if (mult < 5) mult = 5;
-            }
-
-
-			/* Brand (Acid) */
-			if (f1 & TR1_BRAND_ACID)
-			{
-				/* Notice immunity */
-				if (r_ptr->flags3 & RF3_IM_ACID)
-				{
-					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_IM_ACID;*/
-				}
-
-				/* Otherwise, take the damage */
-				else
-				{
-					if (mult < 3) mult = 3;
-				}
-			}
-
-			/* Brand (Elec) */
-			if (f1 & TR1_BRAND_ELEC)
-			{
-				/* Notice immunity */
-				if (r_ptr->flags3 & RF3_IM_ELEC)
-				{
-					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_IM_ELEC;*/
-				}
-
-				/* Otherwise, take the damage */
-				else
-				{
-					if (mult < 3) mult = 3;
-				}
-			}
-
-			/* Brand (Fire) */
-			if (f1 & TR1_BRAND_FIRE)
-			{
-				/* Notice immunity */
-				if (r_ptr->flags3 & RF3_IM_FIRE)
-				{
-					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_IM_FIRE;*/
-				}
-
-				/* Otherwise, take the damage */
-				else
-				{
-					if (mult < 3) mult = 3;
-				}
-			}
-
-			/* Brand (Cold) */
-			if (f1 & TR1_BRAND_COLD)
-			{
-				/* Notice immunity */
-				if (r_ptr->flags3 & RF3_IM_COLD)
-				{
-					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_IM_COLD;*/
-				}
-
-				/* Otherwise, take the damage */
-				else
-				{
-					if (mult < 3) mult = 3;
-				}
-			}
-
-            /* Brand (Poison) */
-            if (f1 & TR1_BRAND_POIS)
-            {
-                /* Notice immunity */
-                if (r_ptr->flags3 & RF3_IM_POIS)
-                {
-                    /*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_IM_POIS;*/
-                }
-
-                /* Otherwise, take the damage */
-                else
-                {
-                    if (mult < 3) mult = 3;
-                }
-            }
-
-			break;
-		}
-	}
-
-
-	/* Return the total damage */
-	return (tdam * mult);
-}
-
-/*
- * Extract the "total damage" from a given object hitting a given player.
- *
- * Note that "flasks of oil" do NOT do fire damage, although they
- * certainly could be made to do so.  XXX XXX
- */
-s16b tot_dam_aux_player(object_type *o_ptr, int tdam, player_type *p_ptr)
-{
-	int mult = 1;
-
-        u32b f1, f2, f3;
+	u32b f1, f2, f3;
 
 	/* Extract the flags */
 	object_flags(o_ptr, &f1, &f2, &f3);
@@ -411,84 +196,299 @@ s16b tot_dam_aux_player(object_type *o_ptr, int tdam, player_type *p_ptr)
 		case TV_POLEARM:
 		case TV_SWORD:
 		case TV_DIGGING:
-		{
-			/* Brand (Acid) */
-			if (f1 & TR1_BRAND_ACID)
 			{
-				/* Notice immunity */
-				if (p_ptr->immune_acid)
+				/* Slay Animal */
+				if ((f1 & TR1_SLAY_ANIMAL) &&
+						(r_ptr->flags3 & RF3_ANIMAL))
 				{
+					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_ANIMAL;*/
+
+					if (mult < 2) mult = 2;
 				}
 
-				/* Otherwise, take the damage */
-				else
+				/* Slay Evil */
+				if ((f1 & TR1_SLAY_EVIL) &&
+						(r_ptr->flags3 & RF3_EVIL))
 				{
+					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_EVIL;*/
+
+					if (mult < 2) mult = 2;
+				}
+
+				/* Slay Undead */
+				if ((f1 & TR1_SLAY_UNDEAD) &&
+						(r_ptr->flags3 & RF3_UNDEAD))
+				{
+					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_UNDEAD;*/
+
 					if (mult < 3) mult = 3;
 				}
-			}
 
-			/* Brand (Elec) */
-			if (f1 & TR1_BRAND_ELEC)
-			{
-				/* Notice immunity */
-				if (p_ptr->immune_elec)
+				/* Slay Demon */
+				if ((f1 & TR1_SLAY_DEMON) &&
+						(r_ptr->flags3 & RF3_DEMON))
 				{
-				}
+					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_DEMON;*/
 
-				/* Otherwise, take the damage */
-				else
-				{
 					if (mult < 3) mult = 3;
 				}
-			}
 
-			/* Brand (Fire) */
-			if (f1 & TR1_BRAND_FIRE)
-			{
-				/* Notice immunity */
-				if (p_ptr->immune_fire)
+				/* Slay Orc */
+				if ((f1 & TR1_SLAY_ORC) &&
+						(r_ptr->flags3 & RF3_ORC))
 				{
-				}
+					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_ORC;*/
 
-				/* Otherwise, take the damage */
-				else
-				{
 					if (mult < 3) mult = 3;
 				}
-			}
 
-			/* Brand (Cold) */
-			if (f1 & TR1_BRAND_COLD)
-			{
-				/* Notice immunity */
-				if (p_ptr->immune_cold)
+				/* Slay Troll */
+				if ((f1 & TR1_SLAY_TROLL) &&
+						(r_ptr->flags3 & RF3_TROLL))
 				{
-				}
+					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_TROLL;*/
 
-				/* Otherwise, take the damage */
-				else
-				{
 					if (mult < 3) mult = 3;
 				}
+
+				/* Slay Giant */
+				if ((f1 & TR1_SLAY_GIANT) &&
+						(r_ptr->flags3 & RF3_GIANT))
+				{
+					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_GIANT;*/
+
+					if (mult < 3) mult = 3;
+				}
+
+				/* Slay Dragon  */
+				if ((f1 & TR1_SLAY_DRAGON) &&
+						(r_ptr->flags3 & RF3_DRAGON))
+				{
+					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_DRAGON;*/
+
+					if (mult < 3) mult = 3;
+				}
+
+				/* Execute Dragon */
+				if ((f1 & TR1_KILL_DRAGON) &&
+						(r_ptr->flags3 & RF3_DRAGON))
+				{
+					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_DRAGON;*/
+
+					if (mult < 5) mult = 5;
+				}
+
+				/* Execute Demon */
+				if ((f1 & TR1_KILL_DEMON) &&
+						(r_ptr->flags3 & RF3_DEMON))
+				{
+					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_DEMON;*/
+
+					if (mult < 5) mult = 5;
+				}
+
+				/* Execute Undead */
+				if ((f1 & TR1_KILL_UNDEAD) &&
+						(r_ptr->flags3 & RF3_UNDEAD))
+				{
+					/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_UNDEAD;*/
+
+					if (mult < 5) mult = 5;
+				}
+
+
+				/* Brand (Acid) */
+				if (f1 & TR1_BRAND_ACID)
+				{
+					/* Notice immunity */
+					if (r_ptr->flags3 & RF3_IM_ACID)
+					{
+						/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_IM_ACID;*/
+					}
+
+					/* Otherwise, take the damage */
+					else
+					{
+						if (mult < 3) mult = 3;
+					}
+				}
+
+				/* Brand (Elec) */
+				if (f1 & TR1_BRAND_ELEC)
+				{
+					/* Notice immunity */
+					if (r_ptr->flags3 & RF3_IM_ELEC)
+					{
+						/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_IM_ELEC;*/
+					}
+
+					/* Otherwise, take the damage */
+					else
+					{
+						if (mult < 3) mult = 3;
+					}
+				}
+
+				/* Brand (Fire) */
+				if (f1 & TR1_BRAND_FIRE)
+				{
+					/* Notice immunity */
+					if (r_ptr->flags3 & RF3_IM_FIRE)
+					{
+						/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_IM_FIRE;*/
+					}
+
+					/* Otherwise, take the damage */
+					else
+					{
+						if (mult < 3) mult = 3;
+					}
+				}
+
+				/* Brand (Cold) */
+				if (f1 & TR1_BRAND_COLD)
+				{
+					/* Notice immunity */
+					if (r_ptr->flags3 & RF3_IM_COLD)
+					{
+						/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_IM_COLD;*/
+					}
+
+					/* Otherwise, take the damage */
+					else
+					{
+						if (mult < 3) mult = 3;
+					}
+				}
+
+				/* Brand (Poison) */
+				if (f1 & TR1_BRAND_POIS)
+				{
+					/* Notice immunity */
+					if (r_ptr->flags3 & RF3_IM_POIS)
+					{
+						/*if (m_ptr->ml) r_ptr->r_flags3 |= RF3_IM_POIS;*/
+					}
+
+					/* Otherwise, take the damage */
+					else
+					{
+						if (mult < 3) mult = 3;
+					}
+				}
+
+				break;
 			}
+	}
 
-            /* Brand (Poison) */
-            if (f1 & TR1_BRAND_POIS)
-            {
-                /* Notice resistance */
-                if (p_ptr->resist_pois)
-                {
-                }
 
-                /* Otherwise, take the damage */
-                else
-                {
-                    if (mult < 3) mult = 3;
-                }
-            }
+	/* Return the total damage */
+	return (tdam * mult);
+}
 
-			break;
-		}
+/*
+ * Extract the "total damage" from a given object hitting a given player.
+ *
+ * Note that "flasks of oil" do NOT do fire damage, although they
+ * certainly could be made to do so.  XXX XXX
+ */
+s16b tot_dam_aux_player(const object_type *o_ptr, int tdam, const player_type *p_ptr)
+{
+	int mult = 1;
+
+	u32b f1, f2, f3;
+
+	/* Extract the flags */
+	object_flags(o_ptr, &f1, &f2, &f3);
+
+	/* Some "weapons" and "ammo" do extra damage */
+	switch (o_ptr->tval)
+	{
+		case TV_SHOT:
+		case TV_ARROW:
+		case TV_BOLT:
+		case TV_HAFTED:
+		case TV_POLEARM:
+		case TV_SWORD:
+		case TV_DIGGING:
+			{
+				/* Brand (Acid) */
+				if (f1 & TR1_BRAND_ACID)
+				{
+					/* Notice immunity */
+					if (p_ptr->immune_acid)
+					{
+					}
+
+					/* Otherwise, take the damage */
+					else
+					{
+						if (mult < 3) mult = 3;
+					}
+				}
+
+				/* Brand (Elec) */
+				if (f1 & TR1_BRAND_ELEC)
+				{
+					/* Notice immunity */
+					if (p_ptr->immune_elec)
+					{
+					}
+
+					/* Otherwise, take the damage */
+					else
+					{
+						if (mult < 3) mult = 3;
+					}
+				}
+
+				/* Brand (Fire) */
+				if (f1 & TR1_BRAND_FIRE)
+				{
+					/* Notice immunity */
+					if (p_ptr->immune_fire)
+					{
+					}
+
+					/* Otherwise, take the damage */
+					else
+					{
+						if (mult < 3) mult = 3;
+					}
+				}
+
+				/* Brand (Cold) */
+				if (f1 & TR1_BRAND_COLD)
+				{
+					/* Notice immunity */
+					if (p_ptr->immune_cold)
+					{
+					}
+
+					/* Otherwise, take the damage */
+					else
+					{
+						if (mult < 3) mult = 3;
+					}
+				}
+
+				/* Brand (Poison) */
+				if (f1 & TR1_BRAND_POIS)
+				{
+					/* Notice resistance */
+					if (p_ptr->resist_pois)
+					{
+					}
+
+					/* Otherwise, take the damage */
+					else
+					{
+						if (mult < 3) mult = 3;
+					}
+				}
+
+				break;
+			}
 	}
 
 
@@ -499,7 +499,7 @@ s16b tot_dam_aux_player(object_type *o_ptr, int tdam, player_type *p_ptr)
 /*
  * Searches for hidden things.			-RAK-
  */
- 
+
 void search(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
@@ -519,7 +519,7 @@ void search(int Ind)
 	if (p_ptr->confused || p_ptr->image) chance = chance / 10;
 
 	/* Search the nearby grids, which are always in bounds */
-	
+
 	for (y = (p_ptr->py - 1); y <= (p_ptr->py + 1); y++)
 	{
 		for (x = (p_ptr->px - 1); x <= (p_ptr->px + 1); x++)
@@ -649,7 +649,7 @@ void carry(int Ind, int pickup, int confirm)
 
 	/* Describe the object */
 	object_desc(Ind, o_name, o_ptr, TRUE, 3);
-	
+
 	/* Check for auto-pickup */
 	if (auto_pickup_okay(o_ptr)) pickup = 1;
 
@@ -661,7 +661,7 @@ void carry(int Ind, int pickup, int confirm)
 
 		/* Message */
 		msg_format(Ind, "You have found %ld gold pieces worth of %s.",
-		           (long)o_ptr->pval, o_name);
+				(long)o_ptr->pval, o_name);
 
 		/* Collect the gold */
 		p_ptr->au += o_ptr->pval;
@@ -736,7 +736,7 @@ void carry(int Ind, int pickup, int confirm)
 					sprintf(msg,"Found The %s",artname);					
 					log_history_event(Ind, msg);
 				}
-					
+
 				/* Delete original */
 				delete_object(Depth, p_ptr->py, p_ptr->px);
 
@@ -813,274 +813,274 @@ static void hit_trap(int Ind)
 	switch (c_ptr->feat)
 	{
 		case FEAT_TRAP_HEAD + 0x00:
-		{
-			/* MEGAHACK: Ignore Wilderness trap doors. */
-			if( p_ptr->dun_depth<0) {
-				msg_print(Ind, "You feel quite certain something really awfull just happened..");
+			{
+				/* MEGAHACK: Ignore Wilderness trap doors. */
+				if( p_ptr->dun_depth<0) {
+					msg_print(Ind, "You feel quite certain something really awfull just happened..");
+					break;
+				}
+
+				msg_print(Ind, "You fell through a trap door!");
+				if (p_ptr->feather_fall)
+				{
+					msg_print(Ind, "You float gently down to the next level.");
+				}
+				else
+				{
+					dam = damroll(2, 8);
+					take_hit(Ind, dam, name);
+				}
+				p_ptr->new_level_flag = TRUE;
+				p_ptr->new_level_method = LEVEL_RAND;
+
+				/* The player is gone */
+				cave[p_ptr->dun_depth][p_ptr->py][p_ptr->px].m_idx = 0;
+
+				/* Erase his light */
+				forget_lite(Ind);
+
+				/* Show everyone that he's left */
+				everyone_lite_spot(p_ptr->dun_depth, p_ptr->py, p_ptr->px);
+
+				/* Reduce the number of players on this depth */
+				players_on_depth[p_ptr->dun_depth]--;
+
+				p_ptr->dun_depth++;
+
+				/* Increase the number of players on this next depth */
+				players_on_depth[p_ptr->dun_depth]++;
+
 				break;
 			}
 
-			msg_print(Ind, "You fell through a trap door!");
-			if (p_ptr->feather_fall)
-			{
-				msg_print(Ind, "You float gently down to the next level.");
-			}
-			else
-			{
-				dam = damroll(2, 8);
-				take_hit(Ind, dam, name);
-			}
-			p_ptr->new_level_flag = TRUE;
-			p_ptr->new_level_method = LEVEL_RAND;
-			
-			/* The player is gone */
-			cave[p_ptr->dun_depth][p_ptr->py][p_ptr->px].m_idx = 0;
-
-			/* Erase his light */
-			forget_lite(Ind);
-
-			/* Show everyone that he's left */
-			everyone_lite_spot(p_ptr->dun_depth, p_ptr->py, p_ptr->px);
-
-			/* Reduce the number of players on this depth */
-			players_on_depth[p_ptr->dun_depth]--;
-
-			p_ptr->dun_depth++;
-
-			/* Increase the number of players on this next depth */
-			players_on_depth[p_ptr->dun_depth]++;
-
-			break;
-		}
-
 		case FEAT_TRAP_HEAD + 0x01:
-		{
-			msg_print(Ind, "You fell into a pit!");
-			if (p_ptr->feather_fall)
 			{
-				msg_print(Ind, "You float gently to the bottom of the pit.");
+				msg_print(Ind, "You fell into a pit!");
+				if (p_ptr->feather_fall)
+				{
+					msg_print(Ind, "You float gently to the bottom of the pit.");
+				}
+				else
+				{
+					dam = damroll(2, 6);
+					take_hit(Ind, dam, name);
+				}
+				break;
 			}
-			else
-			{
-				dam = damroll(2, 6);
-				take_hit(Ind, dam, name);
-			}
-			break;
-		}
 
 		case FEAT_TRAP_HEAD + 0x02:
-		{
-			msg_print(Ind, "You fall into a spiked pit!");
-
-			if (p_ptr->feather_fall)
 			{
-				msg_print(Ind, "You float gently to the floor of the pit.");
-				msg_print(Ind, "You carefully avoid touching the spikes.");
-			}
+				msg_print(Ind, "You fall into a spiked pit!");
 
-			else
-			{
-				/* Base damage */
-				dam = damroll(2, 6);
-
-				/* Extra spike damage */
-				if (rand_int(100) < 50)
+				if (p_ptr->feather_fall)
 				{
-					msg_print(Ind, "You are impaled!");
-
-					dam = dam * 2;
-					(void)set_cut(Ind, p_ptr->cut + randint(dam));
+					msg_print(Ind, "You float gently to the floor of the pit.");
+					msg_print(Ind, "You carefully avoid touching the spikes.");
 				}
 
-				/* Take the damage */
-				take_hit(Ind, dam, name);
+				else
+				{
+					/* Base damage */
+					dam = damroll(2, 6);
+
+					/* Extra spike damage */
+					if (rand_int(100) < 50)
+					{
+						msg_print(Ind, "You are impaled!");
+
+						dam = dam * 2;
+						(void)set_cut(Ind, p_ptr->cut + randint(dam));
+					}
+
+					/* Take the damage */
+					take_hit(Ind, dam, name);
+				}
+				break;
 			}
-			break;
-		}
 
 		case FEAT_TRAP_HEAD + 0x03:
-		{
-			msg_print(Ind, "You fall into a spiked pit!");
-
-			if (p_ptr->feather_fall)
 			{
-				msg_print(Ind, "You float gently to the floor of the pit.");
-				msg_print(Ind, "You carefully avoid touching the spikes.");
-			}
+				msg_print(Ind, "You fall into a spiked pit!");
 
-			else
-			{
-				/* Base damage */
-				dam = damroll(2, 6);
-
-				/* Extra spike damage */
-				if (rand_int(100) < 50)
+				if (p_ptr->feather_fall)
 				{
-					msg_print(Ind, "You are impaled on poisonous spikes!");
-
-					dam = dam * 2;
-					(void)set_cut(Ind, p_ptr->cut + randint(dam));
-
-					if (p_ptr->resist_pois || p_ptr->oppose_pois)
-					{
-						msg_print(Ind, "The poison does not affect you!");
-					}
-
-					else
-					{
-						dam = dam * 2;
-						(void)set_poisoned(Ind, p_ptr->poisoned + randint(dam));
-					}
+					msg_print(Ind, "You float gently to the floor of the pit.");
+					msg_print(Ind, "You carefully avoid touching the spikes.");
 				}
 
-				/* Take the damage */
-				take_hit(Ind, dam, name);
-			}
+				else
+				{
+					/* Base damage */
+					dam = damroll(2, 6);
 
-			break;
-		}
+					/* Extra spike damage */
+					if (rand_int(100) < 50)
+					{
+						msg_print(Ind, "You are impaled on poisonous spikes!");
+
+						dam = dam * 2;
+						(void)set_cut(Ind, p_ptr->cut + randint(dam));
+
+						if (p_ptr->resist_pois || p_ptr->oppose_pois)
+						{
+							msg_print(Ind, "The poison does not affect you!");
+						}
+
+						else
+						{
+							dam = dam * 2;
+							(void)set_poisoned(Ind, p_ptr->poisoned + randint(dam));
+						}
+					}
+
+					/* Take the damage */
+					take_hit(Ind, dam, name);
+				}
+
+				break;
+			}
 
 		case FEAT_TRAP_HEAD + 0x04:
-		{
-			msg_print(Ind, "You are enveloped in a cloud of smoke!");
-			c_ptr->feat = FEAT_FLOOR;
-			*w_ptr &= ~CAVE_MARK;
-			note_spot_depth(Depth, p_ptr->py, p_ptr->px);
-			everyone_lite_spot(Depth, p_ptr->py, p_ptr->px);
-			num = 2 + randint(3);
-			for (i = 0; i < num; i++)
 			{
-				(void)summon_specific(Depth, p_ptr->py, p_ptr->px, Depth, 0);
+				msg_print(Ind, "You are enveloped in a cloud of smoke!");
+				c_ptr->feat = FEAT_FLOOR;
+				*w_ptr &= ~CAVE_MARK;
+				note_spot_depth(Depth, p_ptr->py, p_ptr->px);
+				everyone_lite_spot(Depth, p_ptr->py, p_ptr->px);
+				num = 2 + randint(3);
+				for (i = 0; i < num; i++)
+				{
+					(void)summon_specific(Depth, p_ptr->py, p_ptr->px, Depth, 0);
+				}
+				break;
 			}
-			break;
-		}
 
 		case FEAT_TRAP_HEAD + 0x05:
-		{
-			msg_print(Ind, "You hit a teleport trap!");
-			teleport_player(Ind, 100);
-			break;
-		}
+			{
+				msg_print(Ind, "You hit a teleport trap!");
+				teleport_player(Ind, 100);
+				break;
+			}
 
 		case FEAT_TRAP_HEAD + 0x06:
-		{
-			msg_print(Ind, "You are enveloped in flames!");
-			dam = damroll(4, 6);
-			fire_dam(Ind, dam, "a fire trap");
-			break;
-		}
+			{
+				msg_print(Ind, "You are enveloped in flames!");
+				dam = damroll(4, 6);
+				fire_dam(Ind, dam, "a fire trap");
+				break;
+			}
 
 		case FEAT_TRAP_HEAD + 0x07:
-		{
-			msg_print(Ind, "You are splashed with acid!");
-			dam = damroll(4, 6);
-			acid_dam(Ind, dam, "an acid trap");
-			break;
-		}
+			{
+				msg_print(Ind, "You are splashed with acid!");
+				dam = damroll(4, 6);
+				acid_dam(Ind, dam, "an acid trap");
+				break;
+			}
 
 		case FEAT_TRAP_HEAD + 0x08:
-		{
-			if (check_hit(Ind, 125))
 			{
-				msg_print(Ind, "A small dart hits you!");
-				dam = damroll(1, 4);
-				take_hit(Ind, dam, name);
-				(void)set_slow(Ind, p_ptr->slow + rand_int(20) + 20);
+				if (check_hit(Ind, 125))
+				{
+					msg_print(Ind, "A small dart hits you!");
+					dam = damroll(1, 4);
+					take_hit(Ind, dam, name);
+					(void)set_slow(Ind, p_ptr->slow + rand_int(20) + 20);
+				}
+				else
+				{
+					msg_print(Ind, "A small dart barely misses you.");
+				}
+				break;
 			}
-			else
-			{
-				msg_print(Ind, "A small dart barely misses you.");
-			}
-			break;
-		}
 
 		case FEAT_TRAP_HEAD + 0x09:
-		{
-			if (check_hit(Ind, 125))
 			{
-				msg_print(Ind, "A small dart hits you!");
-				dam = damroll(1, 4);
-				take_hit(Ind, dam, name);
-				(void)do_dec_stat(Ind, A_STR);
+				if (check_hit(Ind, 125))
+				{
+					msg_print(Ind, "A small dart hits you!");
+					dam = damroll(1, 4);
+					take_hit(Ind, dam, name);
+					(void)do_dec_stat(Ind, A_STR);
+				}
+				else
+				{
+					msg_print(Ind, "A small dart barely misses you.");
+				}
+				break;
 			}
-			else
-			{
-				msg_print(Ind, "A small dart barely misses you.");
-			}
-			break;
-		}
 
 		case FEAT_TRAP_HEAD + 0x0A:
-		{
-			if (check_hit(Ind, 125))
 			{
-				msg_print(Ind, "A small dart hits you!");
-				dam = damroll(1, 4);
-				take_hit(Ind, dam, name);
-				(void)do_dec_stat(Ind, A_DEX);
+				if (check_hit(Ind, 125))
+				{
+					msg_print(Ind, "A small dart hits you!");
+					dam = damroll(1, 4);
+					take_hit(Ind, dam, name);
+					(void)do_dec_stat(Ind, A_DEX);
+				}
+				else
+				{
+					msg_print(Ind, "A small dart barely misses you.");
+				}
+				break;
 			}
-			else
-			{
-				msg_print(Ind, "A small dart barely misses you.");
-			}
-			break;
-		}
 
 		case FEAT_TRAP_HEAD + 0x0B:
-		{
-			if (check_hit(Ind, 125))
 			{
-				msg_print(Ind, "A small dart hits you!");
-				dam = damroll(1, 4);
-				take_hit(Ind, dam, name);
-				(void)do_dec_stat(Ind, A_CON);
+				if (check_hit(Ind, 125))
+				{
+					msg_print(Ind, "A small dart hits you!");
+					dam = damroll(1, 4);
+					take_hit(Ind, dam, name);
+					(void)do_dec_stat(Ind, A_CON);
+				}
+				else
+				{
+					msg_print(Ind, "A small dart barely misses you.");
+				}
+				break;
 			}
-			else
-			{
-				msg_print(Ind, "A small dart barely misses you.");
-			}
-			break;
-		}
 
 		case FEAT_TRAP_HEAD + 0x0C:
-		{
-			msg_print(Ind, "A black gas surrounds you!");
-			if (!p_ptr->resist_blind)
 			{
-				(void)set_blind(Ind, p_ptr->blind + rand_int(50) + 25);
+				msg_print(Ind, "A black gas surrounds you!");
+				if (!p_ptr->resist_blind)
+				{
+					(void)set_blind(Ind, p_ptr->blind + rand_int(50) + 25);
+				}
+				break;
 			}
-			break;
-		}
 
 		case FEAT_TRAP_HEAD + 0x0D:
-		{
-			msg_print(Ind, "A gas of scintillating colors surrounds you!");
-			if (!p_ptr->resist_conf)
 			{
-				(void)set_confused(Ind, p_ptr->confused + rand_int(20) + 10);
+				msg_print(Ind, "A gas of scintillating colors surrounds you!");
+				if (!p_ptr->resist_conf)
+				{
+					(void)set_confused(Ind, p_ptr->confused + rand_int(20) + 10);
+				}
+				break;
 			}
-			break;
-		}
 
 		case FEAT_TRAP_HEAD + 0x0E:
-		{
-			msg_print(Ind, "A pungent green gas surrounds you!");
-			if (!p_ptr->resist_pois && !p_ptr->oppose_pois)
 			{
-				(void)set_poisoned(Ind, p_ptr->poisoned + rand_int(20) + 10);
+				msg_print(Ind, "A pungent green gas surrounds you!");
+				if (!p_ptr->resist_pois && !p_ptr->oppose_pois)
+				{
+					(void)set_poisoned(Ind, p_ptr->poisoned + rand_int(20) + 10);
+				}
+				break;
 			}
-			break;
-		}
 
 		case FEAT_TRAP_HEAD + 0x0F:
-		{
-			msg_print(Ind, "A strange white mist surrounds you!");
-			if (!p_ptr->free_act)
 			{
-				(void)set_paralyzed(Ind, p_ptr->paralyzed + rand_int(10) + 5);
+				msg_print(Ind, "A strange white mist surrounds you!");
+				if (!p_ptr->free_act)
+				{
+					(void)set_paralyzed(Ind, p_ptr->paralyzed + rand_int(10) + 5);
+				}
+				break;
 			}
-			break;
-		}
 	}
 }
 
@@ -1304,8 +1304,8 @@ void py_attack_mon(int Ind, int y, int x)
 		else if (m_ptr->monfear /*&& m_ptr->ml)*/)
 			stab_fleeing = TRUE;
 	}
-		
-	
+
+
 	/* Disturb the monster */
 	m_ptr->csleep = 0;
 
@@ -1341,7 +1341,7 @@ void py_attack_mon(int Ind, int y, int x)
 			/* Ghosts get damage relative to level */
 			if (p_ptr->ghost)
 				k = p_ptr->lev;
-				
+
 			if (p_ptr->fruit_bat)
 				k = (p_ptr->lev / 5) + 1;
 
@@ -1477,18 +1477,18 @@ void py_attack(int Ind, int y, int x)
  * any monster which might be in the destination grid.  Previously,
  * moving into walls was "free" and did NOT hit invisible monsters.
  */
- 
- /* Bounds checking is used in dungeon levels <= 0, which is used
-    to move between wilderness levels. 
-    
-    The wilderness levels are stored in rings radiating from the town,
-    see calculate_world_index for more information.
 
-    Diagonals aren't handled properly, but I don't feel that is important.
-        
-    -APD- 
+/* Bounds checking is used in dungeon levels <= 0, which is used
+	 to move between wilderness levels. 
+
+	 The wilderness levels are stored in rings radiating from the town,
+	 see calculate_world_index for more information.
+
+	 Diagonals aren't handled properly, but I don't feel that is important.
+
+	 -APD- 
  */
- 
+
 void move_player(int Ind, int dir, int do_pickup)
 {
 	player_type *p_ptr = Players[Ind];
@@ -1501,128 +1501,128 @@ void move_player(int Ind, int dir, int do_pickup)
 	monster_type	*m_ptr;
 	byte			*w_ptr;
 
-  if (dir < 0 || dir > 10) return;
+	if (dir < 0 || dir > 10) return;
 
 	/* Find the result of moving */
 	y = p_ptr->py + ddy[dir];
 	x = p_ptr->px + ddx[dir];
 
-  if (cfg_ironman || cfg_town_wall)
-  {
-	/* 
-	 * Ironmen don't go wandering in the countryside...
-	 */
-	if (!in_bounds(Depth, y, x))
+	if (cfg_ironman || cfg_town_wall)
 	{
-		if(Depth == 0 && !cfg_town_wall)
-		{
-			switch(rand_int(5))
-			{
-				case 0: msg_print(Ind, "You don't feel like going to pick flowers right now."); break;
-				case 1: msg_print(Ind, "Where do you think you are going?"); break; /* [Warrior] */
-				case 2: msg_print(Ind, "Morgoth the potato farmer? - get real!"); break; /* [Warrior] */
-				case 3: msg_print(Ind, "Morgoth awaits you in the depths not in the fields."); break; 
-				case 4: msg_print(Ind, "Something draws your attention back to the stairs."); break; 
-			}	
-		}
-		else
-			msg_print(Ind, "There is a wall blocking your way.");			
-		disturb(Ind, 1);
-		return;
-	}	 
-  }
-  else
-  {
-	/* Update wilderness positions */
-	if (p_ptr->dun_depth <= 0)
-	{
-		/* Make sure he hasn't just changed depth */
-		if (p_ptr->new_level_flag) return;
-		
-		/* save his old location */
-		old_world_x = p_ptr->world_x; old_world_y = p_ptr->world_y;
-		oldx = p_ptr->px; oldy = p_ptr->py;
-		
-		/* we have gone off the map */
+		/* 
+		 * Ironmen don't go wandering in the countryside...
+		 */
 		if (!in_bounds(Depth, y, x))
 		{
-			/* find his new location */
-			if (y <= 0)
-			{	
-				/* new player location */
-				p_ptr->world_y++;
-				p_ptr->py = MAX_HGT-2;
-			}
-			if (y >= 65)
-			{			
-				/* new player location */  
-				p_ptr->world_y--;
-				p_ptr->py = 1;
-			}
-			if (x <= 0)
+			if(Depth == 0 && !cfg_town_wall)
 			{
-				/* new player location */
-				p_ptr->world_x--;
-				p_ptr->px = MAX_WID-2;
+				switch(rand_int(5))
+				{
+					case 0: msg_print(Ind, "You don't feel like going to pick flowers right now."); break;
+					case 1: msg_print(Ind, "Where do you think you are going?"); break; /* [Warrior] */
+					case 2: msg_print(Ind, "Morgoth the potato farmer? - get real!"); break; /* [Warrior] */
+					case 3: msg_print(Ind, "Morgoth awaits you in the depths not in the fields."); break; 
+					case 4: msg_print(Ind, "Something draws your attention back to the stairs."); break; 
+				}	
 			}
-			if (x >= 197)
+			else
+				msg_print(Ind, "There is a wall blocking your way.");			
+			disturb(Ind, 1);
+			return;
+		}	 
+	}
+	else
+	{
+		/* Update wilderness positions */
+		if (p_ptr->dun_depth <= 0)
+		{
+			/* Make sure he hasn't just changed depth */
+			if (p_ptr->new_level_flag) return;
+
+			/* save his old location */
+			old_world_x = p_ptr->world_x; old_world_y = p_ptr->world_y;
+			oldx = p_ptr->px; oldy = p_ptr->py;
+
+			/* we have gone off the map */
+			if (!in_bounds(Depth, y, x))
 			{
-				/* new player location */
-				p_ptr->world_x++;			
-				p_ptr->px = 1;
-			}
-		
-			/* check to make sure he hasnt hit the edge of the world */
-			if (world_index(p_ptr->world_x, p_ptr->world_y) <= -MAX_WILD) 
-			{
-				p_ptr->world_x = old_world_x;
-				p_ptr->world_y = old_world_y;
-				p_ptr->px = oldx;
-				p_ptr->py = oldy;
+				/* find his new location */
+				if (y <= 0)
+				{	
+					/* new player location */
+					p_ptr->world_y++;
+					p_ptr->py = MAX_HGT-2;
+				}
+				if (y >= 65)
+				{			
+					/* new player location */  
+					p_ptr->world_y--;
+					p_ptr->py = 1;
+				}
+				if (x <= 0)
+				{
+					/* new player location */
+					p_ptr->world_x--;
+					p_ptr->px = MAX_WID-2;
+				}
+				if (x >= 197)
+				{
+					/* new player location */
+					p_ptr->world_x++;			
+					p_ptr->px = 1;
+				}
+
+				/* check to make sure he hasnt hit the edge of the world */
+				if (world_index(p_ptr->world_x, p_ptr->world_y) <= -MAX_WILD) 
+				{
+					p_ptr->world_x = old_world_x;
+					p_ptr->world_y = old_world_y;
+					p_ptr->px = oldx;
+					p_ptr->py = oldy;
+					return;
+				}
+
+				/* Remove the player from the old location */
+				cave[Depth][oldy][oldx].m_idx = 0;
+
+				/* Show everyone that's he left */
+				everyone_lite_spot(Depth, oldy, oldx);
+
+				/* forget his light and viewing area */
+				forget_lite(Ind);
+				forget_view(Ind);			
+
+				/* Hack -- take a turn */
+				p_ptr->energy -= level_speed(p_ptr->dun_depth);
+
+				/* A player has left this depth */
+				players_on_depth[p_ptr->dun_depth]--;
+
+				/* (required) paranoia, allows integration of old wilderness
+					 saves onto new severs.
+				 */
+				if (players_on_depth[p_ptr->dun_depth] < 0)
+					players_on_depth[p_ptr->dun_depth] = 0;
+
+				/* Calculate the new level index */
+				p_ptr->dun_depth = world_index(p_ptr->world_x, p_ptr->world_y);
+
+				/* update the wilderness map */
+				p_ptr->wild_map[(-p_ptr->dun_depth)/8] |= (1<<((-p_ptr->dun_depth)%8));
+
+				/* disturb if necessary */
+				if (p_ptr->disturb_panel) disturb(Ind, 0);
+
+				players_on_depth[p_ptr->dun_depth]++;
+				p_ptr->new_level_flag = TRUE;
+				p_ptr->new_level_method = LEVEL_OUTSIDE;
+
 				return;
 			}
-			
-			/* Remove the player from the old location */
-			cave[Depth][oldy][oldx].m_idx = 0;
-			
-			/* Show everyone that's he left */
-			everyone_lite_spot(Depth, oldy, oldx);
-		
-			/* forget his light and viewing area */
-			forget_lite(Ind);
-			forget_view(Ind);			
-		
-			/* Hack -- take a turn */
-			p_ptr->energy -= level_speed(p_ptr->dun_depth);
-			
-			/* A player has left this depth */
-			players_on_depth[p_ptr->dun_depth]--;
-			
-			/* (required) paranoia, allows integration of old wilderness
-			   saves onto new severs.
-			*/
-			if (players_on_depth[p_ptr->dun_depth] < 0)
-				players_on_depth[p_ptr->dun_depth] = 0;
-			
-			/* Calculate the new level index */
-			p_ptr->dun_depth = world_index(p_ptr->world_x, p_ptr->world_y);
-		
-			/* update the wilderness map */
-			p_ptr->wild_map[(-p_ptr->dun_depth)/8] |= (1<<((-p_ptr->dun_depth)%8));
-			
-			/* disturb if necessary */
-			if (p_ptr->disturb_panel) disturb(Ind, 0);
-						
-			players_on_depth[p_ptr->dun_depth]++;
-			p_ptr->new_level_flag = TRUE;
-			p_ptr->new_level_method = LEVEL_OUTSIDE;
-
-			return;
 		}
 	}
-  }
 
-	
+
 	/* Examine the destination */
 	c_ptr = &cave[Depth][y][x];
 	w_ptr = &p_ptr->cave_flag[y][x];
@@ -1641,61 +1641,61 @@ void move_player(int Ind, int dir, int do_pickup)
 	{
 		player_type *q_ptr = Players[0 - c_ptr->m_idx];
 		int Ind2 = 0 - c_ptr->m_idx;
-		
-	if (Ind2 != Ind)
-	{
 
-		/* Check for an attack */
-		if (check_hostile(Ind, Ind2))
-			py_attack(Ind, y, x);
-
-		/* If both want to switch, do it */
-		else if ((!p_ptr->ghost && !q_ptr->ghost &&
-		         (ddy[q_ptr->last_dir] == -(ddy[dir])) &&
-		         (ddx[q_ptr->last_dir] == (-ddx[dir]))) ||
-			(!strcmp(q_ptr->name,cfg_dungeon_master)))
+		if (Ind2 != Ind)
 		{
-			c_ptr->m_idx = 0 - Ind;
-			cave[Depth][p_ptr->py][p_ptr->px].m_idx = 0 - Ind2;
 
-			q_ptr->py = p_ptr->py;
-			q_ptr->px = p_ptr->px;
+			/* Check for an attack */
+			if (check_hostile(Ind, Ind2))
+				py_attack(Ind, y, x);
 
-			p_ptr->py = y;
-			p_ptr->px = x;
-
-			/* Tell both of them */
-			/* Don't tell people they bumped into the Dungeon Master */
-			if (strcmp(q_ptr->name,cfg_dungeon_master))
+			/* If both want to switch, do it */
+			else if ((!p_ptr->ghost && !q_ptr->ghost &&
+						(ddy[q_ptr->last_dir] == -(ddy[dir])) &&
+						(ddx[q_ptr->last_dir] == (-ddx[dir]))) ||
+					(!strcmp(q_ptr->name,cfg_dungeon_master)))
 			{
-				msg_format(Ind, "You switch places with %s.", q_ptr->name);
-				msg_format(Ind2, "You switch places with %s.", p_ptr->name);
+				c_ptr->m_idx = 0 - Ind;
+				cave[Depth][p_ptr->py][p_ptr->px].m_idx = 0 - Ind2;
+
+				q_ptr->py = p_ptr->py;
+				q_ptr->px = p_ptr->px;
+
+				p_ptr->py = y;
+				p_ptr->px = x;
+
+				/* Tell both of them */
+				/* Don't tell people they bumped into the Dungeon Master */
+				if (strcmp(q_ptr->name,cfg_dungeon_master))
+				{
+					msg_format(Ind, "You switch places with %s.", q_ptr->name);
+					msg_format(Ind2, "You switch places with %s.", p_ptr->name);
+				}
+
+				/* Disturb both of them */
+				disturb(Ind, 1);
+				disturb(Ind2, 1);
+
+				/* Unhack both of them */
+				q_ptr->last_dir = p_ptr->last_dir = 5;
+
+				/* Re-show both grids */
+				everyone_lite_spot(Depth, p_ptr->py, p_ptr->px);
+				everyone_lite_spot(Depth, q_ptr->py, q_ptr->px);
 			}
 
-			/* Disturb both of them */
-			disturb(Ind, 1);
-			disturb(Ind2, 1);
+			/* Hack -- the Dungeon Master cannot bump people */
+			else if (strcmp(p_ptr->name,cfg_dungeon_master))
+			{
+				/* Tell both about it */
+				msg_format(Ind, "You bump into %s.", q_ptr->name);
+				msg_format(Ind2, "%s bumps into you.", p_ptr->name);
 
-			/* Unhack both of them */
-			q_ptr->last_dir = p_ptr->last_dir = 5;
-
-			/* Re-show both grids */
-			everyone_lite_spot(Depth, p_ptr->py, p_ptr->px);
-			everyone_lite_spot(Depth, q_ptr->py, q_ptr->px);
+				/* Disturb both parties */
+				disturb(Ind, 1);
+				disturb(Ind2, 1);
+			}
 		}
-
-		/* Hack -- the Dungeon Master cannot bump people */
-		else if (strcmp(p_ptr->name,cfg_dungeon_master))
-		{
-			/* Tell both about it */
-			msg_format(Ind, "You bump into %s.", q_ptr->name);
-			msg_format(Ind2, "%s bumps into you.", p_ptr->name);
-
-			/* Disturb both parties */
-			disturb(Ind, 1);
-			disturb(Ind2, 1);
-		}
-	}
 	}
 
 	/* Hack -- attack monsters */
@@ -1726,14 +1726,14 @@ void move_player(int Ind, int dir, int do_pickup)
 	}
 
 	/* Player can not walk through "walls", but ghosts can */
-    else if ((!p_ptr->ghost) && (!cave_floor_bold(Depth, y, x)))
+	else if ((!p_ptr->ghost) && (!cave_floor_bold(Depth, y, x)))
 	{
 		/* Disturb the player */
 		disturb(Ind, 0);
 
 		/* Notice things in the dark */
 		if (!(*w_ptr & CAVE_MARK) &&
-		    (p_ptr->blind || !(*w_ptr & CAVE_LITE)))
+				(p_ptr->blind || !(*w_ptr & CAVE_LITE)))
 		{
 			/* Rubble */
 			if (c_ptr->feat == FEAT_RUBBLE)
@@ -1745,7 +1745,7 @@ void move_player(int Ind, int dir, int do_pickup)
 
 			/* Closed door */
 			else if ((c_ptr->feat < FEAT_SECRET && c_ptr->feat >= FEAT_DOOR_HEAD) ||
-			         (c_ptr->feat >= FEAT_HOME_HEAD && c_ptr->feat <= FEAT_HOME_TAIL))
+					(c_ptr->feat >= FEAT_HOME_HEAD && c_ptr->feat <= FEAT_HOME_TAIL))
 			{
 				msg_print(Ind, "You feel a closed door blocking your way.");
 				*w_ptr |= CAVE_MARK;
@@ -1780,7 +1780,7 @@ void move_player(int Ind, int dir, int do_pickup)
 
 			/* Closed doors */
 			else if ((c_ptr->feat < FEAT_SECRET && c_ptr->feat >= FEAT_DOOR_HEAD) || 
-			         (c_ptr->feat >= FEAT_HOME_HEAD && c_ptr->feat <= FEAT_HOME_TAIL))
+					(c_ptr->feat >= FEAT_HOME_HEAD && c_ptr->feat <= FEAT_HOME_TAIL))
 			{
 				msg_print(Ind, "There is a closed door blocking your way.");
 			}
@@ -1800,7 +1800,7 @@ void move_player(int Ind, int dir, int do_pickup)
 	}
 
 	/* Ghost trying to walk into a permanent wall */
-    else if (p_ptr->ghost && c_ptr->feat == FEAT_PERM_SOLID)
+	else if (p_ptr->ghost && c_ptr->feat == FEAT_PERM_SOLID)
 	{
 		/* Message */
 		msg_print(Ind, "The wall blocks your movement.");
@@ -1825,7 +1825,7 @@ void move_player(int Ind, int dir, int do_pickup)
 		cave[Depth][oy][ox].m_idx = 0;
 		cave[Depth][y][x].m_idx = 0 - Ind;
 
-		
+
 
 		/* Redraw new spot */
 		everyone_lite_spot(Depth, p_ptr->py, p_ptr->px);
@@ -1846,13 +1846,13 @@ void move_player(int Ind, int dir, int do_pickup)
 		p_ptr->window |= (PW_OVERHEAD);
 
 		/* Hack -- quickly update the view, to reduce perceived lag */
-		
+
 		redraw_stuff(Ind);
 		window_stuff(Ind);
 
 		/* Spontaneous Searching */
 		if ((p_ptr->skill_fos >= 50) ||
-		    (0 == rand_int(50 - p_ptr->skill_fos)))
+				(0 == rand_int(50 - p_ptr->skill_fos)))
 		{
 			search(Ind);
 		}
@@ -1869,8 +1869,8 @@ void move_player(int Ind, int dir, int do_pickup)
 
 		/* Handle "store doors" */
 		if ((!p_ptr->ghost) &&
-		    (c_ptr->feat >= FEAT_SHOP_HEAD) &&
-		    (c_ptr->feat <= FEAT_SHOP_TAIL))
+				(c_ptr->feat >= FEAT_SHOP_HEAD) &&
+				(c_ptr->feat <= FEAT_SHOP_TAIL))
 		{
 			/* Disturb */
 			disturb(Ind, 0);
@@ -1908,7 +1908,7 @@ void move_player(int Ind, int dir, int do_pickup)
 
 		/* Set off an visible trap */
 		else if ((c_ptr->feat >= FEAT_TRAP_HEAD) &&
-		         (c_ptr->feat <= FEAT_TRAP_TAIL))
+				(c_ptr->feat <= FEAT_TRAP_TAIL))
 		{
 			/* Disturb */
 			disturb(Ind, 0);
@@ -1936,14 +1936,14 @@ int see_wall(int Ind, int dir, int y, int x)
 	player_type *p_ptr = Players[Ind];
 	int Depth = p_ptr->dun_depth;
 
-  if (dir < 0 || dir > 10) return FALSE;
+	if (dir < 0 || dir > 10) return FALSE;
 
 	/* Get the new location */
 	y += ddy[dir];
 	x += ddx[dir];
 
 	/* Ghosts run right through everything */
-    if (p_ptr->ghost) return (FALSE);
+	if (p_ptr->ghost) return (FALSE);
 
 	/* Do wilderness hack, keep running from one outside level to another */
 	if ( (!in_bounds(Depth, y, x)) && (Depth <= 0) ) return FALSE;
@@ -2125,10 +2125,10 @@ static int see_nothing(int dir, int Ind, int y, int x)
 
 
 
-/*
- * Hack -- allow quick "cycling" through the legal directions
- */
-static byte cycle[] =
+ /*
+	* Hack -- allow quick "cycling" through the legal directions
+	*/
+ static byte cycle[] =
 { 1, 2, 3, 6, 9, 8, 7, 4, 1, 2, 3, 6, 9, 8, 7, 4, 1 };
 
 /*
@@ -2156,7 +2156,7 @@ static byte chome[] =
  * We are looking for a break
  */
 /*static bool find_breakright;
-static bool find_breakleft;*/
+	static bool find_breakleft;*/
 
 
 
@@ -2181,7 +2181,7 @@ static void run_init(int Ind, int dir)
 	int		row, col, deepleft, deepright;
 	int		i, shortleft, shortright;
 
-  if (dir < 0 || dir > 10) return;
+	if (dir < 0 || dir > 10) return;
 
 	/* Save the direction */
 	p_ptr->find_current = dir;
@@ -2304,7 +2304,7 @@ static bool run_test(int Ind)
 
 
 	/* XXX -- Ghosts never stop running */
-    if (p_ptr->ghost) return (FALSE);
+	if (p_ptr->ghost) return (FALSE);
 
 	/* No options yet */
 	option = 0;
@@ -2359,28 +2359,28 @@ static bool run_test(int Ind)
 			switch (c_ptr->feat)
 			{
 				/* Floors */
-			        case FEAT_FLOOR:
+				case FEAT_FLOOR:
 
-				/* Invis traps */
+					/* Invis traps */
 				case FEAT_INVIS:
 
-				/* Secret doors */
+					/* Secret doors */
 				case FEAT_SECRET:
 
-				/* Normal veins */
+					/* Normal veins */
 				case FEAT_MAGMA:
 				case FEAT_QUARTZ:
 
-				/* Hidden treasure */
+					/* Hidden treasure */
 				case FEAT_MAGMA_H:
 				case FEAT_QUARTZ_H:
 
-				/* Grass, trees, and dirt */
+					/* Grass, trees, and dirt */
 				case FEAT_GRASS:
 				case FEAT_TREE:
 				case FEAT_DIRT:
 
-				/* Walls */
+					/* Walls */
 				case FEAT_WALL_EXTRA:
 				case FEAT_WALL_INNER:
 				case FEAT_WALL_OUTER:
@@ -2390,35 +2390,35 @@ static bool run_test(int Ind)
 				case FEAT_PERM_OUTER:
 				case FEAT_PERM_SOLID:
 				case FEAT_PERM_CLEAR:
-				{
-					/* Ignore */
-					notice = FALSE;
+					{
+						/* Ignore */
+						notice = FALSE;
 
-					/* Done */
-					break;
-				}
+						/* Done */
+						break;
+					}
 
-				/* Open doors */
+					/* Open doors */
 				case FEAT_OPEN:
 				case FEAT_BROKEN:
-				{
-					/* Option -- ignore */
-					if (p_ptr->find_ignore_doors) notice = FALSE;
+					{
+						/* Option -- ignore */
+						if (p_ptr->find_ignore_doors) notice = FALSE;
 
-					/* Done */
-					break;
-				}
+						/* Done */
+						break;
+					}
 
-				/* Stairs */
+					/* Stairs */
 				case FEAT_LESS:
 				case FEAT_MORE:
-				{
-					/* Option -- ignore */
-					if (p_ptr->find_ignore_stairs) notice = FALSE;
+					{
+						/* Option -- ignore */
+						if (p_ptr->find_ignore_stairs) notice = FALSE;
 
-					/* Done */
-					break;
-				}
+						/* Done */
+						break;
+					}
 			}
 
 			/* Interesting feature */
@@ -2598,13 +2598,13 @@ static bool run_test(int Ind)
 			/* Don't see that it is closed off. */
 			/* This could be a potential corner or an intersection. */
 			if (!see_wall(Ind, option, row, col) ||
-			    !see_wall(Ind, check_dir, row, col))
+					!see_wall(Ind, check_dir, row, col))
 			{
 				/* Can not see anything ahead and in the direction we */
 				/* are turning, assume that it is a potential corner. */
 				if (p_ptr->find_examine &&
-				    see_nothing(option, Ind, row, col) &&
-				    see_nothing(option2, Ind, row, col))
+						see_nothing(option, Ind, row, col) &&
+						see_nothing(option2, Ind, row, col))
 				{
 					p_ptr->find_current = option;
 					p_ptr->find_prevdir = option2;
@@ -2654,7 +2654,6 @@ static bool run_test(int Ind)
 void run_step(int Ind, int dir)
 {
 	player_type *p_ptr = Players[Ind];
-	cave_type *c_ptr;
 
 	/* Check for just changed level */
 	if (p_ptr->new_level_flag) return;
@@ -2663,7 +2662,7 @@ void run_step(int Ind, int dir)
 	if (dir)
 	{
 		// Running into walls and doors is now checked in do_cmd_run.
-		#if 0
+#if 0
 		/* Hack -- do not start silly run */
 		if (see_wall(Ind, dir, p_ptr->py, p_ptr->px))
 		{
@@ -2677,13 +2676,13 @@ void run_step(int Ind, int dir)
 
 				/* If a door, open it */
 				if (((c_ptr->feat >= FEAT_DOOR_HEAD) && 
-				      (c_ptr->feat <= FEAT_DOOR_TAIL)) ||
-				    ((c_ptr->feat >= FEAT_HOME_HEAD) &&
-				      (c_ptr->feat <= FEAT_HOME_TAIL))) 
-					{
-						do_cmd_open(Ind, dir);
-						return;
-					}
+							(c_ptr->feat <= FEAT_DOOR_TAIL)) ||
+						((c_ptr->feat >= FEAT_HOME_HEAD) &&
+						 (c_ptr->feat <= FEAT_HOME_TAIL))) 
+				{
+					do_cmd_open(Ind, dir);
+					return;
+				}
 			}
 
 			/* Message */
@@ -2695,7 +2694,7 @@ void run_step(int Ind, int dir)
 			/* Done */
 			return;
 		}
-		#endif
+#endif
 
 		/* Calculate torch radius */
 		p_ptr->update |= (PU_TORCH);

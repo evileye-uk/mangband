@@ -359,7 +359,7 @@ extern void display_store(void);
 /* c-xtra1.c */
 extern void prt_stat(int stat, int max, int cur, bool maxed);
 extern void prt_title(cptr title);
-extern void prt_level(int level, int max, int cur, int adv);
+extern void prt_level(int level, int max, int cur);
 extern void prt_gold(int gold);
 extern void prt_ac(int ac);
 extern void prt_hp(int max, int cur);
@@ -397,7 +397,7 @@ extern void update_ticks();
 extern void do_keepalive();
 extern int Net_setup(void);
 extern int Net_verify(char *real, char *nick, char *pass, int sex, int race, int p_class);
-extern int Net_init(char *server, int port);
+extern int Net_init(int port);
 extern void Net_cleanup(bool send_quit);
 extern int Net_flush(void);
 extern int Net_fd(void);

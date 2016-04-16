@@ -507,12 +507,7 @@ extern errr check_time_init(void);
 extern errr check_load_init(void);
 extern errr check_time(void);
 extern errr check_load(void);
-extern void read_times(void);
-extern void show_news(void);
-extern errr show_file(int Ind, cptr name, cptr what);
-extern void do_cmd_help(cptr name);
 extern void process_player_name(int Ind, bool sf);
-extern void get_name(int Ind);
 extern void do_cmd_suicide(int Ind);
 extern void do_cmd_save_game(int Ind);
 extern long total_points(int Ind);
@@ -524,8 +519,6 @@ extern void signals_handle_tstp(void);
 extern void signals_init(void);
 extern void setup_exit_handler(void);
 
-/* generate.c */
-extern void generate_cave(int Ind, int Depth);
 
 /* init-txt.c */
 extern errr init_v_info_txt(FILE *fp, char *buf);
@@ -539,8 +532,6 @@ extern errr init_r_info_txt(FILE *fp, char *buf);
 extern void init_file_paths(char *path);
 extern void init_some_arrays(void);
 
-/* load1.c */
-/*extern errr rd_savefile_old(void);*/
 
 /* load2.c */
 extern errr rd_savefile_new(int Ind);
@@ -550,10 +541,6 @@ extern errr rd_savefile_new(int Ind);
 extern bool make_attack_normal(int Ind, int m_idx);
 extern bool make_attack_spell(int Ind, int m_idx);
 extern void process_monsters(void);
-
-/* mon-desc.c */
-extern void screen_roff(int r_idx);
-extern void display_roff(int r_idx);
 
 /* monster.c */
 extern void delete_monster_idx(int i);
@@ -576,7 +563,6 @@ extern bool multiply_monster(int m_idx);
 extern void update_smart_learn(int m_idx, int what);
 
 /* netserver.c */
-/*extern void Contact(int fd, void *arg);*/
 extern int Net_input(void);
 extern int Net_output(void);
 extern void setup_contact_socket(void);
@@ -596,16 +582,12 @@ extern int Send_history(int Ind, int line, cptr hist);
 extern int Send_inven(int Ind, char pos, byte attr, int wgt, int amt, byte tval, cptr name);
 extern int Send_equip(int Ind, char pos, byte attr, int wgt, byte tval, cptr name);
 extern int Send_title(int Ind, cptr title);
-/*extern int Send_level(int Ind, int max, int cur);*/
-/*extern void Send_exp(int Ind, s32b max, s32b cur);*/
 extern int Send_depth(int Ind, int depth);
 extern int Send_food(int Ind, int food);
 extern int Send_blind(int Ind, bool blind);
 extern int Send_confused(int Ind, bool confused);
 extern int Send_fear(int Ind, bool afraid);
 extern int Send_poison(int Ind, bool poisoned);
-extern int Send_paralyzed(int Ind, bool paralyzed);
-extern int Send_searching(int Ind, bool searching);
 extern int Send_speed(int Ind, int speed);
 extern int Send_study(int Ind, bool study);
 extern int Send_cut(int Ind, int cut);
@@ -613,9 +595,7 @@ extern int Send_stun(int Ind, int stun);
 extern int Send_direction(int Ind);
 extern int Send_message(int Ind, cptr msg);
 extern int Send_char(int Ind, int x, int y, byte a, char c);
-extern int Send_spell_info(int Ind, int i, cptr out_val);
 extern int Send_item_request(int Ind);
-extern int Send_state(int Ind, bool paralyzed, bool searching);
 
 extern void Handle_direction(int Ind, int dir);
 
@@ -629,12 +609,8 @@ extern void reset_visuals(void);
 extern void object_flags(object_type *o_ptr, u32b *f1, u32b *f2, u32b *f3, u32b *f4);
 extern void object_desc(int Ind, char *buf, object_type *o_ptr, int pref, int mode);
 extern void object_desc_store(char *buf, object_type *o_ptr, int pref, int mode);
-extern bool identify_fully_aux(object_type *o_ptr);
 extern s16b index_to_label(int i);
-extern s16b label_to_inven(int Ind, int c);
-extern s16b label_to_equip(int Ind, int c);
 extern s16b wield_slot(int Ind, object_type *o_ptr);
-extern cptr mention_use(int Ind, int i);
 extern cptr describe_use(int Ind, int i);
 extern void inven_item_charges(int Ind, int item);
 extern void inven_item_describe(int Ind, int item);
@@ -649,10 +625,6 @@ extern s16b inven_carry(int Ind, object_type *o_ptr);
 extern bool item_tester_okay(object_type *o_ptr);
 extern void display_inven(int Ind);
 extern void display_equip(int Ind);
-/*extern void show_inven(void);
-extern void show_equip(void);
-extern void toggle_inven_equip(void);
-extern bool get_item(int Ind, int *cp, cptr pmt, bool equip, bool inven, bool floor);*/
 extern void delete_object_idx(int i);
 extern void delete_object(int Depth, int y, int x);
 extern void compact_objects(int size);
@@ -662,9 +634,6 @@ extern errr get_obj_num_prep(void);
 extern s16b get_obj_num(int level);
 extern void object_known(object_type *o_ptr);
 extern void object_aware(object_type *o_ptr);
-extern void object_tried(object_type *o_ptr);
-extern s32b object_value(object_type *o_ptr);
-extern bool object_similar(object_type *o_ptr, object_type *j_ptr);
 extern void object_absorb(int Ind, object_type *o_ptr, object_type *j_ptr);
 extern s16b lookup_kind(int tval, int sval);
 extern void invwipe(object_type *o_ptr);
@@ -725,12 +694,9 @@ extern bool restore_level(int Ind);
 extern void self_knowledge(int Ind);
 extern bool lose_all_info(int Ind);
 extern bool detect_treasure(int Ind);
-extern bool detect_magic(int Ind);
 extern bool detect_invisible(int Ind, bool pause);
 extern bool detect_evil(int Ind);
-extern bool detect_monsters(int Ind);
 extern bool detection(int Ind);
-extern bool detect_object(int Ind);
 extern bool detect_trap(int Ind);
 extern bool detect_sdoor(int Ind);
 extern void stair_creation(int Ind);
@@ -793,20 +759,17 @@ extern void store_init(int which);
 
 /* util.c */
 extern errr path_parse(char *buf, int max, cptr file);
-extern errr path_temp(char *buf, int max);
+extern errr path_temp(char *buf);
 extern errr path_build(char *buf, int max, cptr path, cptr file);
 extern FILE *my_fopen(cptr file, cptr mode);
 extern errr my_fgets(FILE *fff, char *buf, huge n);
-extern errr my_fputs(FILE *fff, cptr buf, huge n);
 extern errr my_fclose(FILE *fff);
 extern errr fd_kill(cptr file);
 extern errr fd_move(cptr file, cptr what);
-extern errr fd_copy(cptr file, cptr what);
 extern int fd_make(cptr file, int mode);
 extern int fd_open(cptr file, int flags);
 extern errr fd_lock(int fd, int what);
 extern errr fd_seek(int fd, huge n);
-extern errr fd_chop(int fd, huge n);
 extern errr fd_read(int fd, char *buf, huge n);
 extern errr fd_write(int fd, cptr buf, huge n);
 extern errr fd_close(int fd);
@@ -823,23 +786,17 @@ extern cptr quark_str(s16b num);
 extern s16b quark_add(cptr str);
 extern s16b message_num(void);
 extern cptr message_str(s16b age);
-extern void message_add(cptr msg);
 extern void msg_print(int Ind, cptr msg);
 extern void msg_format(int Ind, cptr fmt, ...);
 extern void c_put_str(byte attr, cptr str, int row, int col);
 extern void put_str(cptr str, int row, int col);
 extern void c_prt(byte attr, cptr str, int row, int col);
 extern void prt(cptr str, int row, int col);
-extern void c_roff(byte attr, cptr str);
-extern void roff(cptr str);
-extern void clear_screen(void);
 extern void clear_from(int row);
 extern bool askfor_aux(char *buf, int len);
 extern bool get_string(cptr prompt, char *buf, int len);
 extern bool get_check(cptr prompt);
 extern bool get_com(cptr prompt, char *command);
-extern s16b get_quantity(cptr prompt, int max);
-extern void pause_line(int row);
 extern void request_command(bool shopping);
 extern bool is_a_vowel(int ch);
 

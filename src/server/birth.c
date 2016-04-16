@@ -128,7 +128,7 @@ static void get_stats(int Ind, int stat_order[6])
 	int		bonus;
 	int		dice[18];
 	int		stats[6];
-    int         n17, n16, n15;
+	int         n17, n16, n15;
 
 	/* Clear "stats" array */
 	for (i = 0; i < 6; i++)
@@ -160,44 +160,44 @@ static void get_stats(int Ind, int stat_order[6])
 		stats[stat_order[i]] = 1;
 	}
 
-    /* Ensure that the primary stat is 17, secondary stat >= 16 and
-	third stat >= 15 --> no more endless suicides */
-    do
-    {
-	n17 = 0;
-	n16 = 0;
-	n15 = 0;
-	/* Roll and verify some stats */
-	while (TRUE)
+	/* Ensure that the primary stat is 17, secondary stat >= 16 and
+		 third stat >= 15 --> no more endless suicides */
+	do
 	{
-		/* Roll some dice */
-		for (j = i = 0; i < 18; i++)
+		n17 = 0;
+		n16 = 0;
+		n15 = 0;
+		/* Roll and verify some stats */
+		while (TRUE)
 		{
-			/* Roll the dice */
-			dice[i] = randint(3 + i % 3);
+			/* Roll some dice */
+			for (j = i = 0; i < 18; i++)
+			{
+				/* Roll the dice */
+				dice[i] = randint(3 + i % 3);
 
-			/* Collect the maximum */
-			j += dice[i];
+				/* Collect the maximum */
+				j += dice[i];
+			}
+
+			/* Verify totals */
+			if ((j > 42) && (j < 54)) break;
 		}
 
-		/* Verify totals */
-		if ((j > 42) && (j < 54)) break;
-	}
+		/* Acquire the stats */
+		for (i = 0; i < 6; i++)
+		{
+			/* Extract 5 + 1d3 + 1d4 + 1d5 */
+			j = 5 + dice[3*i] + dice[3*i+1] + dice[3*i+2];
+			if (j == 17) n17++;
+			if (j >= 16) n16++;
+			if (j >= 15) n15++;
 
-	/* Acquire the stats */
-	for (i = 0; i < 6; i++)
-	{
-		/* Extract 5 + 1d3 + 1d4 + 1d5 */
-		j = 5 + dice[3*i] + dice[3*i+1] + dice[3*i+2];
-          if (j == 17) n17++;
-	  if (j >= 16) n16++;
-	  if (j >= 15) n15++;
-
-		/* Save that value */
-		stats[i] = j;
+			/* Save that value */
+			stats[i] = j;
+		}
 	}
-    }
-    while ((n17 < 1) || (n16 < 2) || (n15 < 3));
+	while ((n17 < 1) || (n16 < 2) || (n15 < 3));
 
 	/* Now sort the stats */
 	/* I use a bubble sort because I'm lazy at the moment */
@@ -470,7 +470,7 @@ static void get_money(int Ind)
 
 	/* Save the gold */
 	p_ptr->au = gold;
-	
+
 	if (!strcmp(p_ptr->name,cfg_dungeon_master))
 	{
 		p_ptr->au = 50000000;
@@ -480,7 +480,7 @@ static void get_money(int Ind)
 		p_ptr->ghost = 1;
 		p_ptr->noscore = 1;
 	}
-	
+
 }
 
 
@@ -551,7 +551,7 @@ static void player_wipe(int Ind)
 
 	/* Assume no cheating */
 	p_ptr->noscore = 0;
-	
+
 	/* clear the wilderness map */
 	for (i = 0; i < MAX_WILD/8; i++) p_ptr->wild_map[i] = 0;
 
@@ -560,7 +560,7 @@ static void player_wipe(int Ind)
 
 	/* Hack -- assume the player has an initial knowledge of the area close to town */
 	for (i = 0; i < 13; i++)  p_ptr->wild_map[i/8] |= 1<<(i%8);
-	
+
 	/* Listen on the default chat channel */
 	strncpy(p_ptr->main_channel,DEFAULT_CHANNEL,MAX_CHAN_LEN);
 
@@ -609,9 +609,9 @@ static byte player_init[MAX_CLASS][3][2] =
 		{ TV_MAGIC_BOOK, 0 },
 		{ TV_SWORD, SV_BROAD_SWORD },
 		{ TV_BOW, SV_LONG_BOW }
-    }
+	}
 
-    ,{
+	,{
 		/* Paladin */
 		{ TV_PRAYER_BOOK, 0 },
 		{ TV_SWORD, SV_BROAD_SWORD },
@@ -654,13 +654,13 @@ static byte ironman_player_init[MAX_CLASS][3][2] =
 		{ TV_MAGIC_BOOK, 0 },
 		{ TV_LITE, SV_LITE_LANTERN },
 		{ TV_BOW, SV_LONG_BOW }
-    }
-    ,{
+	}
+	,{
 		/* Paladin */
 		{ TV_PRAYER_BOOK, 0 },
 		{ TV_PRAYER_BOOK, 1 },
 		{ TV_LITE, SV_LITE_LANTERN },
-    },
+	},
 
 };
 
@@ -730,91 +730,91 @@ static void player_outfit(int Ind)
 	/* Hack -- Give the player some food */
 	invcopy(o_ptr, lookup_kind(TV_FOOD, SV_FOOD_RATION));
 	o_ptr->number = rand_range(3, 7);
-    if (cfg_ironman) o_ptr->number *= 2;
+	if (cfg_ironman) o_ptr->number *= 2;
 	object_aware(Ind, o_ptr);
 	object_known(o_ptr);
 	(void)inven_carry(Ind, o_ptr);
 
-    if (cfg_ironman)
-    {
-	/* Hack -- Give the player some oil */
-	invcopy(o_ptr, lookup_kind(TV_FLASK, 0));
-	o_ptr->number = rand_range(6, 14);
-	object_known(o_ptr);
-	(void)inven_carry(Ind, o_ptr);	
-    }
-    else
-    {
-	/* Hack -- Give the player some torches */
-	invcopy(o_ptr, lookup_kind(TV_LITE, SV_LITE_TORCH));
-	o_ptr->number = rand_range(3, 7);
-	o_ptr->pval = rand_range(3, 7) * 500;
-	object_known(o_ptr);
-	(void)inven_carry(Ind, o_ptr);
-    }
-
-    if (cfg_ironman)
-    {
-	/* More items for Ironmen */
-
-	/* Scrolls of teleportation */
-	invcopy(o_ptr, lookup_kind(TV_SCROLL, SV_SCROLL_TELEPORT));
-	o_ptr->number = 5;
-	/* Warrior and rogues get twice as many */
-	if( (p_ptr->pclass == CLASS_WARRIOR) || (p_ptr->pclass == CLASS_ROGUE) )
-		o_ptr->number *= 2;
-	o_ptr->discount = 0;
-	object_aware(Ind, o_ptr);
-	object_known(o_ptr);
-	(void)inven_carry(Ind, o_ptr);
-	
-	/* Warriors get cure serious wounds */
-	if(p_ptr->pclass == CLASS_WARRIOR)
+	if (cfg_ironman)
 	{
-		invcopy(o_ptr, lookup_kind(TV_POTION, SV_POTION_CURE_SERIOUS));
+		/* Hack -- Give the player some oil */
+		invcopy(o_ptr, lookup_kind(TV_FLASK, 0));
+		o_ptr->number = rand_range(6, 14);
+		object_known(o_ptr);
+		(void)inven_carry(Ind, o_ptr);	
+	}
+	else
+	{
+		/* Hack -- Give the player some torches */
+		invcopy(o_ptr, lookup_kind(TV_LITE, SV_LITE_TORCH));
+		o_ptr->number = rand_range(3, 7);
+		o_ptr->pval = rand_range(3, 7) * 500;
+		object_known(o_ptr);
+		(void)inven_carry(Ind, o_ptr);
+	}
+
+	if (cfg_ironman)
+	{
+		/* More items for Ironmen */
+
+		/* Scrolls of teleportation */
+		invcopy(o_ptr, lookup_kind(TV_SCROLL, SV_SCROLL_TELEPORT));
 		o_ptr->number = 5;
+		/* Warrior and rogues get twice as many */
+		if( (p_ptr->pclass == CLASS_WARRIOR) || (p_ptr->pclass == CLASS_ROGUE) )
+			o_ptr->number *= 2;
 		o_ptr->discount = 0;
 		object_aware(Ind, o_ptr);
 		object_known(o_ptr);
 		(void)inven_carry(Ind, o_ptr);
-	}
-	
-	/* Mages get third book */
-	if(p_ptr->pclass == CLASS_MAGE)
-	{
-		invcopy(o_ptr, lookup_kind(TV_MAGIC_BOOK, 2));
-		o_ptr->number = 1;
-		o_ptr->discount = 0;
-		object_aware(Ind, o_ptr);
-		object_known(o_ptr);
-		(void)inven_carry(Ind, o_ptr);
-	}
 
-	/* Priests get third book */
-	if(p_ptr->pclass == CLASS_PRIEST)
-	{
-		invcopy(o_ptr, lookup_kind(TV_PRAYER_BOOK, 2));
-		o_ptr->number = 1;
-		o_ptr->discount = 0;
-		object_aware(Ind, o_ptr);
-		object_known(o_ptr);
-		(void)inven_carry(Ind, o_ptr);
-	}
+		/* Warriors get cure serious wounds */
+		if(p_ptr->pclass == CLASS_WARRIOR)
+		{
+			invcopy(o_ptr, lookup_kind(TV_POTION, SV_POTION_CURE_SERIOUS));
+			o_ptr->number = 5;
+			o_ptr->discount = 0;
+			object_aware(Ind, o_ptr);
+			object_known(o_ptr);
+			(void)inven_carry(Ind, o_ptr);
+		}
 
-    	/* Rangers get second book */
-	if(p_ptr->pclass == CLASS_RANGER)
-	{
-		invcopy(o_ptr, lookup_kind(TV_MAGIC_BOOK, 1));
-		o_ptr->number = 1;
-		o_ptr->discount = 0;
-		object_aware(Ind, o_ptr);
-		object_known(o_ptr);
-		(void)inven_carry(Ind, o_ptr);
+		/* Mages get third book */
+		if(p_ptr->pclass == CLASS_MAGE)
+		{
+			invcopy(o_ptr, lookup_kind(TV_MAGIC_BOOK, 2));
+			o_ptr->number = 1;
+			o_ptr->discount = 0;
+			object_aware(Ind, o_ptr);
+			object_known(o_ptr);
+			(void)inven_carry(Ind, o_ptr);
+		}
+
+		/* Priests get third book */
+		if(p_ptr->pclass == CLASS_PRIEST)
+		{
+			invcopy(o_ptr, lookup_kind(TV_PRAYER_BOOK, 2));
+			o_ptr->number = 1;
+			o_ptr->discount = 0;
+			object_aware(Ind, o_ptr);
+			object_known(o_ptr);
+			(void)inven_carry(Ind, o_ptr);
+		}
+
+		/* Rangers get second book */
+		if(p_ptr->pclass == CLASS_RANGER)
+		{
+			invcopy(o_ptr, lookup_kind(TV_MAGIC_BOOK, 1));
+			o_ptr->number = 1;
+			o_ptr->discount = 0;
+			object_aware(Ind, o_ptr);
+			object_known(o_ptr);
+			(void)inven_carry(Ind, o_ptr);
+		}
 	}
-    }
 
 	/* 
-     * Give the DM some interesting stuff or all players if this is dev mode
+	 * Give the DM some interesting stuff or all players if this is dev mode
 	 */
 
 #ifndef DEBUG
@@ -825,7 +825,7 @@ static void player_outfit(int Ind)
 
 		/* All deep books */
 		if ((p_ptr->pclass == CLASS_MAGE) || (p_ptr->pclass == CLASS_RANGER) ||
-			(p_ptr->pclass == CLASS_ROGUE))
+				(p_ptr->pclass == CLASS_ROGUE))
 		{
 			invcopy(o_ptr, lookup_kind(TV_MAGIC_BOOK, 4));
 			o_ptr->number = 1;
@@ -905,7 +905,7 @@ static void player_outfit(int Ind)
 		object_aware(Ind, o_ptr);
 		object_known(o_ptr);
 		(void)inven_carry(Ind, o_ptr);
-		
+
 		/* Useful equipment */
 		invcopy(o_ptr, lookup_kind(TV_RING, SV_RING_SPEED));
 		o_ptr->pval = 30;
@@ -919,30 +919,30 @@ static void player_outfit(int Ind)
 		object_aware(Ind, o_ptr);
 		object_known(o_ptr);
 		(void)inven_carry(Ind, o_ptr);
-		
+
 #ifndef DEBUG
 	}
 #endif
-	
+
 	/* Hack -- Give the player three useful objects */
 	for (i = 0; i < 3; i++)
 	{
-	if (cfg_ironman)
-	{
-		tv = ironman_player_init[p_ptr->pclass][i][0];
-        	sv = ironman_player_init[p_ptr->pclass][i][1];
-	}
-	else
-	{
-		tv = player_init[p_ptr->pclass][i][0];
-		sv = player_init[p_ptr->pclass][i][1];
-	}
+		if (cfg_ironman)
+		{
+			tv = ironman_player_init[p_ptr->pclass][i][0];
+			sv = ironman_player_init[p_ptr->pclass][i][1];
+		}
+		else
+		{
+			tv = player_init[p_ptr->pclass][i][0];
+			sv = player_init[p_ptr->pclass][i][1];
+		}
 		invcopy(o_ptr, lookup_kind(tv, sv));
 		object_aware(Ind, o_ptr);
 		object_known(o_ptr);
 		(void)inven_carry(Ind, o_ptr);
 	}
-	
+
 }
 
 static void player_setup(int Ind)
@@ -999,14 +999,14 @@ static void player_setup(int Ind)
 			generate_cave(Ind, Depth, p_ptr->options[29]);
 		}
 		else
-		/* rebuild the wilderness level */
+			/* rebuild the wilderness level */
 		{
 			alloc_dungeon_level(Depth);
 			/* NB: Wilderness levels do not currently honor auto_scum */
 			generate_cave(Ind, Depth, 0);
 			/* hack -- this is important */
 			if (!players_on_depth[Depth]) players_on_depth[Depth] = 1;
-			
+
 			/* paranoia, update the players wilderness map. */
 			p_ptr->wild_map[(-p_ptr->dun_depth)/8] |= (1<<((-p_ptr->dun_depth)%8));
 		}
@@ -1106,8 +1106,8 @@ static void player_setup(int Ind)
 
 		/* Pick a location */
 		/* Hack -- ghosts do not scatter, as they may not be in a line of sight
-		   with a valid region */
-        if (!p_ptr->ghost)
+			 with a valid region */
+		if (!p_ptr->ghost)
 		{
 			// Hack -- invery require_los since scatter actually takes
 			// a "don't require line of sight" boolean parameter.
@@ -1140,7 +1140,7 @@ static void player_setup(int Ind)
 	{
 		/* Add */
 		add_player_name(p_ptr->name, p_ptr->id);
-	printf("Player Name is [%s], id is %d\n",p_ptr->name, p_ptr->id);
+		printf("Player Name is [%s], id is %d\n",p_ptr->name, p_ptr->id);
 	}
 
 	/* Set his "current activities" variables */
@@ -1207,8 +1207,8 @@ bool player_birth(int Ind, cptr name, cptr pass, int conn, int race, int player_
 	int i;
 
 	/* Do some consistency checks */
-    if (race < 0 || race >= MAX_RACES) race = RACE_HUMAN;
-    if (player_class < 0 || player_class >= MAX_CLASS) player_class = CLASS_WARRIOR;
+	if (race < 0 || race >= MAX_RACES) race = RACE_HUMAN;
+	if (player_class < 0 || player_class >= MAX_CLASS) player_class = CLASS_WARRIOR;
 	if (sex < 0 || sex > 1) sex = 0;
 
 	/* Allocate memory for him */
@@ -1277,7 +1277,7 @@ bool player_birth(int Ind, cptr name, cptr pass, int conn, int race, int player_
 
 	/* Actually Generate */
 
- 	/* This enables maximize mode for new characters. --RLS */
+	/* This enables maximize mode for new characters. --RLS */
 
 	p_ptr->maximize=1;
 
@@ -1301,7 +1301,7 @@ bool player_birth(int Ind, cptr name, cptr pass, int conn, int race, int player_
 
 	/* Hack -- outfit the player */
 	player_outfit(Ind);
-	
+
 	/* Hack -- Give him "awareness" of certain objects */
 	for (i = 0; i < z_info->k_max; i++) 
 	{
@@ -1340,7 +1340,7 @@ void server_birth(void)
 
 		/* Set his maximum creation number */
 		r_info[i].max_num = 1;
-		
+
 		/* Number of minutes until he respawns */
 		/* -1 is used to denote an undefined respawn time.  This should
 		 * be set when the unique is killed.

@@ -188,8 +188,6 @@ huge read_huge(const char *name)
 void read_str(const char* name, char* value)
 {
 	char seek_name[80];
-	int params;
-	bool matched = FALSE;
 	char *c;
 	
 	fgets(file_buf, sizeof(file_buf)-1, file_handle);
@@ -212,34 +210,11 @@ void read_str(const char* name, char* value)
 	*value = '\0';
 }
 
-/* Read a float */
-/* Returns TRUE if the float could be read */
-static float read_float(const char *name)
-{
-	char seek_name[80];
-	bool matched = FALSE;
-	float value;
-	
-	fgets(file_buf, sizeof(file_buf)-1, file_handle);
-	line_counter++;
-	if(sscanf(file_buf,"%s = %f",seek_name,&value) == 2)
-	{
-		matched = !strcmp(seek_name,name);
-	}
-	if(!matched)
-	{
-		plog(format("Missing float.  Expected '%s', found '%s' at line %i",name,file_buf,line_counter));
-		exit(1);
-	}
-	return value;
-}
-
 /* Read some binary data */
-static void read_binary(const char *name, char* value, int max_len)
+static void read_binary(const char *name, char *value)
 {
 	char seek_name[80];
 	char hex[3];
-	int i;
 	char *c;
 	char *bin;
 	int abyte;
@@ -273,8 +248,6 @@ static void read_binary(const char *name, char* value, int max_len)
 void skip_value(char* name)
 {
 	char seek_name[80];
-	bool matched = FALSE;
-	char value[160];
 	long fpos;
 	
 	/* Remember where we are incase there is nothing to skip */
@@ -298,7 +271,6 @@ bool value_exists(const char *name)
 {
 	char seek_name[80];
 	bool matched = FALSE;
-	char value[160];
 	long fpos;
 	
 	/* Remember where we are */
@@ -424,8 +396,6 @@ static void rd_item(object_type *o_ptr)
 	byte old_ds;
 
 	u32b f1, f2, f3;
-
-	u16b tmp16u;
 
 	object_kind *k_ptr;
 
@@ -645,8 +615,6 @@ static void rd_item(object_type *o_ptr)
 
 static void rd_monster(monster_type *m_ptr)
 {
-	byte tmp8u;
-
 	start_section_read("monster");
 
 	/* Hack -- wipe */
@@ -682,9 +650,6 @@ static void rd_monster(monster_type *m_ptr)
  */
 static void rd_lore(int r_idx)
 {
-	byte tmp8u;
-	u16b tmp16u;
-
 	monster_race *r_ptr = &r_info[r_idx];
 
 	start_section_read("lore");
@@ -861,12 +826,10 @@ static void rd_house(int n)
 
 static void rd_wild(int n)
 {
-	u32b tmp32u;
 	wilderness_type *w_ptr = &wild_info[-n];
 	
 	/* the flags */
 	w_ptr->flags = read_uint("flags");
-	
 }
 
 
@@ -881,9 +844,7 @@ static bool rd_extra(int Ind)
 	char temp[MAX_PASS_LEN];
 	char temp2[MAX_PASS_LEN];
 
-	int i, save_flag = 0;
-
-	byte tmp8u;
+	int i;
 
 	/*	p_ptr->pass	- Password from client
 		pass		- Password from save file
@@ -1234,11 +1195,9 @@ static errr rd_dungeon(void)
 	s32b depth;
 	u16b max_y, max_x;
 
-	int i, y, x;
+	int y, x;
 	cave_type *c_ptr;
 	char cave_row[MAX_WID+1];
-
-	unsigned char runlength, feature, flags;
 
 	start_section_read("dungeon_level");
 
@@ -1279,7 +1238,7 @@ static errr rd_dungeon(void)
 
 		for (y = 0; y < max_y; y++)
 		{
-			read_binary("row",cave_row,MAX_WID);
+			read_binary("row", cave_row);
 			for(x = 0; x < max_x; x++)
 			{
 				/* Access the cave */
@@ -1297,7 +1256,7 @@ static errr rd_dungeon(void)
 
 		for (y = 0; y < max_y; y++)
 		{
-			read_binary("row",cave_row,MAX_WID);
+			read_binary("row", cave_row);
 			for(x = 0; x < max_x; x++)
 			{
 				/* Access the cave */
@@ -1380,9 +1339,8 @@ static errr rd_cave_memory(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
 	u16b max_y, max_x;
-	int i, y, x;
+	int y, x;
 	char cave_row[MAX_WID+1];
-	unsigned char runlength, cur_flag;
 
 	start_section_read("cave_memory");
 
@@ -1392,7 +1350,7 @@ static errr rd_cave_memory(int Ind)
 
 	for (y = 0; y < max_y; y++)
 	{
-		read_binary("row",cave_row,MAX_WID);
+		read_binary("row", cave_row);
 		for(x = 0; x < max_x; x++)
 		{
 			p_ptr->cave_flag[y][x] = cave_row[x];
@@ -1617,7 +1575,6 @@ errr rd_server_savefile()
         u16b tmp16u;
         u32b tmp32u;
 	s32b tmp32s;
-	int major;
 	char name[80];
 
 	/* Savefile name */
@@ -1629,9 +1586,9 @@ errr rd_server_savefile()
 
 	start_section_read("mangband_server_save");
 	start_section_read("version");
-	major = read_int("major"); 
-	major = read_int("minor");
-	major = read_int("patch");
+	read_int("major");
+	read_int("minor");
+	read_int("patch");
 	end_section_read("version");
 
 	/* Paranoia */

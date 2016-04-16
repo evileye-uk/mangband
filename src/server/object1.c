@@ -2257,7 +2257,7 @@ cptr item_activation(object_type *o_ptr)
 /*
  * Describe a "fully identified" item
  */
-bool identify_fully_aux(int Ind, object_type *o_ptr)
+bool identify_fully_aux(int Ind, const object_type *o_ptr)
 {
 	player_type *p_ptr = Players[Ind];
 
@@ -2353,7 +2353,7 @@ s16b label_to_equip(int Ind, int c)
 /*
  * Determine which equipment slot (if any) an item likes
  */
-s16b wield_slot(int Ind, object_type *o_ptr)
+s16b wield_slot(int Ind, const object_type *o_ptr)
 {
 	player_type *p_ptr = Players[Ind];
 
@@ -2545,7 +2545,7 @@ cptr describe_use(int Ind, int i)
 /*
  * Check an item against the item tester info
  */
-bool item_tester_okay(object_type *o_ptr)
+bool item_tester_okay(const object_type *o_ptr)
 {
 	/* Hack -- allow listing empty slots */
 	if (item_tester_full) return (TRUE);
@@ -2586,7 +2586,7 @@ void display_inven(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
 
-	register	int i, n, z = 0;
+	int i, n, z = 0;
 
 	object_type *o_ptr;
 
@@ -2643,7 +2643,7 @@ void display_equip(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
 
-	register	int i, n;
+	int i, n;
 	object_type *o_ptr;
 	byte	attr = TERM_WHITE;
 

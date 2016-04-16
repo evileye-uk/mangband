@@ -570,7 +570,7 @@ int	port;
     peer.sin_family = AF_INET;
     peer.sin_port   = htons(port);
     peer.sin_addr.s_addr = inet_addr(host);
-    if (peer.sin_addr.s_addr == (int)-1)
+    if (peer.sin_addr.s_addr == -1)
     {
 	hp = gethostbyname(host);
 	if (hp == NULL)
@@ -1163,7 +1163,7 @@ static inthandler()
 #endif /* __STDC__ */
 {
     DEB(plog("Connection interrupted, timeout"));
-    (void) longjmp(env, 1);
+    longjmp(env, 1);
 } /* inthandler */
 
 
@@ -1810,7 +1810,7 @@ char	*host, *sbuf;
     else
     {
 	the_addr.sin_addr.s_addr 	= inet_addr(host);
-	if (the_addr.sin_addr.s_addr == (int)-1)
+	if (the_addr.sin_addr.s_addr == -1)
 	{
 #ifdef SERVER
 	    printf("DgramSend called with host %s\n", host);
@@ -1944,7 +1944,7 @@ char	*rbuf;
     struct sockaddr_in	tmp_addr;
 
     tmp_addr.sin_addr.s_addr = inet_addr(from);
-    if (tmp_addr.sin_addr.s_addr == (int)-1)
+    if (tmp_addr.sin_addr.s_addr == -1)
     {
 #ifdef SERVER
 	printf("DgramReceive called with host %s.\n", from);
@@ -2353,7 +2353,7 @@ DgramLastname()
     if (he == NULL) {
 	str = inet_ntoa(sl_dgram_lastaddr.sin_addr);
     } else {
-	str = (char *) he->h_name;
+	str = he->h_name;
     }
     return str;
 #endif

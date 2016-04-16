@@ -184,6 +184,7 @@
 
 
 
+
 /*
  * Simple structure to hold a map location
  */
@@ -249,10 +250,11 @@ struct dun_data
 };
 
 
+
 /*
  * Dungeon generation data -- see "cave_gen()"
  */
-static dun_data *dun;
+	static dun_data *dun;
 
 
 /*

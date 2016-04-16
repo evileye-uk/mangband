@@ -795,7 +795,7 @@ void object_known(object_type *o_ptr)
 /*
  * The player is now aware of the effects of the given object.
  */
-void object_aware(int Ind, object_type *o_ptr)
+void object_aware(int Ind, const object_type *o_ptr)
 {
 	/* Fully aware of the effects */
 	Players[Ind]->obj_aware[o_ptr->k_idx] = TRUE;
@@ -809,7 +809,7 @@ void object_aware(int Ind, object_type *o_ptr)
 /*
  * Something has been "sampled"
  */
-void object_tried(int Ind, object_type *o_ptr)
+void object_tried(int Ind, const object_type *o_ptr)
 {
 	/* Mark it as tried (even if "aware") */
 	Players[Ind]->obj_tried[o_ptr->k_idx] = TRUE;
@@ -821,7 +821,7 @@ void object_tried(int Ind, object_type *o_ptr)
  * Return the "value" of an "unknown" item
  * Make a guess at the value of non-aware items
  */
-static s32b object_value_base(int Ind, object_type *o_ptr)
+static s32b object_value_base(int Ind, const object_type *o_ptr)
 {
 	object_kind *k_ptr = &k_info[o_ptr->k_idx];
 
@@ -882,7 +882,7 @@ static s32b object_value_base(int Ind, object_type *o_ptr)
  *
  * Every wearable item with a "pval" bonus is worth extra (see below).
  */
-static s32b object_value_real(object_type *o_ptr)
+static s32b object_value_real(const object_type *o_ptr)
 {
 	s32b value;
 
@@ -1123,7 +1123,7 @@ static s32b object_value_real(object_type *o_ptr)
  * Note that discounted items stay discounted forever, even if
  * the discount is "forgotten" by the player via memory loss.
  */
-s32b object_value(int Ind, object_type *o_ptr)
+s32b object_value(int Ind, const object_type *o_ptr)
 {
 	s32b value;
 
@@ -1171,7 +1171,7 @@ s32b object_value(int Ind, object_type *o_ptr)
  * It denies most attempts, but is allows discounts & inscription stack.
  * 
  */
-bool object_similar_floor(object_type *o_ptr, object_type *j_ptr)
+bool object_similar_floor(const object_type *o_ptr, const object_type *j_ptr)
 {
 	int total = o_ptr->number + j_ptr->number;
 
@@ -1336,7 +1336,7 @@ bool object_similar_floor(object_type *o_ptr, object_type *j_ptr)
  * Ego items may stack as long as they have the same ego-item type.
  * This is primarily to allow ego-missiles to stack.
  */
-bool object_similar(int Ind, object_type *o_ptr, object_type *j_ptr)
+bool object_similar(int Ind, const object_type *o_ptr, const object_type *j_ptr)
 {
 	player_type *p_ptr = Players[Ind];
 	int total = o_ptr->number + j_ptr->number;
@@ -1516,7 +1516,7 @@ bool object_similar(int Ind, object_type *o_ptr, object_type *j_ptr)
 /*
  * Allow one item to "absorb" another, assuming they are similar
  */
-void object_absorb(int Ind, object_type *o_ptr, object_type *j_ptr)
+void object_absorb(int Ind, object_type *o_ptr, const object_type *j_ptr)
 {
 	int total = o_ptr->number + j_ptr->number;
 
@@ -3155,7 +3155,7 @@ static bool kind_is_good(int k_idx)
 
 
 		
-bool place_specific_object(int Depth, int y1, int x1, object_type *forge, int lev, int num)
+bool place_specific_object(int Depth, int y1, int x1, const object_type *forge, int lev, int num)
 {
 	int o_idx, i, d, x, y, xtra_hack;
 	
@@ -3367,8 +3367,7 @@ bool place_object(int Depth, int y, int x, bool good, bool great, u16b quark)
 void acquirement(int Depth, int y1, int x1, int num)
 {
 	int        y, x, i, d;
-    bool ok = FALSE;
-    int oblev;
+	int oblev;
 
 	/* Scatter some objects */
 	for (; num > 0; --num)
@@ -3388,7 +3387,7 @@ void acquirement(int Depth, int y1, int x1, int num)
 			/* Place a great object */
 			oblev = object_level;
 			object_level = Depth;
-			ok = place_object(Depth, y, x, TRUE, TRUE, 0);
+			place_object(Depth, y, x, TRUE, TRUE, 0);
 			object_level = oblev;
 
 			/* Notice */
@@ -3397,14 +3396,6 @@ void acquirement(int Depth, int y1, int x1, int num)
 			/* Redraw */
 			everyone_lite_spot(Depth, y, x);
 
-			/* Under the player */
-			/*if ((y == py) && (x == px))
-			{*/
-				/* Message */
-				/*msg_print ("You feel something roll beneath your feet.");
-			}*/
-
-			/* Placement accomplished */
 			break;
 		}
 	}
@@ -4016,7 +4007,7 @@ void floor_item_optimize(int item)
 /*
  * Check if we have space for an item in the pack without overflow
  */
-bool inven_carry_okay(int Ind, object_type *o_ptr)
+bool inven_carry_okay(int Ind, const object_type *o_ptr)
 {
 	player_type *p_ptr = Players[Ind];
 
@@ -4054,7 +4045,7 @@ bool inven_carry_okay(int Ind, object_type *o_ptr)
  * before the pack is reordered, but (optionally) after the pack is
  * combined.  This may be tricky.  See "dungeon.c" for info.
  */
-s16b inven_carry(int Ind, object_type *o_ptr)
+s16b inven_carry(int Ind, const object_type *o_ptr)
 {
 	player_type *p_ptr = Players[Ind];
 

@@ -83,7 +83,7 @@ void prt_title(cptr title)
 /*
  * Prints level and experience
  */
-void prt_level(int level, int max, int cur, int adv)
+void prt_level(int level, int max, int cur)
 {
 	char tmp[32];
 

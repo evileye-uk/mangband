@@ -151,7 +151,7 @@ void initialize_all_pref_files(void)
  */
 static bool Input_loop(void)
 {
-	int	netfd, result;
+	int	netfd;
 
 	if (Net_flush() == -1)
 		return FALSE;
@@ -186,7 +186,7 @@ static bool Input_loop(void)
 		/* Only take input if we got some */
 		if (SocketReadable(netfd))
 		{
-			if ((result = Net_input()) == -1)
+			if (Net_input() == -1)
 			{
 				/*plog("Bad net input");*/
 				return FALSE;
@@ -241,7 +241,7 @@ static bool Input_loop(void)
  *
  * Close down, then fall back into "quit()".
  */
-static void quit_hook(cptr s)
+static void quit_hook()
 {
 	int j;
 
@@ -270,8 +270,8 @@ void client_init(char *argv1)
 	sockbuf_t ibuf;
 	unsigned magic = 12345;
 	unsigned char reply_to, status;
-	int login_port, trycount;
-	int bytes, retries;
+	int trycount;
+	int retries;
 	char host_name[80], trymsg[80], c;
 	u16b version = MY_VERSION;
 	s32b temp;
@@ -409,7 +409,7 @@ void client_init(char *argv1)
 	//}
 	
 	/* Send the info */
-	if ((bytes = DgramWrite(Socket, ibuf.buf, ibuf.len) == -1))
+	if ((DgramWrite(Socket, ibuf.buf, ibuf.len) == -1))
 	{
 		quit("Couldn't send contact information\n");
 	}
@@ -434,7 +434,6 @@ void client_init(char *argv1)
 		Packet_scanf(&ibuf, "%c%c%d", &reply_to, &status, &temp);
 
 		/* Hack -- set the login port correctly */
-		login_port = (int) temp;
 
 		/* massive hack alert.  We change reply to on lag-check enabled servers so the 
 		   client knows to send the tick count along.  Bad, ugly hack, but the only way
@@ -489,7 +488,7 @@ void client_init(char *argv1)
 
 	/* Connect to the server on the port it sent */
 	//if (Net_init(server_name, login_port) == -1)
-	if (Net_init(server_name, Socket) == -1)
+	if (Net_init(Socket) == -1)
 	{
 		quit("Network initialization failed!\n");
 	}

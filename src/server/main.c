@@ -81,7 +81,7 @@ static bool is_wizard(int uid)
  *
  * Unnecessary, as the server doesn't open any "terms".  --KLJ--
  */
-static void quit_hook(cptr s)
+static void quit_hook()
 {
 #ifdef UNIX_SOCKETS
 	SocketCloseAll();

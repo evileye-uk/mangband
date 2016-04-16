@@ -24,7 +24,7 @@ bool item_tester_okay(object_type *o_ptr)
 	/* Check the tval */
 	if (item_tester_tval)
 	{
-		if (!(item_tester_tval == o_ptr->tval)) return (FALSE);
+		if (item_tester_tval != o_ptr->tval) return (FALSE);
 	}
 
 	/* Check the hook */
@@ -194,7 +194,7 @@ bool c_get_spike()
 */
 bool c_get_item(int *cp, cptr pmt, bool equip, bool inven, bool floor)
 {
-	char	n1, n2, which = ' ';
+	char which = ' ';
 
 	int	k, i1, i2, e1, e2;
 	bool	ver, done, item;
@@ -295,10 +295,6 @@ bool c_get_item(int *cp, cptr pmt, bool equip, bool inven, bool floor)
 	{
 		if (!command_wrk)
 		{
-			/* Extract the legal requests */
-			n1 = I2A(i1);
-			n2 = I2A(i2);
-
 			/* Redraw if needed */
 			if (command_see) show_inven();
 		}
@@ -306,10 +302,6 @@ bool c_get_item(int *cp, cptr pmt, bool equip, bool inven, bool floor)
 		/* Equipment screen */
 		else
 		{
-			/* Extract the legal requests */
-			n1 = I2A(e1 - INVEN_WIELD);
-			n2 = I2A(e2 - INVEN_WIELD);
-
 			/* Redraw if needed */
 			if (command_see) show_equip();
 		}

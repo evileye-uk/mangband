@@ -151,13 +151,12 @@ static void choose_sex(void)
 static void choose_race(void)
 {
 	player_race *rp_ptr;
-	int                 j, k, l, m;
+	int                 j, l, m;
 
 	char                c;
 
 	char		out_val[160];
 
-	k = 0;
 	l = 2;
 	m = 21;
 
@@ -208,7 +207,7 @@ static void choose_race(void)
 static void choose_class(void)
 {
 	player_class *cp_ptr;
-	int          j, k, l, m;
+	int          j, l, m;
 
 	char         c;
 
@@ -216,7 +215,6 @@ static void choose_class(void)
 
 
 	/* Prepare to list */
-	k = 0;
 	l = 2;
 	m = 21;
 

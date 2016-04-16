@@ -963,7 +963,7 @@ bool monster_can_carry(int m_idx)
 /*
  * Make a monster carry an object
  */
-s16b monster_carry(int Ind, int m_idx, object_type *j_ptr)
+s16b monster_carry(int Ind, int m_idx, const object_type *j_ptr)
 {
 	s16b o_idx;
 

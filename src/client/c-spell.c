@@ -38,7 +38,7 @@ static void print_spells(int book)
 
 /* modified to accept certain capital letters for priest spells. -AD- */ 
  
-static int get_spell(int *sn, cptr prompt, int book, bool known)
+static int get_spell(int *sn, cptr prompt, int book)
 {
 	int		i, num = 0;
 	bool		flag, redraw;
@@ -227,7 +227,7 @@ void do_study(int book)
 	if (!strcmp(p, "spell"))
 	{
 		/* Ask for a spell, allow cancel */
-		if (!get_spell(&j, "study", book, FALSE)) return;
+		if (!get_spell(&j, "study", book)) return;
 	}
 
 	/* Priest -- Learn random spell */
@@ -246,7 +246,7 @@ void do_cast(int book)
 	int j;
 
 	/* Ask for a spell, allow cancel */
-	if (!get_spell(&j, "cast", book, FALSE)) return;
+	if (!get_spell(&j, "cast", book)) return;
 
 	/* Tell the server */
 	Send_cast(book, j);
@@ -260,7 +260,7 @@ void do_pray(int book)
 	int j;
 
 	/* Ask for a spell, allow cancel */
-	if (!get_spell(&j, "pray", book, FALSE)) return;
+	if (!get_spell(&j, "pray", book)) return;
 
 	/* Tell the server */
 	Send_pray(book, j);
@@ -274,7 +274,7 @@ void do_ghost(void)
 	int j;
 
 	/* Ask for an ability, allow cancel */
-	if (!get_spell(&j, "use", 0, FALSE)) return;
+	if (!get_spell(&j, "use", 0)) return;
 
 	/* Tell the server */
 	Send_ghost(j);

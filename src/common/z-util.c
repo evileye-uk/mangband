@@ -318,7 +318,7 @@ void plog(cptr str)
 /*
  * Redefinable "quit" action
  */
-void (*quit_aux)(cptr) = NULL;
+void (*quit_aux)() = NULL;
 
 /*
  * Exit (ala "exit()").  If 'str' is NULL, do "exit(0)".
@@ -337,19 +337,20 @@ void quit(cptr str)
         /* Attempt to use the aux function */
         /* This was passing buf, which is a bad idea if quit() is called with
          * NULL [grk] */
-        if (quit_aux) (*quit_aux)(str);
+        if (quit_aux) (*quit_aux)();
 
         /* Success */
-        if (!str) (void)(exit(0));
+        if (!str) exit(0);
 
         /* Extract a "special error code" */
-        if ((buf[0] == '-') || (buf[0] == '+')) (void)(exit(atoi(buf)));
+        if ((buf[0] == '-') || (buf[0] == '+'))
+			exit(atoi(buf));
 
         /* Send the string to plog() */
         plog(buf);
 
         /* Failure */
-        (void)(exit(-1));
+        exit(-1);
 }
 
 

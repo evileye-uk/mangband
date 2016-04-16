@@ -274,7 +274,7 @@ errr path_parse(char *buf, int max, cptr file)
  *
  * This filename is always in "system-specific" form.
  */
-errr path_temp(char *buf, int max)
+errr path_temp(char *buf)
 {
 #ifdef WIN32
 	char prefix[] = "mng";
@@ -316,14 +316,14 @@ errr path_build(char *buf, int max, cptr path, cptr file)
 		/* Use the file itself */
 		strnfmt(buf, max, "%s", file);
 	}
-	
+
 	/* Absolute file, on "normal" systems */
 	else if (prefix(file, PATH_SEP) && !streq(PATH_SEP, ""))
 	{
 		/* Use the file itself */
 		strnfmt(buf, max, "%s", file);
 	}
-	
+
 	/* No path given */
 	else if (!path[0])
 	{
@@ -900,7 +900,7 @@ int color_opposite(int color) {
 		case TERM_ORANGE: 	return TERM_YELLOW;
 		case TERM_DARK: 		return TERM_L_DARK;
 		case TERM_VIOLET:		return ( randint(100) < 50 ? TERM_BLUE : TERM_RED );
-		/* and vice versa */
+												/* and vice versa */
 		case TERM_BLUE: 		return TERM_L_BLUE;
 		case TERM_GREEN: 		return TERM_L_GREEN;
 		case TERM_RED: 		return TERM_L_RED;
@@ -1100,7 +1100,7 @@ static char roguelike_commands(char command)
 		case 'k': hack_dir = 8; return (';');
 		case 'u': hack_dir = 9; return (';');
 
-		/* Running (shift + rogue keys) */
+							/* Running (shift + rogue keys) */
 		case 'B': hack_dir = 1; return ('.');
 		case 'J': hack_dir = 2; return ('.');
 		case 'N': hack_dir = 3; return ('.');
@@ -1110,7 +1110,7 @@ static char roguelike_commands(char command)
 		case 'K': hack_dir = 8; return ('.');
 		case 'U': hack_dir = 9; return ('.');
 
-		/* Tunnelling (control + rogue keys) */
+							/* Tunnelling (control + rogue keys) */
 		case KTRL('B'): hack_dir = 1; return ('+');
 		case KTRL('J'): hack_dir = 2; return ('+');
 		case KTRL('N'): hack_dir = 3; return ('+');
@@ -1120,58 +1120,58 @@ static char roguelike_commands(char command)
 		case KTRL('K'): hack_dir = 8; return ('+');
 		case KTRL('U'): hack_dir = 9; return ('+');
 
-		/* Hack -- White-space */
+										/* Hack -- White-space */
 		case KTRL('M'): return ('\r');
 
-		/* Allow use of the "destroy" command */
+										/* Allow use of the "destroy" command */
 		case KTRL('D'): return ('k');
 
-		/* Hack -- Commit suicide */
+										/* Hack -- Commit suicide */
 		case KTRL('C'): return ('Q');
 
-		/* Locate player on map */
+										/* Locate player on map */
 		case 'W': return ('L');
 
-		/* Browse a book (Peruse) */
+							/* Browse a book (Peruse) */
 		case 'P': return ('b');
 
-		/* Jam a door (Spike) */
+							/* Jam a door (Spike) */
 		case 'S': return ('j');
 
-		/* Toggle search mode */
+							/* Toggle search mode */
 		case '#': return ('S');
 
-		/* Use a staff (Zap) */
+							/* Use a staff (Zap) */
 		case 'Z': return ('u');
 
-		/* Take off equipment */
+							/* Take off equipment */
 		case 'T': return ('t');
 
-		/* Fire an item */
+							/* Fire an item */
 		case 't': return ('f');
 
-		/* Bash a door (Force) */
+							/* Bash a door (Force) */
 		case 'f': return ('B');
 
-		/* Look around (examine) */
+							/* Look around (examine) */
 		case 'x': return ('l');
 
-		/* Aim a wand (Zap) */
+							/* Aim a wand (Zap) */
 		case 'z': return ('a');
 
-		/* Zap a rod (Activate) */
+							/* Zap a rod (Activate) */
 		case 'a': return ('z');
 
-		/* Run */
+							/* Run */
 		case ',': return ('.');
 
-		/* Stay still (fake direction) */
+							/* Stay still (fake direction) */
 		case '.': hack_dir = 5; return (',');
 
-		/* Stay still (fake direction) */
+							/* Stay still (fake direction) */
 		case '5': hack_dir = 5; return (',');
 
-		/* Standard walking */
+							/* Standard walking */
 		case '1': hack_dir = 1; return (';');
 		case '2': hack_dir = 2; return (';');
 		case '3': hack_dir = 3; return (';');
@@ -1202,19 +1202,19 @@ static char original_commands(char command)
 		case KTRL('J'): return ('\r');
 		case KTRL('M'): return ('\r');
 
-		/* Tunnel */
+										/* Tunnel */
 		case 'T': return ('+');
 
-		/* Run */
+							/* Run */
 		case '.': return ('.');
 
-		/* Stay still (fake direction) */
+							/* Stay still (fake direction) */
 		case ',': hack_dir = 5; return (',');
 
-		/* Stay still (fake direction) */
+							/* Stay still (fake direction) */
 		case '5': hack_dir = 5; return (',');
 
-		/* Standard walking */
+							/* Standard walking */
 		case '1': hack_dir = 1; return (';');
 		case '2': hack_dir = 2; return (';');
 		case '3': hack_dir = 3; return (';');
@@ -1224,7 +1224,7 @@ static char original_commands(char command)
 		case '8': hack_dir = 8; return (';');
 		case '9': hack_dir = 9; return (';');
 
-		/* Hack -- Commit suicide */
+							/* Hack -- Commit suicide */
 		case KTRL('K'): return ('Q');
 		case KTRL('C'): return ('Q');
 	}
@@ -1901,59 +1901,59 @@ char inkey(int Ind)
 			/* Hack -- convert back-quote into escape */
 			case '`':
 
-			/* Convert to "Escape" */
-			ch = ESCAPE;
+				/* Convert to "Escape" */
+				ch = ESCAPE;
 
-			/* Done */
-			break;
+				/* Done */
+				break;
 
-			/* Hack -- strip "control-right-bracket" end-of-macro-action */
+				/* Hack -- strip "control-right-bracket" end-of-macro-action */
 			case 29:
 
-			/* Strip this key */
-			ch = 0;
+				/* Strip this key */
+				ch = 0;
 
-			/* Done */
-			break;
+				/* Done */
+				break;
 
-			/* Hack -- strip "control-caret" special-keypad-indicator */
+				/* Hack -- strip "control-caret" special-keypad-indicator */
 			case 30:
 
-			/* Strip this key */
-			ch = 0;
+				/* Strip this key */
+				ch = 0;
 
-			/* Done */
-			break;
+				/* Done */
+				break;
 
-			/* Hack -- strip "control-underscore" special-macro-triggers */
+				/* Hack -- strip "control-underscore" special-macro-triggers */
 			case 31:
 
-			/* Strip this key */
-			ch = 0;
+				/* Strip this key */
+				ch = 0;
 
-			/* Inside a "underscore" sequence */
-			parse_under = TRUE;
+				/* Inside a "underscore" sequence */
+				parse_under = TRUE;
 
-			/* Strip chars (always) */
-			strip_chars = TRUE;
+				/* Strip chars (always) */
+				strip_chars = TRUE;
 
-			/* Done */
-			break;
+				/* Done */
+				break;
 
-			/* Hack -- strip "control-backslash" special-fallback-strings */
+				/* Hack -- strip "control-backslash" special-fallback-strings */
 			case 28:
 
-			/* Strip this key */
-			ch = 0;
+				/* Strip this key */
+				ch = 0;
 
-			/* Inside a "control-backslash" sequence */
-			parse_slash = TRUE;
+				/* Inside a "control-backslash" sequence */
+				parse_slash = TRUE;
 
-			/* Strip chars (sometimes) */
-			strip_chars = after_macro;
+				/* Strip chars (sometimes) */
+				strip_chars = after_macro;
 
-			/* Done */
-			break;
+				/* Done */
+				break;
 		}
 
 
@@ -2055,35 +2055,35 @@ cptr quark_str(s16b i)
  */
 
 bool check_guard_inscription( s16b quark, char what ) {
-    const char  *   ax;     
-    ax=quark_str(quark);
-    if( ax == NULL ) { return FALSE; };
-    while( (ax=strchr(ax,'!')) != NULL ) {
-	while( ax++ != NULL ) {
-            if (*ax==0)  {
-		 return FALSE; /* end of quark, stop */
-	    }
-            if (*ax==' ') {
-		 break;	/* end of segment, stop */
-	    }
-            if (*ax==what) {
-		return TRUE; /* exact match, stop */
-	    }
-	    if(*ax =='*') {
-		switch( what ) { /* check for paraniod tags */
-		    case 'd': /* no drop */
-		    case 'h': /* no house ( sell a a key ) */
-		    case 'k': /* no destroy */
+	const char  *   ax;     
+	ax=quark_str(quark);
+	if( ax == NULL ) { return FALSE; };
+	while( (ax=strchr(ax,'!')) != NULL ) {
+		while( ax++ != NULL ) {
+			if (*ax==0)  {
+				return FALSE; /* end of quark, stop */
+			}
+			if (*ax==' ') {
+				break;	/* end of segment, stop */
+			}
+			if (*ax==what) {
+				return TRUE; /* exact match, stop */
+			}
+			if(*ax =='*') {
+				switch( what ) { /* check for paraniod tags */
+					case 'd': /* no drop */
+					case 'h': /* no house ( sell a a key ) */
+					case 'k': /* no destroy */
 #if 0
-		    case 's': /* no sell */
+					case 's': /* no sell */
 #endif
-		    case 'v': /* no thowing */
-		      return TRUE;
-		};
-            };  
-        };  
-    };  
-    return FALSE;
+					case 'v': /* no thowing */
+						return TRUE;
+				};
+			};  
+		};  
+	};  
+	return FALSE;
 };  
 
 
@@ -2288,7 +2288,7 @@ void message_add(cptr str)
 
 			/* Kill "dead" messages */
 			if ((message__ptr[i] >= message__head) &&
-			    (message__ptr[i] < message__tail))
+					(message__ptr[i] < message__tail))
 			{
 				/* Track oldest message */
 				message__last = i + 1;
@@ -2393,7 +2393,7 @@ static void msg_flush(int x)
 void msg_print(int Ind, cptr msg)
 {
 	bool log = TRUE;
-	
+
 	/* We don't need to log *everything* */
 	if(msg && strchr("[",*msg))
 	{
@@ -2424,19 +2424,19 @@ void msg_print(int Ind, cptr msg)
 void msg_broadcast(int Ind, cptr msg)
 {
 	int i;
-	
+
 	/* Tell every player */
 	for (i = 1; i <= NumPlayers; i++)
 	{
-			
+
 		/* Skip the specified player */
 		if (i == Ind)
 			continue;	
-			
+
 		/* Tell this one */
-	 	msg_print(i, msg);
-	 }
-	 
+		msg_print(i, msg);
+	}
+
 	/* Send to console */
 	console_print(msg);
 }
@@ -2565,7 +2565,7 @@ void player_talk_aux(int Ind, cptr message)
 		/* Default to public channel if not originated by a player */
 		strcpy(dest_chan,DEFAULT_CHANNEL);
 	}
-	
+
 	/* Is the message destined for a particular channel? */
 	if(strchr("#",*message))
 	{
@@ -2653,7 +2653,7 @@ void player_talk_aux(int Ind, cptr message)
 							if (len != strlen(parties[0 - target].name))
 								problem = "parties";
 						}
-					break;
+						break;
 					}
 				}
 			}
@@ -2678,11 +2678,11 @@ void player_talk_aux(int Ind, cptr message)
 				{
 					/* Matching too many people */
 					/* Make sure we don't already have an exact match */
-/*
-					if(Players[target]->name) 
-						if (len != strlen(Players[target]->name))
-*/
-							problem = "players or parties";
+					/*
+						 if(Players[target]->name) 
+						 if (len != strlen(Players[target]->name))
+					 */
+					problem = "players or parties";
 				}
 			}
 		}
@@ -2695,8 +2695,8 @@ void player_talk_aux(int Ind, cptr message)
 	if (len && !target)
 	{
 		/* 
-		   DM messages fail silently.  This keeps folks from
-		   otherwise detecting if he's logged in.  --Crimson
+			 DM messages fail silently.  This keeps folks from
+			 otherwise detecting if he's logged in.  --Crimson
 		 */
 		if(strcmp( search, cfg_dungeon_master)) {
 			/* Send an error message */
@@ -2738,13 +2738,13 @@ void player_talk_aux(int Ind, cptr message)
 	{
 		/* Send message to target party */
 		party_msg_format(0 - target, "[%s:%s] %s",
-		                 parties[0 - target].name, sender, colon);
+				parties[0 - target].name, sender, colon);
 
 		/* Also send back to sender if the sender is not in
 		 * the party being messaged. */
 		if (p_ptr->party != 0 - target)
 			msg_format(Ind, "[%s:%s] %s",
-				   parties[0 - target].name, sender, colon);
+					parties[0 - target].name, sender, colon);
 
 		/* Done */
 		return;
@@ -2821,7 +2821,7 @@ void player_talk(int Ind, char *message)
 		}
 	}
 }
-	
+
 
 /*
  * Check a char for "vowel-hood"
@@ -2840,7 +2840,7 @@ bool is_a_vowel(int ch)
 		case 'I':
 		case 'O':
 		case 'U':
-		return (TRUE);
+			return (TRUE);
 	}
 
 	return (FALSE);
@@ -2913,18 +2913,18 @@ extern void log_history_event(int Ind, char *msg)
 	int i, days, hours, mins;
 	huge seconds;
 	player_type *p_ptr = Players[Ind];
-	
+
 	/* Don't record if we have no space */
 	if (p_ptr->char_hist_ptr >= MAX_CHAR_HIST-1)
 		return;
-	
+
 	/* Never record duplicate entries */
 	for(i=0;i<p_ptr->char_hist_ptr;i++)
 	{
 		if(strstr(p_ptr->char_hist[i],msg) != NULL)
 			return;
 	}
-	
+
 	/* Convert turn real time */
 	seconds = p_ptr->turn / cfg_fps;
 	days = seconds / 86400;
@@ -2934,17 +2934,17 @@ extern void log_history_event(int Ind, char *msg)
 
 	/* Format to time, depth, clevel, message */
 	sprintf(buf,"%s   %4ift   %2i   %s",eventtime,p_ptr->dun_depth*50,p_ptr->lev,msg);
-	
+
 	/* Add the message to the history */
 	strncpy(p_ptr->char_hist[p_ptr->char_hist_ptr], buf, 78);
 	p_ptr->char_hist[p_ptr->char_hist_ptr++][78] = '\0';
-	
+
 }
 
 
 void text_out_init(int Ind) {
 	player_type	*p_ptr = Players[Ind];
-	
+
 	player_textout = Ind;
 	p_ptr->cur_wid = 0;
 	p_ptr->cur_hgt = 0;
@@ -2956,25 +2956,25 @@ void text_out_init(int Ind) {
  */
 #ifndef PRETTY_TEXT_OUT
 void text_out(cptr buf) {
-   player_type	*p_ptr = Players[player_textout];
-   
-   /* if (!buf || buf[0] == '\n') return; */
+	player_type	*p_ptr = Players[player_textout];
+
+	/* if (!buf || buf[0] == '\n') return; */
 
 	p_ptr->info[p_ptr->cur_hgt] = buf;
-	
+
 	p_ptr->cur_hgt++;
 }
 #else 
 void text_out(cptr buf) {
 	int i, j, shorten, buflen;
-   player_type	*p_ptr = Players[player_textout];
-   static char line_buf[80] = {'\0'};
-   
-   bool simple = FALSE;
-   bool warped = FALSE;
+	player_type	*p_ptr = Players[player_textout];
+	static char line_buf[80] = {'\0'};
+
+	bool simple = FALSE;
+	bool warped = FALSE;
 	i = j = shorten = 0;
-   buflen = strlen(buf);
-  
+	buflen = strlen(buf);
+
 
 #if 0
 	/* Add "auto-paragraph" spaces */
@@ -2985,24 +2985,24 @@ void text_out(cptr buf) {
 		p_ptr->cur_wid += 2;
 	}
 #endif 
- 
-   while (TRUE) {
+
+	while (TRUE) {
 
 #if 0   	
-   	/* Add 1 space between stuff (auto-separate) */
+		/* Add 1 space between stuff (auto-separate) */
 		if (buf[shorten] != ' ' && p_ptr->cur_wid) 
 		{
-		    strcat(line_buf, " ");
-		    p_ptr->cur_wid += 1;
+			strcat(line_buf, " ");
+			p_ptr->cur_wid += 1;
 		} 
 #endif  
-		
+
 		/* We can fit the info on the same line */
 		if (buflen - shorten < 80 - p_ptr->cur_wid) 
 		{
-				/* Set to copy whole buffer */
-				j = buflen - shorten;
-				simple = TRUE;
+			/* Set to copy whole buffer */
+			j = buflen - shorten;
+			simple = TRUE;
 		}
 		/* We can't, let's find a suitable wrap point */
 		else
@@ -3012,54 +3012,56 @@ void text_out(cptr buf) {
 			/* Find some nice space near the end */
 			for (i = shorten; i < buflen; i++)
 				if (buf[i] == ' ') 
+				{
 					if (i - shorten < 80 - p_ptr->cur_wid)
 						j = i - shorten;
 					else
 						break;
-			
+				}
+
 			simple = FALSE;
 			warped = TRUE;
 		}
-		
+
 		/* Copy first part */
 		for (i = 0; i < j; i++)
-				if (buf[i+shorten] != '\n')
-					line_buf[p_ptr->cur_wid + i] = buf[i + shorten];
-				else
-				{
-					
-					if (p_ptr->cur_hgt == 0 && p_ptr->cur_wid <= 0) 
-						p_ptr->cur_wid -= 1; //ignore, backup a bit
-					else {
-						j = i + 1;
-						simple = warped = FALSE;
-						break;
-					}
+			if (buf[i+shorten] != '\n')
+				line_buf[p_ptr->cur_wid + i] = buf[i + shorten];
+			else
+			{
+
+				if (p_ptr->cur_hgt == 0 && p_ptr->cur_wid <= 0) 
+					p_ptr->cur_wid -= 1; //ignore, backup a bit
+				else {
+					j = i + 1;
+					simple = warped = FALSE;
+					break;
 				}
+			}
 
 		/* Advance forward */			
 		p_ptr->cur_wid += i;
-		
+
 		/* Fill the rest with spaces */
 		for (i = p_ptr->cur_wid; i < 80; i++)
 			line_buf[i] = ' ';
-		
-	   /* Dump it */
-	   p_ptr->info[p_ptr->cur_hgt] = string_make(line_buf);
-	   
+
+		/* Dump it */
+		p_ptr->info[p_ptr->cur_hgt] = string_make(line_buf);
+
 		/* End function for simple cases */
 		if (simple) break;
-		
+
 		/* Advance to next line */
 		p_ptr->cur_hgt += 1;
 		p_ptr->cur_wid = 0;
-		
-	   /* Shorten the text */
-	   shorten += j;
-			   
+
+		/* Shorten the text */
+		shorten += j;
+
 		/* Handle spaces */
 		if (warped && buf[shorten] == ' ') shorten++; 
-		
+
 		/* Finish when we're done */
 		if (shorten >= buflen) break; 
 	}
