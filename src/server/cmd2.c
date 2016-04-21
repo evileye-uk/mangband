@@ -1089,7 +1089,7 @@ void do_cmd_tunnel(int Ind, int dir)
 
 	cave_type		*c_ptr;
 
-	bool old_floor = FALSE;
+	bool old_floor;
 
 	bool more = FALSE;
 
@@ -1190,7 +1190,7 @@ void do_cmd_tunnel(int Ind, int dir)
 			/* Quartz / Magma */
 			else if (c_ptr->feat >= FEAT_MAGMA && c_ptr->feat <= FEAT_QUARTZ_K)
 			{
-				bool okay = FALSE;
+				bool okay;
 				bool gold = FALSE;
 				bool hard = FALSE;
 
@@ -2272,11 +2272,7 @@ void do_cmd_fire(int Ind, int dir, int item)
 		return;
 	}
 
-
-	/* Require proper missile */
-	item_tester_tval = p_ptr->tval_ammo;
-
-	if (!item_tester_tval)
+	if (!p_ptr->tval_ammo)
 	{
 		msg_print(Ind, "You have nothing to fire.");
 		return;

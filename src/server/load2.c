@@ -245,7 +245,7 @@ static void read_binary(const char *name, char *value)
 }
 
 /* Skip a named value */
-void skip_value(char* name)
+void skip_value(const char *name)
 {
 	char seek_name[80];
 	long fpos;
@@ -288,7 +288,7 @@ bool value_exists(const char *name)
 }
 
 /* Check if the given named section is next */
-bool section_exists(char* name)
+bool section_exists(const char *name)
 {
 	char seek_section[80];
 	char got_section[80];
@@ -542,7 +542,7 @@ static void rd_item(object_type *o_ptr)
 	o_ptr->weight = k_ptr->weight;
 
 	/* Hack -- extract the "broken" flag */
-	if (!o_ptr->pval < 0) o_ptr->ident |= ID_BROKEN;
+	if (o_ptr->pval < 0) o_ptr->ident |= ID_BROKEN;
 
 
 	/* Artifacts */

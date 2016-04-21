@@ -477,7 +477,7 @@ static void prt_player_sust_info(int Ind)
 {
 	player_type *p_ptr = Players[Ind];
 
-	int i, col, stat, boost;
+	int i, stat, boost;
 	object_type *o_ptr;
 	object_kind *k_ptr;
 	ego_item_type *e_ptr;
@@ -488,11 +488,6 @@ static void prt_player_sust_info(int Ind)
 
 	ignore_f2 = ignore_f3 = 0L;
 
-	/* Row */
-	/* Column */
-	col = 26;
-	/* Header */
-	//c_put_str(TERM_WHITE, "abcdefghijkl@", row-1, col);
 	/* Process equipment */
 	for (i = INVEN_WIELD; i < INVEN_TOTAL; ++i)
 	{
@@ -562,10 +557,8 @@ static void prt_player_sust_info(int Ind)
 			/* Dump proper character */
 			p_ptr->hist_flags[stat+1][i-INVEN_WIELD].a = a;
 			p_ptr->hist_flags[stat+1][i-INVEN_WIELD].c = c;
-			//Term_putch(col, row+stat, a, c);
 		}
 		/* Advance */
-		col++;
 	}
 	/* Player flags */
 	player_flags(Ind, &f1, &f2, &f3);
@@ -585,14 +578,7 @@ static void prt_player_sust_info(int Ind)
 		/* Dump */
 		p_ptr->hist_flags[stat+1][12].a = a;
 		p_ptr->hist_flags[stat+1][12].c = c;
-		//Term_putch(col, row+stat, a, c);
 	}
-	/* Column */
-	col = 26;
-	/* Footer */
-	//c_put_str(TERM_WHITE, "abcdefghijkl@", row+6, col);
-	/* Equippy */
-	// display_player_equippy(row+7, col);
 }
 
 static void prt_player_flag_info(int Ind)
@@ -613,8 +599,8 @@ static void prt_player_flag_info(int Ind)
 
 	u32b f[4];
 
-	byte attr = TERM_SLATE;
-	char c = '.';
+	byte attr;
+	char c;
 
 	object_type *o_ptr;
 

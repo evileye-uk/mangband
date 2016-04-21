@@ -1,5 +1,8 @@
 /* GLOBAL.H - RSAREF types and constants */
 
+#ifndef GLOBAL_H
+#define GLOBAL_H
+
 /* PROTOTYPES should be set to one if and only if the compiler supports
   function argument prototyping.
   The following makes PROTOTYPES default to 0 if it has not already
@@ -28,3 +31,4 @@ If using PROTOTYPES, then PROTO_LIST returns the list, otherwise it
 #define PROTO_LIST(list) ()
 #endif
 
+#endif

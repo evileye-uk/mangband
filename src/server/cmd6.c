@@ -72,10 +72,6 @@ void do_cmd_eat_food(int Ind, int item)
 
 	object_type		*o_ptr;
 
-
-	/* Restrict choices to food */
-	item_tester_tval = TV_FOOD;
-
 	/* Get the item (in the pack) */
 	if (item >= 0)
 	{
@@ -372,10 +368,6 @@ void do_cmd_quaff_potion(int Ind, int item)
 	int		ident, lev;
 
 	object_type	*o_ptr;
-
-
-	/* Restrict choices to potions */
-	item_tester_tval = TV_POTION;
 
 	/* Get the item (in the pack) */
 	if (item >= 0)
@@ -1085,10 +1077,6 @@ void do_cmd_read_scroll(int Ind, int item)
 		return;
 	}
 
-
-	/* Restrict choices to scrolls */
-	item_tester_tval = TV_SCROLL;
-
 	/* Get the item (in the pack) */
 	if (item >= 0)
 	{
@@ -1240,7 +1228,7 @@ void do_cmd_read_scroll(int Ind, int item)
 
 		case SV_SCROLL_TELEPORT_LEVEL:
 			{
-				(void)teleport_player_level(Ind);
+				teleport_player_level(Ind);
 				ident = TRUE;
 				break;
 			}
@@ -1598,10 +1586,6 @@ void do_cmd_use_staff(int Ind, int item)
 
 	/* Hack -- let staffs of identify get aborted */
 	bool use_charge = TRUE;
-
-
-	/* Restrict choices to wands */
-	item_tester_tval = TV_STAFF;
 
 	/* Get the item (in the pack) */
 	if (item >= 0)
@@ -2057,10 +2041,6 @@ void do_cmd_aim_wand(int Ind, int item, int dir)
 
 	object_type		*o_ptr;
 
-
-	/* Restrict choices to wands */
-	item_tester_tval = TV_WAND;
-
 	/* Get the item (in the pack) */
 	if (item >= 0)
 	{
@@ -2473,10 +2453,6 @@ void do_cmd_zap_rod(int Ind, int item)
 
 	/* Hack -- let perception get aborted */
 	bool use_charge = TRUE;
-
-
-	/* Restrict choices to rods */
-	item_tester_tval = TV_ROD;
 
 	/* Get the item (in the pack) */
 	if (item >= 0)

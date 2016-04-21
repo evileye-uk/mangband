@@ -953,7 +953,7 @@ static void player_setup(int Ind)
 	cave_type *c_ptr;
 	bool reposition;
 
-	bool dawn = ((turn % (10L * TOWN_DAWN)) < (10L * TOWN_DAWN / 2)), require_los = 1; 
+	bool dawn = ((turn % (10L * TOWN_DAWN)) < (10L * TOWN_DAWN / 2)), require_los;
 
 	/* Count players on this depth */
 	for (i = 1; i <= NumPlayers; i++)

@@ -2538,43 +2538,6 @@ cptr describe_use(int Ind, int i)
 	return p;
 }
 
-
-
-
-
-/*
- * Check an item against the item tester info
- */
-bool item_tester_okay(const object_type *o_ptr)
-{
-	/* Hack -- allow listing empty slots */
-	if (item_tester_full) return (TRUE);
-
-	/* Require an item */
-	if (!o_ptr->k_idx) return (FALSE);
-
-	/* Hack -- ignore "gold" */
-	if (o_ptr->tval == TV_GOLD) return (FALSE);
-
-	/* Check the tval */
-	if (item_tester_tval)
-	{
-		if (!(item_tester_tval == o_ptr->tval)) return (FALSE);
-	}
-
-	/* Check the hook */
-	if (item_tester_hook)
-	{
-		if (!(*item_tester_hook)(o_ptr)) return (FALSE);
-	}
-
-	/* Assume okay */
-	return (TRUE);
-}
-
-
-
-
 /*
  * Choice window "shadow" of the "show_inven()" function
  *

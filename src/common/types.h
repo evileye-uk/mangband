@@ -43,6 +43,9 @@
  * and increase the complexity of the code.
  */
 
+#ifndef COMMON_TYPES_H 
+#define COMMON_TYPES_H 
+
 
 /**** MAngband specific structs ****/
 
@@ -1564,3 +1567,5 @@ struct flavor_type
 	byte x_attr;    /* Desired flavor attribute */
 	char x_char;    /* Desired flavor character */
 };
+
+#endif

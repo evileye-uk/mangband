@@ -7,7 +7,6 @@ extern int	receive_window_size;
 int Net_packet();
 int Net_setup(void);
 int Net_verify(char *real, char *nick, char *pass, int sex, int race, int player_class);
-int Net_init(int fd);
 void Net_cleanup(bool send_quit);
 int Net_flush(void);
 int Net_fd(void);

@@ -29,8 +29,6 @@
  *
  */
 
-#define EWOULDBLOCK (EAGAIN)
-
 #ifndef _SOCKLIB_INCLUDED
 #define _SOCKLIB_INCLUDED
 

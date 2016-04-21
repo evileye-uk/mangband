@@ -194,7 +194,7 @@ bool c_get_spike()
 */
 bool c_get_item(int *cp, cptr pmt, bool equip, bool inven, bool floor)
 {
-	char which = ' ';
+	char which;
 
 	int	k, i1, i2, e1, e2;
 	bool	ver, done, item;

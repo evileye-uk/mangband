@@ -1130,16 +1130,16 @@ void update_mon(int m_idx, bool dist)
 
 	int Depth = m_ptr->dun_depth;
 
-	int Ind = m_ptr->closest_player;
+	int Ind;
 
 	/* Seen at all */
-	bool flag = FALSE;
+	bool flag;
 
 	/* Seen by vision */
-	bool easy = FALSE;
+	bool easy;
 
 	/* Seen by telepathy */
-	bool hard = FALSE;
+	bool hard;
 
 	/* Various extra flags */
 	bool do_empty_mind = FALSE;
@@ -1386,13 +1386,10 @@ void update_player(int Ind)
 	int dis;
 
 	/* Seen at all */
-	bool flag = FALSE;
+	bool flag;
 
 	/* Seen by vision */
-	bool easy = FALSE;
-
-	/* Seen by telepathy */
-	bool hard = FALSE;
+	bool easy;
 
 	/* Check for every other player */
 	for (i = 1; i <= NumPlayers; i++)
@@ -1400,7 +1397,7 @@ void update_player(int Ind)
 		p_ptr = Players[i];
 
 		/* Reset the flags */
-		flag = easy = hard = FALSE;
+		flag = easy = FALSE;
 
 		/* Skip players not on this depth */
 		if (p_ptr->dun_depth != q_ptr->dun_depth) continue;
@@ -1453,7 +1450,7 @@ void update_player(int Ind)
             if (p_ptr->telepathy == TR3_TELEPATHY)
 			{
 				/* Visible */
-				hard = flag = TRUE;
+				flag = TRUE;
 			}
 		/* hack -- dungeon masters are invisible */
 		if (!strcmp(q_ptr->name,cfg_dungeon_master)) flag = FALSE;

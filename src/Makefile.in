@@ -57,7 +57,7 @@ SERV_SRCS = \
   server/cmd6.c server/store.c server/birth.c server/load2.c \
   server/sched.c server/sched-win.c server/generate.c server/wilderness.c server/dungeon.c \
   server/init1.c server/init2.c server/netserver.c \
-  server/main.c common/md5.c
+  server/main.c common/md5.c common/variable.c common/tables.c
 
 CLI_SRCS = \
   common/z-util.c common/z-virt.c common/z-form.c common/z-rand.c \
@@ -69,7 +69,8 @@ CLI_SRCS = \
   client/main-gcu.c client/main-x11.c \
   client/main-sdl.c client/maim-sdl.c client/sdl-xxx.c \
   client/netclient.c client/c-birth.c \
-  client/c-xtra1.c client/c-xtra2.c client/c-spell.c client/client.c 
+  client/c-xtra1.c client/c-xtra2.c client/c-spell.c client/client.c \
+	common/variable.c common/tables.c
 
 
 

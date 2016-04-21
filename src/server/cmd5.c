@@ -364,10 +364,6 @@ void do_cmd_browse(int Ind, int book)
 	}
 #endif
 
-
-	/* Restrict choices to "useful" books */
-	item_tester_tval = p_ptr->cp_ptr->spell_book;
-
 	item = book;
 
 	/* Get the item (in the pack) */
@@ -458,10 +454,6 @@ void do_cmd_study(int Ind, int book, int spell)
 		msg_format(Ind, "You cannot learn any new %ss!", p);
 		return;
 	}
-
-
-	/* Restrict choices to "useful" books */
-	item_tester_tval = p_ptr->cp_ptr->spell_book;
 
 	/* Get the item (in the pack) */
 	if (book >= 0)
@@ -572,7 +564,7 @@ void do_cmd_study(int Ind, int book, int spell)
 	}
 
 	/* Add the spell to the known list */
-	p_ptr->spell_order[i++] = j;
+	p_ptr->spell_order[i] = j;
 
 	/* Mention the result */
 	msg_format(Ind, "You have learned the %s of %s.",
@@ -800,10 +792,6 @@ void do_cmd_cast(int Ind, int book, int spell)
 		msg_print(Ind, "You are too confused!");
 		return;
 	}
-
-
-	/* Restrict choices to spell books */
-	item_tester_tval = p_ptr->cp_ptr->spell_book;
 
 	/* Get the item (in the pack) */
 	if (book >= 0)
@@ -1884,10 +1872,6 @@ void do_cmd_pray(int Ind, int book, int spell)
 		msg_print(Ind, "You are too confused!");
 		return;
 	}
-
-
-	/* Restrict choices */
-	item_tester_tval = p_ptr->cp_ptr->spell_book;
 
 	item = book;
 

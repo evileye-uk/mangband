@@ -473,8 +473,33 @@ static errr Term_text_hack(int x, int y, int n, byte a, cptr s)
 }
 
 
-
 /*** Refresh routines ***/
+
+
+void flush_line(int y, int n, int fx, int fa, char *text)
+{
+	text[n] = '\0';
+
+	/* Draw the pending chars */
+	if (fa)
+	{
+		(void)((*Term->text_hook)(fx, y, n, fa, text));
+	}
+	/* Hack -- Erase "leading" spaces */
+	else
+	{
+		(void)((*Term->wipe_hook)(fx, y, n));
+	}
+}
+
+void flush_line_pending(int y, int n, int fx, int fa, char *text)
+{
+	/* Terminate the thread */
+	text[n] = '\0';
+
+	/* Draw the pending chars */
+	(void)((*Term->text_hook)(fx, y, n, fa, text));
+}
 
 
 /*
@@ -574,20 +599,7 @@ static void Term_fresh_row_text_wipe(int y)
 			/* Flush as needed (see above) */
 			if (n)
 			{
-				/* Terminate the thread */
-				text[n] = '\0';
-
-				/* Draw the pending chars */
-				if (fa)
-				{
-					(void)((*Term->text_hook)(fx, y, n, fa, text));
-				}
-
-				/* Hack -- Erase "leading" spaces */
-				else
-				{
-					(void)((*Term->wipe_hook)(fx, y, n));
-				}
+				flush_line(y, n, fx, fa, text);
 
 				/* Forget the pending thread */
 				n = 0;
@@ -603,20 +615,7 @@ static void Term_fresh_row_text_wipe(int y)
 			/* Flush as needed (see above) */
 			if (n)
 			{
-				/* Terminate the thread */
-				text[n] = '\0';
-
-				/* Draw the pending chars */
-				if (fa)
-				{
-					(void)((*Term->text_hook)(fx, y, n, fa, text));
-				}
-
-				/* Hack -- Erase "leading" spaces */
-				else
-				{
-					(void)((*Term->wipe_hook)(fx, y, n));
-				}
+				flush_line(y, n, fx, fa, text);
 
 				/* Forget the pending thread */
 				n = 0;
@@ -636,23 +635,9 @@ static void Term_fresh_row_text_wipe(int y)
 	/* Flush the pending thread, if any */
 	if (n)
 	{
-		/* Terminate the thread */
-		text[n] = '\0';
-
-		/* Draw the pending chars */
-		if (fa)
-		{
-			(void)((*Term->text_hook)(fx, y, n, fa, text));
-		}
-
-		/* Hack -- Erase fully blank lines */
-		else
-		{
-			(void)((*Term->wipe_hook)(fx, y, n));
-		}
+		flush_line(y, n, fx, fa, text);
 	}
 }
-
 
 /*
  * Like "Term_fresh_row_text_wipe" but always use "Term_text()"
@@ -704,11 +689,7 @@ static void Term_fresh_row_text_text(int y)
 			/* Flush as needed (see above) */
 			if (n)
 			{
-				/* Terminate the thread */
-				text[n] = '\0';
-
-				/* Draw the pending chars */
-				(void)((*Term->text_hook)(fx, y, n, fa, text));
+				flush_line_pending(y, n, fx, fa, text);
 
 				/* Forget the pending thread */
 				n = 0;
@@ -724,11 +705,7 @@ static void Term_fresh_row_text_text(int y)
 			/* Flush as needed (see above) */
 			if (n)
 			{
-				/* Terminate the thread */
-				text[n] = '\0';
-
-				/* Draw the pending chars */
-				(void)((*Term->text_hook)(fx, y, n, fa, text));
+				flush_line_pending(y, n, fx, fa, text);
 
 				/* Forget the pending thread */
 				n = 0;
@@ -748,11 +725,7 @@ static void Term_fresh_row_text_text(int y)
 	/* Flush the pending thread, if any */
 	if (n)
 	{
-		/* Terminate the thread */
-		text[n] = '\0';
-
-		/* Draw the pending chars */
-		(void)((*Term->text_hook)(fx, y, n, fa, text));
+		flush_line_pending(y, n, fx, fa, text);
 	}
 }
 
@@ -807,20 +780,7 @@ static void Term_fresh_row_both_wipe(int y)
 			/* Flush as needed (see above) */
 			if (n)
 			{
-				/* Terminate the thread */
-				text[n] = '\0';
-
-				/* Draw the pending chars */
-				if (fa)
-				{
-					(void)((*Term->text_hook)(fx, y, n, fa, text));
-				}
-
-				/* Hack -- Erase "leading" spaces */
-				else
-				{
-					(void)((*Term->wipe_hook)(fx, y, n));
-				}
+				flush_line(y, n, fx, fa, text);
 
 				/* Forget the pending thread */
 				n = 0;
@@ -836,20 +796,7 @@ static void Term_fresh_row_both_wipe(int y)
 			/* Flush as needed (see above) */
 			if (n)
 			{
-				/* Terminate the thread */
-				text[n] = '\0';
-
-				/* Draw the pending chars */
-				if (fa)
-				{
-					(void)((*Term->text_hook)(fx, y, n, fa, text));
-				}
-
-				/* Hack -- Erase "leading" spaces */
-				else
-				{
-					(void)((*Term->wipe_hook)(fx, y, n));
-				}
+				flush_line(y, n, fx, fa, text);
 
 				/* Forget the pending thread */
 				n = 0;
@@ -868,20 +815,7 @@ static void Term_fresh_row_both_wipe(int y)
 			/* Flush as needed (see above) */
 			if (n)
 			{
-				/* Terminate the thread */
-				text[n] = '\0';
-
-				/* Draw the pending chars */
-				if (fa)
-				{
-					(void)((*Term->text_hook)(fx, y, n, fa, text));
-				}
-
-				/* Hack -- Erase "leading" spaces */
-				else
-				{
-					(void)((*Term->wipe_hook)(fx, y, n));
-				}
+				flush_line(y, n, fx, fa, text);
 
 				/* Forget the pending thread */
 				n = 0;
@@ -901,20 +835,7 @@ static void Term_fresh_row_both_wipe(int y)
 	/* Flush the pending thread, if any */
 	if (n)
 	{
-		/* Terminate the thread */
-		text[n] = '\0';
-
-		/* Draw the pending chars */
-		if (fa)
-		{
-			(void)((*Term->text_hook)(fx, y, n, fa, text));
-		}
-
-		/* Hack -- Erase fully blank lines */
-		else
-		{
-			(void)((*Term->wipe_hook)(fx, y, n));
-		}
+		flush_line(y, n, fx, fa, text);
 	}
 }
 
@@ -969,11 +890,7 @@ static void Term_fresh_row_both_text(int y)
 			/* Flush as needed (see above) */
 			if (n)
 			{
-				/* Terminate the thread */
-				text[n] = '\0';
-
-				/* Draw the pending chars */
-				(void)((*Term->text_hook)(fx, y, n, fa, text));
+				flush_line_pending(y, n, fx, fa, text);
 
 				/* Forget the pending thread */
 				n = 0;
@@ -989,11 +906,7 @@ static void Term_fresh_row_both_text(int y)
 			/* Flush as needed (see above) */
 			if (n)
 			{
-				/* Terminate the thread */
-				text[n] = '\0';
-
-				/* Draw the pending chars */
-				(void)((*Term->text_hook)(fx, y, n, fa, text));
+				flush_line_pending(y, n, fx, fa, text);
 
 				/* Forget the pending thread */
 				n = 0;
@@ -1012,11 +925,7 @@ static void Term_fresh_row_both_text(int y)
 			/* Flush as needed (see above) */
 			if (n)
 			{
-				/* Terminate the thread */
-				text[n] = '\0';
-
-				/* Draw the pending chars */
-				(void)((*Term->text_hook)(fx, y, n, fa, text));
+				flush_line_pending(y, n, fx, fa, text);
 
 				/* Forget the pending thread */
 				n = 0;
@@ -1036,11 +945,7 @@ static void Term_fresh_row_both_text(int y)
 	/* Flush the pending thread, if any */
 	if (n)
 	{
-		/* Terminate the thread */
-		text[n] = '\0';
-
-		/* Draw the pending chars */
-		(void)((*Term->text_hook)(fx, y, n, fa, text));
+		flush_line_pending(y, n, fx, fa, text);
 	}
 }
 
@@ -1126,7 +1031,6 @@ void Term_restore_old_char()
 	{
 		(void)((*Term->wipe_hook)(tx, ty, 1));
 	}
-	
 }
 
 /*

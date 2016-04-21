@@ -875,16 +875,6 @@ static void store_create(int st)
 }
 
 /*
- * Eliminate need to bargain if player has haggled well in the past
- */
-static bool noneedtobargain(s32b minprice)
-{
-	/* Hack -- We never haggle anyway --KLJ-- */
-	return (TRUE);
-
-}
-
-/*
  * Re-displays a single store entry
  *
  * Actually re-sends a single store entry --KLJ--
@@ -902,7 +892,7 @@ static void display_entry(int Ind, int pos)
 	byte		attr;
 	int		wgt;
 
-	int maxwid = 75;
+	int maxwid;
 
 	/* Get the item */
 	o_ptr = &st_ptr->stock[pos];
@@ -938,7 +928,7 @@ static void display_entry_live(int Ind, int pos, object_type *o_ptr)
 	char		o_name[80];
 	byte		attr;
 	int			wgt;
-	int 		maxwid = 75;
+	int 		maxwid;
 
 	/* Must leave room for the "price" */
 	maxwid = 65;
@@ -1113,53 +1103,30 @@ static bool sell_haggle(int Ind, object_type *o_ptr, s32b *price)
 
 	owner_type *ot_ptr = &owners[p_ptr->store_num][st_ptr->owner];
 
-	s32b               purse, cur_ask, final_ask;
-
-	int			noneed;
-
-	cptr		pmt = "Offer";
-
+	s32b               purse, final_ask;
 
 	*price = 0;
 
-
 	/* Obtain the starting offer and the final offer */
-	cur_ask = price_item(Ind, o_ptr, ot_ptr->max_inflate, TRUE);
+	price_item(Ind, o_ptr, ot_ptr->max_inflate, TRUE);
 	final_ask = price_item(Ind, o_ptr, ot_ptr->min_inflate, TRUE);
-
-	/* Determine if haggling is necessary */
-	noneed = noneedtobargain(final_ask);
 
 	/* Get the owner's payout limit */
 	purse = (s32b)(ot_ptr->max_cost);
 
-	/* No need to haggle */
-	if (noneed || TRUE || (final_ask >= purse))
+	/* No reason to haggle */
+	if (final_ask >= purse)
 	{
-		/* No reason to haggle */
-		if (final_ask >= purse)
-		{
-			/* Message */
-			msg_print(Ind, "You instantly agree upon the price.");
-			/*msg_print(NULL);*/
+		/* Message */
+		msg_print(Ind, "You instantly agree upon the price.");
 
-			/* Offer full purse */
-			final_ask = purse;
-		}
-
-		/* No need to haggle */
-		else if (noneed)
-		{
-			/* Message */
-			msg_print(Ind, "You eventually agree upon the price.");
-			/*msg_print(NULL);*/
-		}
-
-		/* Final price */
-		cur_ask = final_ask;
-
-		/* Final offer */
-		pmt = "Final Offer";
+		/* Offer full purse */
+		final_ask = purse;
+	}
+	else
+	{
+		/* Message */
+		msg_print(Ind, "You eventually agree upon the price.");
 	}
 
 	/* Hack -- Return immediately */
@@ -1809,15 +1776,12 @@ void store_confirm(int Ind)
 	/* Re-Create the now-identified object that was sold */
 	sold_obj = *o_ptr;
 	sold_obj.number = amt;
-	
+
 	/* Get the description all over again */
 	object_desc(Ind, o_name, &sold_obj, TRUE, 3);
 
 	/* Describe the result (in message buffer) */
 	msg_format(Ind, "You sold %s for %ld gold.", o_name, (long)price);
-
-	/* Analyze the prices (and comment verbally) */
-	/*purchase_analyze(price, value, dummy);*/
 
 	/* Take the item from the player, describe the result */
 	inven_item_increase(Ind, item, -amt);

@@ -1189,7 +1189,7 @@ errr file_character_server(int Ind, cptr name)
 	byte		a;
 	char		c, attr;
 	cptr		paren = ")";
-	int			fd = -1;
+	int			fd;
 	FILE		*fff = NULL;
 	char		o_name[80];
 	char		today[10];
@@ -2237,161 +2237,6 @@ long total_points(int Ind)
 }
 
 
-
-
-/*
- * Display some character info
- *
- * FIXME -- This is very broken.  There is no home.  There is no way to get
- *   most of this information transferred to the client.  This isn't used all
- *   that often.  I'll worry about it later.  --KLJ--
- */
-static void show_info(int Ind)
-{
-#if 0
-	int			i, j, k;
-
-	object_type		*o_ptr;
-
-	store_type		*st_ptr = &store[7];
-
-
-	/* Hack -- Know everything in the inven/equip */
-	for (i = 0; i < INVEN_TOTAL; i++)
-	{
-		o_ptr = &inventory[i];
-		if (o_ptr->k_idx)
-		{
-			object_aware(o_ptr);
-			object_known(o_ptr);
-		}
-	}
-
-	/* Hack -- Know everything in the home */
-	for (i = 0; i < st_ptr->stock_num; i++)
-	{
-		o_ptr = &st_ptr->stock[i];
-		if (o_ptr->k_idx)
-		{
-			object_aware(o_ptr);
-			object_known(o_ptr);
-		}
-	}
-
-	/* Hack -- Recalculate bonuses */
-	p_ptr->update |= (PU_BONUS);
-
-	/* Handle stuff */
-	handle_stuff();
-
-	/* Flush all input keys */
-	flush();
-
-	/* Flush messages */
-	msg_print(NULL);
-
-
-	/* Describe options */
-	prt("You may now dump a character record to one or more files.", 21, 0);
-	prt("Then, hit RETURN to see the character, or ESC to abort.", 22, 0);
-
-	/* Dump character records as requested */
-	while (TRUE)
-	{
-		char out_val[160];
-
-		/* Prompt */
-		put_str("Filename: ", 23, 0);
-
-		/* Default */
-		strcpy(out_val, "");
-
-		/* Ask for filename (or abort) */
-		if (!askfor_aux(out_val, 60)) return;
-
-		/* Return means "show on screen" */
-		if (!out_val[0]) break;
-
-		/* Dump a character file */
-		(void)file_character(out_val, FALSE);
-	}
-
-
-	/* Show player on screen */
-	display_player(FALSE);
-
-	/* Prompt for inventory */
-	prt("Hit any key to see more information (ESC to abort): ", 23, 0);
-
-	/* Allow abort at this point */
-	if (inkey() == ESCAPE) return;
-
-
-	/* Show equipment and inventory */
-
-	/* Equipment -- if any */
-	if (equip_cnt)
-	{
-		Term_clear();
-		item_tester_full = TRUE;
-		show_equip();
-		prt("You are using: -more-", 0, 0);
-		if (inkey() == ESCAPE) return;
-	}
-
-	/* Inventory -- if any */
-	if (inven_cnt)
-	{
-		Term_clear();
-		item_tester_full = TRUE;
-		show_inven();
-		prt("You are carrying: -more-", 0, 0);
-		if (inkey() == ESCAPE) return;
-	}
-
-
-
-	/* Home -- if anything there */
-	if (st_ptr->stock_num)
-	{
-		/* Display contents of the home */
-		for (k = 0, i = 0; i < st_ptr->stock_num; k++)
-		{
-			/* Clear screen */
-			Term_clear();
-
-			/* Show 12 items */
-			for (j = 0; (j < 12) && (i < st_ptr->stock_num); j++, i++)
-			{
-				char o_name[80];
-				char tmp_val[80];
-
-				/* Acquire item */
-				o_ptr = &st_ptr->stock[i];
-
-				/* Print header, clear line */
-				sprintf(tmp_val, "%c) ", I2A(j));
-				prt(tmp_val, j+2, 4);
-
-				/* Display object description */
-				object_desc(o_name, o_ptr, TRUE, 3);
-				c_put_str(tval_to_attr[o_ptr->tval], o_name, j+2, 7);
-			}
-
-			/* Caption */
-			prt(format("Your home contains (page %d): -more-", k+1), 0, 0);
-
-			/* Wait for it */
-			if (inkey() == ESCAPE) return;
-		}
-	}
-#endif
-}
-
-
-
-
-
 /*
  * Semi-Portable High Score List Entry (128 bytes) -- BEN
  *
@@ -3033,9 +2878,6 @@ void close_game(void)
 			/* Dump bones file 
 			make_bones(i);
 			*/
-
-			/* Show more info */
-			show_info(i);
 	
 			/* Handle score, show Top scores */
 			top_twenty(i);

@@ -1698,7 +1698,7 @@ GetSockAddr(int fd)
  * Originally coded by Bert G sbers
  */
 int
-SLGetPeerName(int fd, char *name, int namelen)
+GetPeerName(int fd, char *name, int namelen)
 {
     int			len;
     struct sockaddr_in	addr;

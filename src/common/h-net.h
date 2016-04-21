@@ -1,5 +1,8 @@
 /* This file includes all the needed networking stuff */
 
+#ifndef H_NET_H
+#define H_NET_H
+
 /* Include the socket buffer library */
 #include "sockbuf.h"
 
@@ -19,3 +22,5 @@
 
 /* Include some bit-manipulation functions used in the networking code */
 #include "bit.h"
+
+#endif

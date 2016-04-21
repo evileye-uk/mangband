@@ -193,123 +193,6 @@ static void inven_drop(int Ind, int item, int amt)
 }
 
 
-
-
-
-/*
- * Display inventory
- *
- * This is handled by the client now --KLJ--
- */
-void do_cmd_inven(void)
-{
-	/*char out_val[160];*/
-
-
-	/* Note that we are in "inventory" mode */
-	/*command_wrk = FALSE;*/
-
-
-	/* Save the screen */
-	/*Term_save();*/
-
-	/* Hack -- show empty slots */
-	/*item_tester_full = TRUE;*/
-
-	/* Display the inventory */
-	/*show_inven();*/
-
-	/* Hack -- hide empty slots */
-	/*item_tester_full = FALSE;*/
-
-	/* Build a prompt */
-	/*sprintf(out_val, "Inventory (carrying %d.%d pounds). Command: ",
-		total_weight / 10, total_weight % 10);*/
-
-	/* Get a command */
-	/*prt(out_val, 0, 0);*/
-
-	/* Get a new command */
-	/*command_new = inkey();*/
-
-	/* Restore the screen */
-	/*Term_load();*/
-
-
-	/* Process "Escape" */
-	/*if (command_new == ESCAPE)
-		{*/
-	/* Reset stuff */
-	/*command_new = 0;
-		command_gap = 50;
-		}*/
-
-	/* Process normal keys */
-	/*else
-		{*/
-	/* Hack -- Use "display" mode */
-	/*command_see = TRUE;
-		}*/
-}
-
-
-/*
- * Display equipment
- *
- * This is handled be the client --KLJ--
- */
-void do_cmd_equip(void)
-{
-	/*char out_val[160];*/
-
-
-	/* Note that we are in "equipment" mode */
-	/*command_wrk = TRUE;*/
-
-
-	/* Save the screen */
-	/*Term_save();*/
-
-	/* Hack -- show empty slots */
-	/*item_tester_full = TRUE;*/
-
-	/* Display the equipment */
-	/*show_equip();*/
-
-	/* Hack -- undo the hack above */
-	/*item_tester_full = FALSE;*/
-
-	/* Build a prompt */
-	/*sprintf(out_val, "Equipment (carrying %d.%d pounds). Command: ",
-		total_weight / 10, total_weight % 10);*/
-
-	/* Get a command */
-	/*prt(out_val, 0, 0);*/
-
-	/* Get a new command */
-	/*command_new = inkey();*/
-
-	/* Restore the screen */
-	/*Term_load();*/
-
-
-	/* Process "Escape" */
-	/*if (command_new == ESCAPE)
-		{*/
-	/* Reset stuff */
-	/*command_new = 0;
-		command_gap = 50;
-		}*/
-
-	/* Process normal keys */
-	/*else
-		{*/
-	/* Enter "display" mode */
-	/*command_see = TRUE;
-		}*/
-}
-
-
 /*
  * The "wearable" tester
  */
@@ -1545,7 +1428,7 @@ void describe_floor_tile(const cave_type *c_ptr, char *out_val, int Ind, bool ac
 	object_type *o_ptr;
 	char o_name[80];
 	bool found = FALSE;
-	bool self = FALSE;
+	bool self;
 	if (c_ptr->m_idx < 0)
 	{
 		q_ptr = Players[0 - c_ptr->m_idx];

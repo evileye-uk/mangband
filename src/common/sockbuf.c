@@ -572,9 +572,8 @@ int Packet_printf(va_alist)
 	    }
 #endif
 	    if (BIT(sbuf->state, SOCKBUF_DGRAM) != 0) {
-		count = 0;
-		failure = 0;
-	    }
+			count = 0;
+		}
 	}
 	else if (failure == PRINTF_FMT) {
 	    errno = 0;

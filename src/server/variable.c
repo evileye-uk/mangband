@@ -195,106 +195,6 @@ s16b cfg_max_trees = 100;
 s16b cfg_max_houses = 0;
 bool cfg_chardump_color = FALSE;
 
-/*
- * Software options (set via the '=' command).  See "tables.c"
- */
-
-
-/* Option Set 1 -- User Interface */
-
-bool rogue_like_commands;	/* Rogue-like commands */
-bool quick_messages;		/* Activate quick messages */
-bool other_query_flag;		/* Prompt for various information */
-bool carry_query_flag;		/* Prompt before picking things up */
-bool use_old_target;		/* Use old target by default */
-bool always_pickup;			/* Pick things up by default */
-bool always_repeat;			/* Repeat obvious commands */
-bool depth_in_feet;			/* Show dungeon level in feet */
-
-bool stack_force_notes;		/* Merge inscriptions when stacking */
-bool stack_force_costs;		/* Merge discounts when stacking */
-
-bool show_labels;			/* Show labels in object listings */
-bool show_weights;			/* Show weights in object listings */
-bool show_choices;			/* Show choices in certain sub-windows */
-bool show_details;			/* Show details in certain sub-windows */
-
-bool ring_bell;				/* Ring the bell (on errors, etc) */
-bool use_color;				/* Use color if possible (slow) */
-
-
-/* Option Set 2 -- Disturbance */
-
-bool find_ignore_stairs;	/* Run past stairs */
-bool find_ignore_doors;		/* Run through open doors */
-bool find_cut;				/* Run past known corners */
-bool find_examine;			/* Run into potential corners */
-
-bool disturb_move;			/* Disturb whenever any monster moves */
-bool disturb_near;			/* Disturb whenever viewable monster moves */
-bool disturb_panel;			/* Disturb whenever map panel changes */
-bool disturb_state;			/* Disturn whenever player state changes */
-bool disturb_minor;			/* Disturb whenever boring things happen */
-bool disturb_other;			/* Disturb whenever various things happen */
-
-bool alert_hitpoint;		/* Alert user to critical hitpoints */
-bool alert_failure;			/* Alert user to various failures */
-
-
-/* Option Set 3 -- Game-Play */
-
-bool no_ghost;				/* Death is permanent */
-
-bool auto_scum;				/* Auto-scum for good levels */
-
-bool stack_allow_items;		/* Allow weapons and armor to stack */
-bool stack_allow_wands;		/* Allow wands/staffs/rods to stack */
-
-bool expand_look;			/* Expand the power of the look command */
-bool expand_list;			/* Expand the power of the list commands */
-
-bool view_perma_grids;		/* Map remembers all perma-lit grids */
-bool view_torch_grids;		/* Map remembers all torch-lit grids */
-
-bool dungeon_align;			/* Generate dungeons with aligned rooms */
-bool dungeon_stair;			/* Generate dungeons with connected stairs */
-
-bool flow_by_sound;			/* Monsters track new player location */
-bool flow_by_smell;			/* Monsters track old player location */
-
-bool track_follow;			/* Monsters follow the player */
-bool track_target;			/* Monsters target the player */
-
-bool smart_learn;			/* Monsters learn from their mistakes */
-bool smart_cheat;			/* Monsters exploit player weaknesses */
-
-
-/* Option Set 4 -- Efficiency */
-
-bool view_reduce_lite;		/* Reduce lite-radius when running */
-bool view_reduce_view;		/* Reduce view-radius in town */
-
-bool avoid_abort;			/* Avoid checking for user abort */
-bool avoid_other;			/* Avoid processing special colors */
-
-bool flush_failure;			/* Flush input on any failure */
-bool flush_disturb;			/* Flush input on disturbance */
-bool flush_command;			/* Flush input before every command */
-
-bool fresh_before;			/* Flush output before normal commands */
-bool fresh_after;			/* Flush output after normal commands */
-bool fresh_message;			/* Flush output after all messages */
-
-bool compress_savefile;		/* Compress messages in savefiles */
-
-bool hilite_player;			/* Hilite the player with the cursor */
-
-bool view_yellow_lite;		/* Use special colors for torch-lit grids */
-bool view_bright_lite;		/* Use special colors for 'viewable' grids */
-
-bool view_granite_lite;		/* Use special colors for wall grids (slow) */
-bool view_special_lite;		/* Use special colors for floor grids (slow) */
-
 /* Option Set 99 -- Obsolete but needed for savefile parsing */
 
 bool old_mirror_debug;		/* Show debug messages in mirror window */
@@ -796,20 +696,6 @@ cptr ANGBAND_DIR_SAVE;
  * These files are rarely portable between platforms
  */
 cptr ANGBAND_DIR_USER;
-
-
-/*
- * Total Hack -- allow all items to be listed (even empty ones)
- * This is only used by "do_cmd_inven_e()" and is cleared there.
- */
-bool item_tester_full;
-
-
-/*
- * Here is a "pseudo-hook" used during calls to "get_item()" and
- * "show_inven()" and "show_equip()", and the choice window routines.
- */
-byte item_tester_tval;
 
 
 /*

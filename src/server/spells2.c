@@ -940,7 +940,7 @@ void self_knowledge(int Ind)
         }
         if (f1 & TR1_KILL_UNDEAD)
         {
-            info[i++] = "Your weapon is a great bane of undead.";
+            info[i] = "Your weapon is a great bane of undead.";
         }
 	}
 
@@ -1110,9 +1110,6 @@ bool detect_treasure(int Ind)
 	cave_type	*c_ptr;
 	byte		*w_ptr;
 
-	object_type	*o_ptr;
-
-
 	/* Scan the current panel */
 	for (y = p_ptr->panel_row_min; y <= p_ptr->panel_row_max; y++)
 	{
@@ -1120,8 +1117,6 @@ bool detect_treasure(int Ind)
 		{
 			c_ptr = &cave[Depth][y][x];
 			w_ptr = &p_ptr->cave_flag[y][x];
-
-			o_ptr = &o_list[c_ptr->o_idx];
 
 			/* Magma/Quartz + Known Gold */
 			if ((c_ptr->feat == FEAT_MAGMA_K) ||
@@ -1491,7 +1486,7 @@ bool detect_creatures(int Ind, bool pause)
 bool detection(int Ind)
 {
 	bool	detect = FALSE;
-	bool	detected_invis, detected_creatures = FALSE;
+	bool	detected_invis, detected_creatures;
 
 	/* Detect the easy things */
 	if (detect_treasure(Ind)) detect = TRUE;

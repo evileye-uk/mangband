@@ -1078,12 +1078,9 @@ void fix_message(void)
 				else if(strstr(msg, "was slain by")!=NULL) continue;
 				else if(strstr(msg, "rises from the dead")!=NULL) continue;
 				else if(strstr(msg, "ghost was destroyed by")!=NULL) continue;
-		else if(strstr(msg, "has attained level")!=NULL) continue;
-		else if(strstr(msg, "Welcome to level")!=NULL) continue;
-
-			} 
-
-			a = TERM_WHITE;
+				else if(strstr(msg, "has attained level")!=NULL) continue;
+				else if(strstr(msg, "Welcome to level")!=NULL) continue;
+			}
 
 			if(msg[0] == '['){
 				a = TERM_L_BLUE;

@@ -290,7 +290,7 @@ static void wr_store(store_type *st_ptr)
 
 }
 
-static void wr_party(party_type *party_ptr)
+static void wr_party(const party_type *party_ptr)
 {
 	start_section("party");
 	/* Save the party name */
@@ -809,7 +809,7 @@ static bool save_player_aux(int Ind, char *name)
 {
 	bool	ok = FALSE;
 
-	int		fd = -1;
+	int		fd;
 
 	int		mode = 0644;
 
@@ -1358,7 +1358,7 @@ static bool save_server_aux(char *name)
 {
         bool    ok = FALSE;
 
-        int             fd = -1;
+        int             fd;
 
         int             mode = 0644;
 

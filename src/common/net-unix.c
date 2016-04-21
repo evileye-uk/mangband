@@ -475,9 +475,9 @@ int	fd;
  */
 int
 #ifdef __STDC__
-SLGetPeerName(int fd, char *name, int namelen)
+GetPeerName(int fd, char *name, int namelen)
 #else
-SLGetPeerName(fd, name, namelen)
+GetPeerName(fd, name, namelen)
 int	fd;
 char	*name;
 int	namelen;

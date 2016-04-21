@@ -676,7 +676,6 @@ void wild_furnish_dwelling(int Depth, int x1, int y1, int x2, int y2, int type)
 					if (rand_int(100) < 40) cash = rand_int(20);
 					if (rand_int(100) < 50) num_objects = rand_int(rand_int(10));
 					if (rand_int(100) < 33) num_food = rand_int(3);
-					num_bones = rand_int(20);
 				}
 				num_bones = rand_int(rand_int(1));
 			}
@@ -925,10 +924,6 @@ static void wild_add_dwelling(int Depth, int x, int y)
 	/* return if we didn't get a plot */
 	if (p_x1 < 0) return;
 	
-	/* initialise x and y, which may not be specified at this point */
-	x = (h_x1 + h_x2) / 2;
-	y = (h_y1 + h_y2) / 2;
-		
 	/* determine what kind of building it is */
 	if (rand_int(100) < 60) type = WILD_LOG_CABIN;
 	else if (rand_int(100) < 8) type = WILD_PERM_HOME;
@@ -1228,7 +1223,7 @@ int wild_clone_closed_loop_total(int cur_depth)
 
 int determine_wilderness_type(int Depth)
 {
-	int neighbor_idx, closed_loop = -0xFFF;
+	int neighbor_idx, closed_loop;
 	wilderness_type *w_ptr = &wild_info[Depth];
 	bool rand_old = Rand_quick;
 	u32b old_seed = Rand_value;

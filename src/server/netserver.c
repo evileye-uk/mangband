@@ -602,7 +602,7 @@ static void Contact(int fd, int arg)
 		nick_name[MAX_CHARS],
 		host_name[MAX_CHARS],
 		host_addr[24],
-		reply_to, status;
+		status;
 	struct sockaddr_in sin;
     
 	/* Create a TCP socket for communication with whoever contacted us */
@@ -656,8 +656,7 @@ static void Contact(int fd, int arg)
 
 	/* Get the IP address of the client, without using the broken DgramLastAddr() */
 	len = sizeof sin;
-	if (getpeername(fd, (struct sockaddr *) &sin, &len) >= 0)
-		strcpy(host_addr, inet_ntoa(sin.sin_addr));  
+	GetPeerName(fd, host_addr, sizeof host_addr);
 
 	if (Packet_scanf(&ibuf, "%u", &magic) <= 0)
 	{
@@ -670,7 +669,6 @@ static void Contact(int fd, int arg)
 		plog(format("Incomplete packet from %s", host_addr));
 		return;
 	}
-	reply_to = (ch & 0xFF);
 
 	port = DgramLastport();
 
@@ -3332,23 +3330,23 @@ static int Receive_run(int ind)
 	{
 		player = GetInd[connp->id];
 		p_ptr = Players[player];
-	}
 
-	/* If not the dungeon master, who can always run */
-	if (strcmp(p_ptr->name,cfg_dungeon_master)) 
-	{
-		/* Check for monsters in sight or confusion */
-		for (i = 0; i < m_max; i++)
+		/* If not the dungeon master, who can always run */
+		if (strcmp(p_ptr->name,cfg_dungeon_master)) 
 		{
-			/* Check this monster */
-			/* Level 0 monsters do not disturb */
-			if ((p_ptr->mon_los[i] && !m_list[i].csleep && r_info[m_list[i].r_idx].level) || (p_ptr->confused))
+			/* Check for monsters in sight or confusion */
+			for (i = 0; i < m_max; i++)
 			{
-				// Treat this as a walk request
-				// Hack -- send the same connp->r "arguments" to Receive_walk
-				// Hack -- Always allow running in town.
-				if(p_ptr->dun_depth) {	
-					return Receive_walk(ind);
+				/* Check this monster */
+				/* Level 0 monsters do not disturb */
+				if ((p_ptr->mon_los[i] && !m_list[i].csleep && r_info[m_list[i].r_idx].level) || (p_ptr->confused))
+				{
+					// Treat this as a walk request
+					// Hack -- send the same connp->r "arguments" to Receive_walk
+					// Hack -- Always allow running in town.
+					if(p_ptr->dun_depth) {	
+						return Receive_walk(ind);
+					}
 				}
 			}
 		}
@@ -3368,22 +3366,25 @@ static int Receive_run(int ind)
 	if (dir == 5)
 		return 1;
 
-	// If we don't want to queue the command, return now.
-	if ((n = do_cmd_run(player,dir)) == 2)
+	if(connp->id != -1)
 	{
-		return -1;
-	}
-	// If do_cmd_run returns a 0, then there wasn't enough energy
-	// to execute the run command.  Queue the run command if desired.
-	else if (n == 0)
-	{
-		// Only buffer a run request if we have no previous commands
-		// buffered, and it is a new direction or we aren't already
-		// running.
-		if (((!connp->q.len) && (dir != p_ptr->find_current)) || (!p_ptr->running))
+		// If we don't want to queue the command, return now.
+		if ((n = do_cmd_run(player, dir)) == 2)
 		{
-			Packet_printf(&connp->q, "%c%c", ch, dir);
+			return -1;
+		}
+		// If do_cmd_run returns a 0, then there wasn't enough energy
+		// to execute the run command.  Queue the run command if desired.
+		else if (n == 0)
+		{
+			// Only buffer a run request if we have no previous commands
+			// buffered, and it is a new direction or we aren't already
+			// running.
+			if (((!connp->q.len) && (dir != p_ptr->find_current)) || (!p_ptr->running))
+			{
+				Packet_printf(&connp->q, "%c%c", ch, dir);
 				return 0;
+			}
 		}
 	}
 
@@ -3549,11 +3550,11 @@ static int Receive_stand(int ind)
 
 	int n, player;
 
-    if (connp->id != -1)
-    {
-        player = GetInd[connp->id];
-        p_ptr = Players[player];
-    }
+	if (connp->id != -1)
+	{
+		player = GetInd[connp->id];
+		p_ptr = Players[player];
+	}
 
 	if ((n = Packet_scanf(&connp->r, "%c", &ch)) <= 0)
 	{

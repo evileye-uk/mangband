@@ -7,6 +7,8 @@
  * (z-virt.h, z-util.h, z-form.h, term.h, random.h)
  */
 
+#ifndef EXTERNS_H
+#define EXTERNS_H
 
 /*
  * Automatically generated "variable" declarations
@@ -883,4 +885,5 @@ extern int stricmp(cptr a, cptr b);
 #ifdef WINDOWS
 /* main-win.c */
 /* extern int FAR PASCAL WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, ...); */
+#endif
 #endif

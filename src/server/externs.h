@@ -96,24 +96,16 @@ extern u32b seed_flavor;
 extern u32b seed_town;
 extern s16b command_cmd;
 extern s16b command_arg;
-/*extern s16b command_rep;*/
 extern s16b command_dir;
 extern s16b command_see;
 extern s16b command_gap;
 extern s16b command_wrk;
 extern s16b command_new;
-/*extern s16b energy_use;*/
 extern s16b choose_default;
 extern bool create_up_stair;
 extern bool create_down_stair;
 extern bool msg_flag;
-/*extern bool alive;
-extern bool death;*/
-/*extern s16b running;*/
 extern s16b resting;
-/*extern s16b cur_hgt;
-extern s16b cur_wid;*/
-/*extern s16b dun_level;*/
 extern s16b *players_on_depth;
 extern s16b special_levels[MAX_SPECIAL_LEVELS];
 extern s16b num_repro;
@@ -132,9 +124,7 @@ extern s32b player_id;
 extern bool wizard;
 extern bool to_be_wizard;
 extern bool can_be_wizard;
-/*extern u16b total_winner;*/
 extern u16b panic_save;
-/*extern u16b noscore;*/
 extern s16b signal_count;
 extern bool inkey_base;
 extern bool inkey_xtra;
@@ -146,10 +136,7 @@ extern bool use_graphics;
 extern bool use_sound;
 extern bool scan_monsters;
 extern bool scan_objects;
-/*extern s16b total_weight;*/
 extern s16b inven_nxt;
-/*extern s16b inven_cnt;
-extern s16b equip_cnt;*/
 extern s32b o_nxt;
 extern s32b m_nxt;
 extern s32b o_max;
@@ -264,19 +251,7 @@ extern s16b delay_factor;
 extern s16b feeling;
 extern s16b rating;
 extern bool good_item_flag;
-/*extern bool new_level_flag;*/
 extern bool closing_flag;
-/*extern s16b max_panel_rows, max_panel_cols;
-extern s16b panel_row, panel_col;*/
-/*extern s16b panel_row_min, panel_row_max;
-extern s16b panel_col_min, panel_col_max;
-extern s16b panel_col_prt, panel_row_prt;
-extern s16b py;
-extern s16b px;*/
-/*extern s16b target_who;
-extern s16b target_col;
-extern s16b target_row;*/
-/* extern s16b health_who; */
 extern s16b recent_idx;
 extern int player_uid;
 extern int player_euid;
@@ -287,20 +262,6 @@ extern party_type parties[MAX_PARTIES];
 extern house_type houses[MAX_HOUSES];
 extern int num_houses;
 extern long GetInd[];
-/*extern char player_name[32];
-extern char player_base[32];
-extern char died_from[80];
-extern char history[4][60];
-extern char savefile[1024];*/
-/*extern s16b lite_n;
-extern byte lite_y[LITE_MAX];
-extern byte lite_x[LITE_MAX];
-extern s16b view_n;
-extern byte view_y[VIEW_MAX];
-extern byte view_x[VIEW_MAX];
-extern s16b temp_n;
-extern byte temp_y[TEMP_MAX];
-extern byte temp_x[TEMP_MAX];*/
 extern s16b macro__num;
 extern cptr *macro__pat;
 extern cptr *macro__act;
@@ -318,7 +279,6 @@ extern u32b option_flag[8];
 extern u32b option_mask[8];
 extern u32b window_flag[8];
 extern u32b window_mask[8];
-/*extern term *ang_term[8];*/
 extern s16b o_fast[MAX_O_IDX];
 extern s16b m_fast[MAX_M_IDX];
 extern cave_type ***cave;
@@ -327,7 +287,6 @@ extern object_type *o_list;
 extern monster_type *m_list;
 extern quest q_list[MAX_Q_IDX];
 extern store_type *store;
-/*extern object_type *inventory;*/
 extern s16b alloc_kind_size;
 extern alloc_entry *alloc_kind_table;
 extern s16b alloc_race_size;
@@ -337,18 +296,6 @@ extern char tval_to_char[128];
 extern byte keymap_cmds[128];
 extern byte keymap_dirs[128];
 extern byte color_table[256][4];
-/*extern player_type *p_ptr;*/
-/*extern player_race *rp_ptr;
-extern player_class *cp_ptr;
-extern player_magic *mp_ptr;*/
-/*extern u32b spell_learned1;
-extern u32b spell_learned2;
-extern u32b spell_worked1;
-extern u32b spell_worked2;
-extern u32b spell_forgotten1;
-extern u32b spell_forgotten2;
-extern byte spell_order[64];
-extern s16b player_hp[PY_MAX_LEVEL];*/
 extern header *v_head;
 extern header *f_head;
 extern header *k_head;
@@ -408,8 +355,6 @@ extern cptr ANGBAND_DIR_USER;
 extern cptr ANGBAND_DIR_XTRA;
 extern cptr ANGBAND_DIR_GAME;
 extern cptr ANGBAND_DIR_TEXT;
-extern bool item_tester_full;
-extern byte item_tester_tval;
 extern bool (*item_tester_hook)(const object_type *o_ptr);
 extern bool (*ang_sort_comp)(int Ind, vptr u, vptr v, int a, int b);
 extern void (*ang_sort_swap)(int Ind, vptr u, vptr v, int a, int b);
@@ -649,7 +594,6 @@ extern void init_some_arrays(void);
 extern void load_server_cfg(void);
 
 /* load1.c */
-/*extern errr rd_savefile_old(void);*/
 
 /* load2.c */
 extern errr rd_savefile_new(int Ind);
@@ -698,7 +642,6 @@ extern s16b monster_carry(int Ind, int m_idx, const object_type *j_ptr);
 extern bool monster_can_carry(int m_idx);
 
 /* netserver.c */
-/*extern void Contact(int fd, void *arg);*/
 extern int Net_input(void);
 extern int Net_output(void);
 extern void setup_contact_socket(void);
@@ -720,16 +663,12 @@ extern int Send_history(int Ind, int line, cptr hist);
 extern int Send_inven(int Ind, char pos, byte attr, int wgt, int amt, byte tval, cptr name);
 extern int Send_equip(int Ind, char pos, byte attr, int wgt, byte tval, cptr name);
 extern int Send_title(int Ind, cptr title);
-/*extern int Send_level(int Ind, int max, int cur);*/
-/*extern void Send_exp(int Ind, s32b max, s32b cur);*/
 extern int Send_depth(int Ind, int depth);
 extern int Send_food(int Ind, int food);
 extern int Send_blind(int Ind, bool blind);
 extern int Send_confused(int Ind, bool confused);
 extern int Send_fear(int Ind, bool afraid);
 extern int Send_poison(int Ind, bool poisoned);
-extern int Send_paralyzed(int Ind, bool paralyzed);
-extern int Send_searching(int Ind, bool searching);
 extern int Send_speed(int Ind, int speed);
 extern int Send_study(int Ind, bool study);
 extern int Send_cut(int Ind, int cut);
@@ -788,13 +727,8 @@ extern void floor_item_increase(int item, int num);
 extern void floor_item_optimize(int item);
 extern bool inven_carry_okay(int Ind, const object_type *o_ptr);
 extern s16b inven_carry(int Ind, const object_type *o_ptr);
-extern bool item_tester_okay(const object_type *o_ptr);
 extern void display_inven(int Ind);
 extern void display_equip(int Ind);
-/*extern void show_inven(void);
-extern void show_equip(void);
-extern void toggle_inven_equip(void);
-extern bool get_item(int Ind, int *cp, cptr pmt, bool equip, bool inven, bool floor);*/
 extern void delete_object_idx(int i);
 extern void delete_object_ptr(object_type * o_ptr);
 extern void delete_object(int Depth, int y, int x);
@@ -1094,8 +1028,6 @@ extern bool master_build(int Ind, char * parms);
 extern bool master_summon(int Ind, char * parms);
 extern bool master_generate(int Ind, char * parms);
 extern bool master_acquire(int Ind, char * parms);
-
-/*extern bool get_rep_dir(int *dp);*/
 
 extern bool c_get_item(int *cp, cptr pmt, bool equip, bool inven, bool floor);
 

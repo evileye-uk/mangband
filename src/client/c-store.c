@@ -14,7 +14,7 @@ static void display_entry(int pos)
 	char o_name[80];
 	char out_val[160];
 
-	int maxwid = 75;
+	int maxwid;
 
 	/* Get the item */
 	o_ptr = &store.stock[pos];

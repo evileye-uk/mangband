@@ -31,6 +31,9 @@
  * You have been warned.
  */
 
+#ifndef DEFINES_H
+#define DEFINES_H
+
 /*
  * Current version number of MAngband.
  */
@@ -3186,3 +3189,5 @@ extern int PlayerUID;
 
 /* Login constants */
 #define BAD_PASSWORD 35
+
+#endif
